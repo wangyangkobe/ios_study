@@ -44,6 +44,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    //用户更改数据，强制父视图重新加载
+    [self.view reloadInputViews];
+    [super viewWillAppear:animated];
+}
 #pragma mark Table Data Soucre Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -54,7 +60,8 @@
     static NSString* PresidentsListViewIdentifier = @"PresidentsListViewIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:PresidentsListViewIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PresidentsListViewIdentifier];
+        // use this style to show detailTextLable
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle                                       reuseIdentifier:PresidentsListViewIdentifier];
     }
     President* president = [self.presidentList objectAtIndex:[indexPath row]];
     cell.textLabel.text = [president name];
