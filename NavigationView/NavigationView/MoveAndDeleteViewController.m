@@ -119,6 +119,7 @@
     [dataList removeObjectAtIndex:sourceRow];
     [dataList insertObject:object atIndex:destinationRow];
 }
+
 #pragma mark Table View Data Source Methods
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {

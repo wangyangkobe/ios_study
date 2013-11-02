@@ -25,6 +25,9 @@
 		520D4FB41822943A007A8532 /* CheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520D4FB31822943A007A8532 /* CheckListViewController.m */; };
 		523AF7C2182526F000653CAC /* MoveAndDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 523AF7C1182526F000653CAC /* MoveAndDeleteViewController.m */; };
 		523AF7C41825292E00653CAC /* computers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 523AF7C31825292E00653CAC /* computers.plist */; };
+		52F03A1F18253E8D007FBBA4 /* PresidentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */; };
+		52F03A2218253F26007FBBA4 /* President.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F03A2118253F26007FBBA4 /* President.m */; };
+		52F03A241825435E007FBBA4 /* presidents.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52F03A231825435E007FBBA4 /* presidents.plist */; };
 		52F10DEE1824FE7100786286 /* RowControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F10DED1824FE7100786286 /* RowControlsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +61,11 @@
 		523AF7C0182526F000653CAC /* MoveAndDeleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAndDeleteViewController.h; sourceTree = "<group>"; };
 		523AF7C1182526F000653CAC /* MoveAndDeleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveAndDeleteViewController.m; sourceTree = "<group>"; };
 		523AF7C31825292E00653CAC /* computers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = computers.plist; sourceTree = "<group>"; };
+		52F03A1D18253E8D007FBBA4 /* PresidentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresidentsViewController.h; sourceTree = "<group>"; };
+		52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresidentsViewController.m; sourceTree = "<group>"; };
+		52F03A2018253F26007FBBA4 /* President.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = President.h; sourceTree = "<group>"; };
+		52F03A2118253F26007FBBA4 /* President.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = President.m; sourceTree = "<group>"; };
+		52F03A231825435E007FBBA4 /* presidents.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = presidents.plist; sourceTree = "<group>"; };
 		52F10DEC1824FE7100786286 /* RowControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowControlsViewController.h; sourceTree = "<group>"; };
 		52F10DED1824FE7100786286 /* RowControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowControlsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,9 +114,12 @@
 		520D4F8918228655007A8532 /* NavigationView */ = {
 			isa = PBXGroup;
 			children = (
+				52F03A231825435E007FBBA4 /* presidents.plist */,
 				520D4F9218228655007A8532 /* AppDelegate.h */,
 				520D4F9318228655007A8532 /* AppDelegate.m */,
 				520D4F9B18228655007A8532 /* MainStoryboard.storyboard */,
+				52F03A1D18253E8D007FBBA4 /* PresidentsViewController.h */,
+				52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */,
 				520D4FB21822943A007A8532 /* CheckListViewController.h */,
 				520D4FB31822943A007A8532 /* CheckListViewController.m */,
 				52F10DEC1824FE7100786286 /* RowControlsViewController.h */,
@@ -127,6 +138,8 @@
 				520D4F9E18228655007A8532 /* ViewController.h */,
 				520D4F9F18228655007A8532 /* ViewController.m */,
 				520D4F8A18228655007A8532 /* Supporting Files */,
+				52F03A2018253F26007FBBA4 /* President.h */,
+				52F03A2118253F26007FBBA4 /* President.m */,
 			);
 			path = NavigationView;
 			sourceTree = "<group>";
@@ -202,6 +215,7 @@
 				520D4F9A18228655007A8532 /* Default-568h@2x.png in Resources */,
 				520D4F9D18228655007A8532 /* MainStoryboard.storyboard in Resources */,
 				523AF7C41825292E00653CAC /* computers.plist in Resources */,
+				52F03A241825435E007FBBA4 /* presidents.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +236,8 @@
 				520D4FB41822943A007A8532 /* CheckListViewController.m in Sources */,
 				52F10DEE1824FE7100786286 /* RowControlsViewController.m in Sources */,
 				523AF7C2182526F000653CAC /* MoveAndDeleteViewController.m in Sources */,
+				52F03A1F18253E8D007FBBA4 /* PresidentsViewController.m in Sources */,
+				52F03A2218253F26007FBBA4 /* President.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
