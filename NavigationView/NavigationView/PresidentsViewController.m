@@ -47,6 +47,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"PresidentsViewController wiilAppear!");
     //用户更改数据，强制父视图重新加载
     [self.view reloadInputViews];
     [super viewWillAppear:animated];

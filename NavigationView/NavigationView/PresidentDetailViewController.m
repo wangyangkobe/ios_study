@@ -31,13 +31,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.fieldLabels = [[NSArray alloc] initWithObjects:@"Name:", @"From:", @"To:", @"Party:", nil];
+    
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save:)];
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
+    self.tempValues = [[NSMutableDictionary alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,15 +56,47 @@
 
 -(IBAction)cancel:(id)sender
 {
-  [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(IBAction)save:(id)sender
 {
-  
+    if (textFieldBeingEdited != nil) {
+        NSNumber* tagAsNum = [[NSNumber alloc] initWithInt:textFieldBeingEdited.tag];
+        [tempValues setObject:textFieldBeingEdited.text forKey:tagAsNum];
+    }
+    
+    for (NSNumber* key in [tempValues allKeys]) {
+        switch ([key intValue]) {
+            case kNameRowIndex:
+                president.name = [tempValues objectForKey:key];
+                break;
+            case kFromYearRowIndex:
+                president.fromYear = [tempValues objectForKey:key];
+                break;
+            case kToYearRowIndex:
+                president.toYear = [tempValues objectForKey:key];
+                break;
+            case kPartyIndex:
+                president.party = [tempValues objectForKey:key];
+                break;
+            default:
+                break;
+        }
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.tableView reloadData];
+    NSArray* allControllers = self.navigationController.viewControllers;
+    for (id c in allControllers) {
+        NSLog(@"%@", c);
+    }
+    NSLog(@"haha");
+    UITableViewController* parent = [allControllers lastObject];
+    [parent.tableView reloadData];
+    [self.parentViewController.view reloadInputViews];
 }
 -(IBAction)textFieldDone:(id)sender
 {
-  [sender resignFirstResponder];
+    [sender resignFirstResponder];
 }
 #pragma mark - Table view data source
 
@@ -81,11 +121,11 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PresidentDetialCellIdentifier];
         UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10,10,75,25)];
-        label.textAlignment = UITextAlignmentRight;
+        label.textAlignment = NSTextAlignmentLeft;
         label.tag = kLabelTag;
         label.font = [UIFont boldSystemFontOfSize:14];
         [cell.contentView addSubview: label];
-    
+        
         UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(90, 12, 200, 25)];
         textField.clearsOnBeginEditing = NO;
         [textField setDelegate:self];
@@ -93,7 +133,7 @@
         [textField addTarget:self action:@selector(textFieldDone:) forControlEvents:UIControlEventEditingDidEndOnExit];
         [cell.contentView addSubview:textField];
     }
-  
+    
     NSInteger row = [indexPath row];
     UILabel* label = (UILabel*)[cell viewWithTag:kLabelTag];
     UITextField* textField = nil;
@@ -107,94 +147,58 @@
     NSNumber* rowAsNum = [[NSNumber alloc] initWithInt:row];
     switch (row) {
         case kNameRowIndex:
-	  if ([[tempValues allKeys] containsObject:rowAsNum]) {
-            textField.text = [tempValues objectForKey:rowAsNum];
+            if ([[tempValues allKeys] containsObject:rowAsNum]) {
+                textField.text = [tempValues objectForKey:rowAsNum];
             }
-        else{
-          textField.text = president.name;
-        }
+            else{
+                textField.text = president.name;
+            }
             break;
         case kFromYearRowIndex:
-	  if ([[tempValues allKeys] containsObject:rowAsNum]) {
+            if ([[tempValues allKeys] containsObject:rowAsNum]) {
                 textField.text = [tempValues objectForKey:rowAsNum];
             }
-	  else
-	    textField.text = president.fromYear;
+            else
+                textField.text = president.fromYear;
             break;
-    case kToYearRowIndex:
-      	  if ([[tempValues allKeys] containsObject:rowAsNum]) {
+        case kToYearRowIndex:
+            if ([[tempValues allKeys] containsObject:rowAsNum]) {
                 textField.text = [tempValues objectForKey:rowAsNum];
             }
-	  else
-	    textField.text = president.toYear;
+            else
+                textField.text = president.toYear;
             break;
-    case kPartyIndex:
-            	  if ([[tempValues allKeys] containsObject:rowAsNum]) {
+        case kPartyIndex:
+            if ([[tempValues allKeys] containsObject:rowAsNum]) {
                 textField.text = [tempValues objectForKey:rowAsNum];
             }
-	  else
-	    textField.text = president.party;
+            else
+                textField.text = president.party;
             break;
         default:
             break;
     }
-
+    
     if(textFieldBeingEdited == textField)
-      textFieldBeingEdited = nil;
+        textFieldBeingEdited = nil;
     textField.tag = row;
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(NSIndexPath*)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    return nil;
 }
 
+#pragma mark Text Field Delegate Methods
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.textFieldBeingEdited = textField;
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [tempValues setObject:textField forKey:[[NSNumber alloc] initWithInt:textField.tag]];
+}
 @end
