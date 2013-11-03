@@ -16,7 +16,7 @@
 
 @synthesize dataList;
 @synthesize childTableView;
-
+@synthesize refreshControl;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,6 +44,15 @@
         UIBarButtonItem* deleteButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleDelete)];
         self.navigationItem.rightBarButtonItem = deleteButton;
     }
+    
+    //Add refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    //UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    
+    //beacause refreshControl 是UITableViewController属性，而不是UIViewController
+    [self.childTableView addSubview:refreshControl];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,6 +61,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)handleRefresh
+{
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"刷新中..."];
+    
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:2.0f];
+}
+-(void)loadData
+{
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+    
+    [self.childTableView reloadData];
+}
 -(IBAction)toggleMove
 {
     [self.childTableView setEditing:!self.childTableView.editing animated:YES];

@@ -17,4 +17,5 @@
 -(IBAction)toggleMove;
 -(IBAction)toggleDelete;
 @property (weak, nonatomic) IBOutlet UITableView *childTableView;
+@property (nonatomic, strong) IBOutlet UIRefreshControl* refreshControl;
 @end
