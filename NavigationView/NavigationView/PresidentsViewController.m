@@ -8,6 +8,7 @@
 
 #import "PresidentsViewController.h"
 #import "President.h"
+#import "PresidentDetailViewController.h"
 @interface PresidentsViewController ()
 
 @end
@@ -55,6 +56,7 @@
 {
     return [presidentList count];
 }
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* PresidentsListViewIdentifier = @"PresidentsListViewIdentifier";
@@ -67,5 +69,17 @@
     cell.textLabel.text = [president name];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", president.fromYear, president.toYear];
     return cell;
+}
+
+#pragma mark Table Delegate Methods
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    President* president = [self.presidentList objectAtIndex:[indexPath row]];
+    PresidentDetailViewController* detail = [self.storyboard instantiateViewControllerWithIdentifier:@"PresidentDetailViewController"];
+    
+    detail.title = president.name;
+    detail.presient = president;
+    
+    [self.navigationController pushViewController:detail animated:YES];
 }
 @end

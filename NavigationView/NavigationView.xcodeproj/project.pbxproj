@@ -25,6 +25,7 @@
 		520D4FB41822943A007A8532 /* CheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520D4FB31822943A007A8532 /* CheckListViewController.m */; };
 		523AF7C2182526F000653CAC /* MoveAndDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 523AF7C1182526F000653CAC /* MoveAndDeleteViewController.m */; };
 		523AF7C41825292E00653CAC /* computers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 523AF7C31825292E00653CAC /* computers.plist */; };
+		524CB37C18264BCF00B02C43 /* PresidentDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 524CB37B18264BCF00B02C43 /* PresidentDetailViewController.m */; };
 		52F03A1F18253E8D007FBBA4 /* PresidentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */; };
 		52F03A2218253F26007FBBA4 /* President.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F03A2118253F26007FBBA4 /* President.m */; };
 		52F03A241825435E007FBBA4 /* presidents.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52F03A231825435E007FBBA4 /* presidents.plist */; };
@@ -61,6 +62,8 @@
 		523AF7C0182526F000653CAC /* MoveAndDeleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAndDeleteViewController.h; sourceTree = "<group>"; };
 		523AF7C1182526F000653CAC /* MoveAndDeleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveAndDeleteViewController.m; sourceTree = "<group>"; };
 		523AF7C31825292E00653CAC /* computers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = computers.plist; sourceTree = "<group>"; };
+		524CB37A18264BCF00B02C43 /* PresidentDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresidentDetailViewController.h; sourceTree = "<group>"; };
+		524CB37B18264BCF00B02C43 /* PresidentDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresidentDetailViewController.m; sourceTree = "<group>"; };
 		52F03A1D18253E8D007FBBA4 /* PresidentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresidentsViewController.h; sourceTree = "<group>"; };
 		52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresidentsViewController.m; sourceTree = "<group>"; };
 		52F03A2018253F26007FBBA4 /* President.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = President.h; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				520D4F9218228655007A8532 /* AppDelegate.h */,
 				520D4F9318228655007A8532 /* AppDelegate.m */,
 				520D4F9B18228655007A8532 /* MainStoryboard.storyboard */,
+				524CB37A18264BCF00B02C43 /* PresidentDetailViewController.h */,
+				524CB37B18264BCF00B02C43 /* PresidentDetailViewController.m */,
 				52F03A1D18253E8D007FBBA4 /* PresidentsViewController.h */,
 				52F03A1E18253E8D007FBBA4 /* PresidentsViewController.m */,
 				520D4FB21822943A007A8532 /* CheckListViewController.h */,
@@ -126,7 +131,6 @@
 				52F10DED1824FE7100786286 /* RowControlsViewController.m */,
 				523AF7C0182526F000653CAC /* MoveAndDeleteViewController.h */,
 				523AF7C1182526F000653CAC /* MoveAndDeleteViewController.m */,
-				523AF7C31825292E00653CAC /* computers.plist */,
 				520D4FAF18228E34007A8532 /* DisclosureDetailViewController.h */,
 				520D4FB018228E34007A8532 /* DisclosureDetailViewController.m */,
 				520D4FA618228689007A8532 /* FirstLevelViewController.h */,
@@ -136,6 +140,7 @@
 				520D4FA918228740007A8532 /* SecondLevelViewController.h */,
 				520D4FAA18228740007A8532 /* SecondLevelViewController.m */,
 				520D4F9E18228655007A8532 /* ViewController.h */,
+				520D4F8F18228655007A8532 /* main.m */,
 				520D4F9F18228655007A8532 /* ViewController.m */,
 				520D4F8A18228655007A8532 /* Supporting Files */,
 				52F03A2018253F26007FBBA4 /* President.h */,
@@ -147,9 +152,9 @@
 		520D4F8A18228655007A8532 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				523AF7C31825292E00653CAC /* computers.plist */,
 				520D4F8B18228655007A8532 /* NavigationView-Info.plist */,
 				520D4F8C18228655007A8532 /* InfoPlist.strings */,
-				520D4F8F18228655007A8532 /* main.m */,
 				520D4F9118228655007A8532 /* NavigationView-Prefix.pch */,
 				520D4F9518228655007A8532 /* Default.png */,
 				520D4F9718228655007A8532 /* Default@2x.png */,
@@ -238,6 +243,7 @@
 				523AF7C2182526F000653CAC /* MoveAndDeleteViewController.m in Sources */,
 				52F03A1F18253E8D007FBBA4 /* PresidentsViewController.m in Sources */,
 				52F03A2218253F26007FBBA4 /* President.m in Sources */,
+				524CB37C18264BCF00B02C43 /* PresidentDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

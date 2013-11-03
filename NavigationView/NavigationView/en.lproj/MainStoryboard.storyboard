@@ -153,6 +153,35 @@
             </objects>
             <point key="canvasLocation" x="777" y="1335"/>
         </scene>
+        <!--President Detail View Controller-->
+        <scene sceneID="d2x-qU-or8">
+            <objects>
+                <tableViewController storyboardIdentifier="PresidentDetailViewController" id="514-bP-Scp" customClass="PresidentDetailViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="46" sectionHeaderHeight="22" sectionFooterHeight="22" id="aB3-ja-ZQA">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="PresidentDetaiiCell" rowHeight="46" id="EA3-qx-UU1">
+                                <rect key="frame" x="0.0" y="22" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="514-bP-Scp" id="q1k-Lz-egY"/>
+                            <outlet property="delegate" destination="514-bP-Scp" id="Xid-X8-whU"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q9e-0Y-1xH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1141" y="1335"/>
+        </scene>
         <!--Row Controls View Controller-->
         <scene sceneID="YLU-g0-P4o">
             <objects>
@@ -233,6 +262,58 @@
             <point key="canvasLocation" x="42" y="35"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CheckListViewController" superclassName="SecondLevelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CheckListViewController.h"/>
+        </class>
+        <class className="DisclosureButtonViewController" superclassName="SecondLevelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DisclosureButtonViewController.h"/>
+        </class>
+        <class className="DisclosureDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DisclosureDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="messageLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FirstLevelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FirstLevelViewController.h"/>
+        </class>
+        <class className="MoveAndDeleteViewController" superclassName="SecondLevelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoveAndDeleteViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="toggleDelete"/>
+                <relationship kind="action" name="toggleMove"/>
+                <relationship kind="outlet" name="childTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="refreshControl" candidateClass="UIRefreshControl"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PresidentDetailViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PresidentDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="textFieldDone:"/>
+            </relationships>
+        </class>
+        <class className="PresidentsViewController" superclassName="SecondLevelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PresidentsViewController.h"/>
+        </class>
+        <class className="RowControlsViewController" superclassName="SecondLevelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RowControlsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="buttonTapped:"/>
+            </relationships>
+        </class>
+        <class className="SecondLevelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SecondLevelViewController.h"/>
+        </class>
+        <class className="UIRefreshControl" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
