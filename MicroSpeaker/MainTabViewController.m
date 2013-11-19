@@ -49,11 +49,12 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 -(void)loadView
 {
     [super loadView];
-    spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [spinner setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2 - 50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [spinner setHidesWhenStopped:YES];
-    [self.view addSubview:spinner];
+    
+    screenActivityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [screenActivityIndicator setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2 - 50)];
+    screenActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [screenActivityIndicator setHidesWhenStopped:YES];
+    [self.view addSubview:screenActivityIndicator];
 }
 - (void)viewDidLoad
 {
@@ -68,7 +69,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     messageArray = [[NSMutableArray alloc] init];
     heightCache = [[NSMutableDictionary alloc] init];
     
-    [spinner startAnimating];
+    [screenActivityIndicator startAnimating];
     __block NSMutableArray* storedMessage;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [[NSMutableData alloc] initWithContentsOfFile:[self dataFilePath]];
@@ -82,7 +83,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 messageArray = storedMessage;
-                [spinner stopAnimating];
+                [screenActivityIndicator stopAnimating];
                 [self.tableView reloadData];
             });
         }
@@ -91,7 +92,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             [self performSelectorOnMainThread:@selector(requestDataFromServer) withObject:nil waitUntilDone:YES];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [spinner stopAnimating];
+                [screenActivityIndicator stopAnimating];
                 [self.tableView reloadData];
             });
         }
@@ -188,6 +189,13 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     STHTTPRequest* request = [STHTTPRequest requestWithURLString:requestURL];
     NSError *error = nil;
     NSString *jsonStr = [request startSynchronousWithError:&error];
+
+    if (error != nil)
+    {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
     NSData* jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
     

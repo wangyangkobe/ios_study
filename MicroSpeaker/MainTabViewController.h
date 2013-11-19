@@ -16,7 +16,7 @@
 {
     NSMutableArray* messageArray;
     NSMutableDictionary* heightCache;
-    UIActivityIndicatorView* spinner;
+    UIActivityIndicatorView* screenActivityIndicator;
 }
 @property(nonatomic, copy) NSMutableArray* messageArray;
 
