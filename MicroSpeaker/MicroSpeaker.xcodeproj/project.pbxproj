@@ -16,6 +16,8 @@
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
 		1566EA4C182E3F6500B61EF7 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */; };
+		1579B730183BA3A1009DBEF8 /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1579B72F183BA3A1009DBEF8 /* NMPaginator.m */; };
+		1579B733183BA443009DBEF8 /* MessagePaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1579B732183BA443009DBEF8 /* MessagePaginator.m */; };
 		520570DC182BCB0300416496 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520570DB182BCB0300416496 /* MainTabViewController.m */; };
 		522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2C1827BFBD00AF71F8 /* UIKit.framework */; };
 		522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2E1827BFBD00AF71F8 /* Foundation.framework */; };
@@ -53,6 +55,10 @@
 		154B17FD182E1E7A00750C71 /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		154B17FE182E1E7A00750C71 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
+		1579B72E183BA3A1009DBEF8 /* NMPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMPaginator.h; sourceTree = "<group>"; };
+		1579B72F183BA3A1009DBEF8 /* NMPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMPaginator.m; sourceTree = "<group>"; };
+		1579B731183BA443009DBEF8 /* MessagePaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagePaginator.h; sourceTree = "<group>"; };
+		1579B732183BA443009DBEF8 /* MessagePaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagePaginator.m; sourceTree = "<group>"; };
 		371AA0B4ABDB49B1A103131D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		520570DA182BCB0300416496 /* MainTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainTabViewController.h; path = ../MainTabViewController.h; sourceTree = "<group>"; };
 		520570DB182BCB0300416496 /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainTabViewController.m; path = ../MainTabViewController.m; sourceTree = "<group>"; };
@@ -119,6 +125,8 @@
 		152BBD1E18385B63004C2F1A /* ThirdClassLib */ = {
 			isa = PBXGroup;
 			children = (
+				1579B72E183BA3A1009DBEF8 /* NMPaginator.h */,
+				1579B72F183BA3A1009DBEF8 /* NMPaginator.m */,
 				5288B8C2182BC4B70072DA34 /* PullRefreshTableViewController.m */,
 				5288B8C1182BC4B70072DA34 /* PullRefreshTableViewController.h */,
 				154B17FA182E1C6A00750C71 /* STHTTPRequest.h */,
@@ -168,6 +176,8 @@
 				520570DB182BCB0300416496 /* MainTabViewController.m */,
 				529710B51827CAB2007DD4A5 /* MainTableCell.h */,
 				529710B61827CAB2007DD4A5 /* MainTableCell.m */,
+				1579B731183BA443009DBEF8 /* MessagePaginator.h */,
+				1579B732183BA443009DBEF8 /* MessagePaginator.m */,
 				522D7F3B1827BFBD00AF71F8 /* AppDelegate.h */,
 				522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */,
 				522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */,
@@ -300,11 +310,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1502019D183704D80072C32F /* AreaModel.m in Sources */,
+				1579B730183BA3A1009DBEF8 /* NMPaginator.m in Sources */,
 				522D7F391827BFBD00AF71F8 /* main.m in Sources */,
 				522D7F3D1827BFBD00AF71F8 /* AppDelegate.m in Sources */,
 				522D7F491827BFBD00AF71F8 /* ViewController.m in Sources */,
 				15165F3C183365A600D94D8D /* UserModel.m in Sources */,
 				15165F38183365A600D94D8D /* ActivityModel.m in Sources */,
+				1579B733183BA443009DBEF8 /* MessagePaginator.m in Sources */,
 				529710B71827CAB2007DD4A5 /* MainTableCell.m in Sources */,
 				15165F3B183365A600D94D8D /* LocationModel.m in Sources */,
 				5288B8C3182BC4B70072DA34 /* PullRefreshTableViewController.m in Sources */,

@@ -24,6 +24,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 @implementation MainTabViewController
 
 @synthesize messageArray;
+@synthesize messagePaginator;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -63,6 +64,8 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
                                                  name:UIApplicationWillResignActiveNotification object:app];
     
     [super viewDidLoad];
+    
+    [self setupTableViewFooter];
     
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
@@ -262,6 +265,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 
 
+
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -314,4 +318,98 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
      */
 }
 
+#pragma mark - for NMPaginator
+- (void)setupTableViewFooter
+{
+    // set up label
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    footerView.backgroundColor = [UIColor clearColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.textColor = [UIColor lightGrayColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    
+    self.footerLabel = label;
+    [footerView addSubview:label];
+    
+    // set up activity indicator
+    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicatorView.center = CGPointMake(40, 22);
+    activityIndicatorView.hidesWhenStopped = YES;
+    
+    self.footerActivityIndicator = activityIndicatorView;
+    [footerView addSubview:activityIndicatorView];
+    
+    self.tableView.tableFooterView = footerView;
+}
+
+- (void)updateTableViewFooter
+{
+    if ([self.messagePaginator.results count] != 0)
+    {
+        self.footerLabel.text = [NSString stringWithFormat:@"%d results out of %d",
+                                 [self.messagePaginator.results count], self.messagePaginator.total];
+    } else
+    {
+        self.footerLabel.text = @"";
+    }
+    
+    [self.footerLabel setNeedsDisplay];
+}
+- (void)fetchNextPage
+{
+    [self.messagePaginator fetchNextPage];
+    [self.footerActivityIndicator startAnimating];
+}
+#pragma mark - end
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // when reaching bottom, load a new page
+    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.bounds.size.height)
+    {
+        // ask next page only if we haven't reached last page
+        if(![self.messagePaginator reachedLastPage])
+        {
+            // fetch next page of results
+            [self fetchNextPage];
+        }
+    }
+}
+
+#pragma mark - Paginator delegate methods
+- (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
+{
+    // update tableview footer
+    [self updateTableViewFooter];
+    [self.footerActivityIndicator stopAnimating];
+    
+    // update tableview content
+    // easy way : call [tableView reloadData];
+    // nicer way : use insertRowsAtIndexPaths:withAnimation:
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    NSInteger i = [self.messagePaginator.results count] - [results count];
+    
+    for(NSDictionary *result in results)
+    {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        i++;
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
+    [self.tableView endUpdates];
+}
+
+- (void)paginatorDidReset:(id)paginator
+{
+    [self.tableView reloadData];
+    [self updateTableViewFooter];
+}
+
+- (void)paginatorDidFailToRespond:(id)paginator
+{
+    // Todo
+}
 @end
