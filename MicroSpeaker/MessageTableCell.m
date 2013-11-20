@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 yang. All rights reserved.
 //
 
-#import "MainTableCell.h"
+#import "MessageTableCell.h"
 
-@implementation MainTableCell
+@implementation MessageTableCell
 
 @synthesize headImage;
 @synthesize subjectLabel;
