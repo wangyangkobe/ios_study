@@ -59,26 +59,22 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 - (void)viewDidLoad
 {
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
     UIApplication* app = [UIApplication sharedApplication];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:)
                                                  name:UIApplicationWillResignActiveNotification object:app];
     
     [super viewDidLoad];
+    messageArray = [[NSMutableArray alloc] init];
     
     // set up the paginator
     [self setupTableViewFooter];
     self.messagePaginator = [[MessagePaginator alloc] initWithPageSize:15 delegate:self];
-    [self.messagePaginator fetchFirstPage];
     
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
-    
-    messageArray = [[NSMutableArray alloc] init];
-  /*  heightCache = [[NSMutableDictionary alloc] init];
     [screenActivityIndicator startAnimating];
     __block NSMutableArray* storedMessage;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [[NSMutableData alloc] initWithContentsOfFile:[self dataFilePath]];
-        
         if (data != nil)
         {
             NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -87,22 +83,21 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             NSLog(@"%d", [storedMessage count]);
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                messageArray = storedMessage;
+                messageArray = [storedMessage mutableCopy];
                 [screenActivityIndicator stopAnimating];
                 [self.tableView reloadData];
             });
         }
         else
         {
-            [self performSelectorOnMainThread:@selector(requestDataFromServer) withObject:nil waitUntilDone:YES];
-            
+            //[self performSelectorOnMainThread:@selector(requestDataFromServer) withObject:nil waitUntilDone:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [screenActivityIndicator stopAnimating];
-                [self.tableView reloadData];
+                [self.messagePaginator fetchFirstPage];
+                //[self.tableView reloadData];
             });
         }
     });
-     */
     
 }
 
@@ -112,7 +107,8 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     NSMutableData* data = [[NSMutableData alloc] init];
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:messageArray forKey:kDataKey];
+    
+    [archiver encodeObject:[messageArray subarrayWithRange:NSMakeRange(0, 15)] forKey:kDataKey];
     [archiver finishEncoding];
     [data writeToFile:[self dataFilePath] atomically:YES];
     NSLog(@"path = %@", [self dataFilePath]);
@@ -133,13 +129,13 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    //  return [messageArray count];
-    return [self.messagePaginator.results count];
+    return [messageArray count];
+    //return [self.messagePaginator.results count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* MainTableCellIdentifier = @"MainTableCellIdentifier";
+    static NSString* MainTableCellIdentifier = @"MessageTableCellIdentifier";
     static BOOL isNibRegistered = NO;
     if (!isNibRegistered)
     {
@@ -196,7 +192,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     STHTTPRequest* request = [STHTTPRequest requestWithURLString:requestURL];
     NSError *error = nil;
     NSString *jsonStr = [request startSynchronousWithError:&error];
-
+    
     if (error != nil)
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -339,6 +335,8 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     // set up activity indicator
     UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicatorView.center = CGPointMake(160, 22);
+    activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    activityIndicatorView.color = [UIColor blueColor];
     activityIndicatorView.hidesWhenStopped = YES;
     
     self.footerActivityIndicator = activityIndicatorView;
@@ -395,8 +393,8 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     // nicer way : use insertRowsAtIndexPaths:withAnimation:
     NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     NSInteger i = [self.messagePaginator.results count] - [results count];
-    
     [messageArray addObjectsFromArray:results];
+    
     for(NSDictionary *result in results)
     {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
