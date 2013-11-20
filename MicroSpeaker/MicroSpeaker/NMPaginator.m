@@ -11,8 +11,8 @@
 }
 
 // protected properties
-@property (assign, readwrite) NSInteger pageSize; 
-@property (assign, readwrite) NSInteger page; 
+@property (assign, readwrite) NSInteger pageSize;
+@property (assign, readwrite) NSInteger page;
 @property (assign, readwrite) NSInteger total;
 @property (nonatomic, strong, readwrite) NSMutableArray *results;
 @property (assign, readwrite) RequestStatus requestStatus;
@@ -64,7 +64,7 @@
 # pragma - fetch results
 
 - (void)fetchFirstPage
-{     
+{
     // reset paginator
     [self reset];
     
@@ -72,14 +72,14 @@
 }
 
 - (void)fetchNextPage
-{    
+{
     // don't do anything if there's already a request in progress
-    if(self.requestStatus == RequestStatusInProgress) 
+    if(self.requestStatus == RequestStatusInProgress)
         return;
     
     if(![self reachedLastPage]) {
         self.requestStatus = RequestStatusInProgress;
-        [self fetchResultsWithPage:self.page+1 pageSize:self.pageSize];
+        [self fetchResultsWithPage:self.page + 1 pageSize:self.pageSize];
     }
 }
 
@@ -94,7 +94,7 @@
 
 // call these from subclass when you receive the results
 
-- (void)receivedResults:(NSArray *)results total:(NSInteger)total 
+- (void)receivedResults:(NSArray *)results total:(NSInteger)total
 {
     [self.results addObjectsFromArray:results];
     self.page++;
