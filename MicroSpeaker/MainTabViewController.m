@@ -7,7 +7,7 @@
 //
 
 #import "MainTabViewController.h"
-#import "MainTableCell.h"
+#import "MessageTableCell.h"
 #import "STHTTPRequest.h"
 #import "MessageModel.h"
 #import "JSONModelLib.h"
@@ -143,12 +143,12 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     static BOOL isNibRegistered = NO;
     if (!isNibRegistered)
     {
-        UINib* nib = [UINib nibWithNibName:@"MainCell" bundle:nil];
+        UINib* nib = [UINib nibWithNibName:@"MessageCell" bundle:nil];
         [tableView registerNib:nib forCellReuseIdentifier:MainTableCellIdentifier];
         isNibRegistered = YES;
     }
     NSInteger row = [indexPath row];
-    MainTableCell* cell = [tableView dequeueReusableCellWithIdentifier:MainTableCellIdentifier];
+    MessageTableCell* cell = [tableView dequeueReusableCellWithIdentifier:MainTableCellIdentifier];
     
     MessageModel* message = [messageArray objectAtIndex:row];
     
