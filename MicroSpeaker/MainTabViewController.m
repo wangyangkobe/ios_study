@@ -13,7 +13,7 @@
 #import "JSONModelLib.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
+NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 
 @interface MainTabViewController ()
 -(NSString*) dataFilePath; //归档文件的路径
@@ -65,13 +65,15 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     [super viewDidLoad];
     
+    // set up the paginator
     [self setupTableViewFooter];
+    self.messagePaginator = [[MessagePaginator alloc] initWithPageSize:15 delegate:self];
+    [self.messagePaginator fetchFirstPage];
     
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
     messageArray = [[NSMutableArray alloc] init];
-    heightCache = [[NSMutableDictionary alloc] init];
-    
+  /*  heightCache = [[NSMutableDictionary alloc] init];
     [screenActivityIndicator startAnimating];
     __block NSMutableArray* storedMessage;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -100,6 +102,8 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             });
         }
     });
+     */
+    
 }
 
 -(void)applicationWillResignActive:(NSNotification*) notification
@@ -129,8 +133,8 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"count%d", [messageArray count]);
-    return [messageArray count];
+    //  return [messageArray count];
+    return [self.messagePaginator.results count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -334,7 +338,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     // set up activity indicator
     UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicatorView.center = CGPointMake(40, 22);
+    activityIndicatorView.center = CGPointMake(160, 22);
     activityIndicatorView.hidesWhenStopped = YES;
     
     self.footerActivityIndicator = activityIndicatorView;
@@ -381,6 +385,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 #pragma mark - Paginator delegate methods
 - (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
 {
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
     // update tableview footer
     [self updateTableViewFooter];
     [self.footerActivityIndicator stopAnimating];
@@ -391,6 +396,7 @@ static NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     NSInteger i = [self.messagePaginator.results count] - [results count];
     
+    [messageArray addObjectsFromArray:results];
     for(NSDictionary *result in results)
     {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
