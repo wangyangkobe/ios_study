@@ -15,6 +15,8 @@
 		154B17FC182E1C6A00750C71 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 154B17FB182E1C6A00750C71 /* STHTTPRequest.m */; };
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
+		154BDB0B18421D6B0019E85F /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */; };
+		154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 154BDB0C1842235C0019E85F /* group_detail_menu_share.png */; };
 		1566EA4C182E3F6500B61EF7 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */; };
 		1579B730183BA3A1009DBEF8 /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1579B72F183BA3A1009DBEF8 /* NMPaginator.m */; };
 		1579B733183BA443009DBEF8 /* MessagePaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1579B732183BA443009DBEF8 /* MessagePaginator.m */; };
@@ -61,6 +63,9 @@
 		154B17FB182E1C6A00750C71 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STHTTPRequest.m; path = ../STHTTPRequest.m; sourceTree = "<group>"; };
 		154B17FD182E1E7A00750C71 /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		154B17FE182E1E7A00750C71 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		154BDB0918421D6B0019E85F /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
+		154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
+		154BDB0C1842235C0019E85F /* group_detail_menu_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_detail_menu_share.png; sourceTree = "<group>"; };
 		1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		1579B72E183BA3A1009DBEF8 /* NMPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMPaginator.h; sourceTree = "<group>"; };
 		1579B72F183BA3A1009DBEF8 /* NMPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMPaginator.m; sourceTree = "<group>"; };
@@ -210,6 +215,8 @@
 				522D7F3B1827BFBD00AF71F8 /* AppDelegate.h */,
 				522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */,
 				522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */,
+				154BDB0918421D6B0019E85F /* ActivityDetailViewController.h */,
+				154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */,
 				522D7F471827BFBD00AF71F8 /* ViewController.h */,
 				522D7F481827BFBD00AF71F8 /* ViewController.m */,
 				522D7F331827BFBD00AF71F8 /* Supporting Files */,
@@ -220,6 +227,7 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				154BDB0C1842235C0019E85F /* group_detail_menu_share.png */,
 				15AD56431841F8E6007CF595 /* group_list_clock_src.png */,
 				15AD56441841F8E6007CF595 /* group_list_location_src.png */,
 				15AD56411841F876007CF595 /* time.png */,
@@ -292,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */,
+				154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */,
 				522D7F371827BFBD00AF71F8 /* InfoPlist.strings in Resources */,
 				522D7F3F1827BFBD00AF71F8 /* Default.png in Resources */,
 				522D7F411827BFBD00AF71F8 /* Default@2x.png in Resources */,
@@ -349,6 +358,7 @@
 			files = (
 				1502019D183704D80072C32F /* AreaModel.m in Sources */,
 				1579B730183BA3A1009DBEF8 /* NMPaginator.m in Sources */,
+				154BDB0B18421D6B0019E85F /* ActivityDetailViewController.m in Sources */,
 				522D7F391827BFBD00AF71F8 /* main.m in Sources */,
 				15FCA5B418419D9B0055ECAA /* NSString+Extensions.m in Sources */,
 				522D7F3D1827BFBD00AF71F8 /* AppDelegate.m in Sources */,

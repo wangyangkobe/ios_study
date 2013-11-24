@@ -13,6 +13,7 @@
 #import "UILabel+Extensions.h"
 #import "NSString+Extensions.h"
 #import "MessageCell.h"
+#import "ActivityDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
@@ -361,6 +362,17 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    
+    NSInteger row = [indexPath row];
+    MessageModel* selectedMessage = [messageArray objectAtIndex:row];
+    
+    if (selectedMessage.Type == 2)
+    {
+        ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
+        subViewController.message = selectedMessage;
+        [self.navigationController pushViewController:subViewController animated:YES];
+    }
 }
 
 #pragma mark - for NMPaginator
