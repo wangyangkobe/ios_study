@@ -7,10 +7,12 @@
 //
 
 #import "MainTabViewController.h"
-#import "MessageTableCell.h"
 #import "STHTTPRequest.h"
 #import "MessageModel.h"
 #import "JSONModelLib.h"
+#import "UILabel+Extensions.h"
+#import "NSString+Extensions.h"
+#import "MessageCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
@@ -135,24 +137,16 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* MainTableCellIdentifier = @"MessageTableCellIdentifier";
-    static BOOL isNibRegistered = NO;
-    if (!isNibRegistered)
+    MessageModel* message = [messageArray objectAtIndex:[indexPath row]];
+    static NSString* cellIdentifier = @"CellIdentifier";
+    MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil)
     {
-        UINib* nib = [UINib nibWithNibName:@"MessageCell" bundle:nil];
-        [tableView registerNib:nib forCellReuseIdentifier:MainTableCellIdentifier];
-        isNibRegistered = YES;
+        cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    NSInteger row = [indexPath row];
-    MessageTableCell* cell = [tableView dequeueReusableCellWithIdentifier:MainTableCellIdentifier];
     
-    MessageModel* message = [messageArray objectAtIndex:row];
-    
-    cell.userNameLabel.text = message.User.UserName;
-    cell.timeLabel.text = message.CreateAt;
-    [cell.headImage setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
-                   placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    cell.messageLabel.text = message.Text;
+    [cell.headImageView setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
+                  placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     if (message.Type == 2)
     {
         cell.subjectLabel.text = message.Activity.Theme;
@@ -163,10 +157,25 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
         cell.subjectLabel.text = [NSString stringWithFormat:@"在%@ 大声说", str];
     }
     
-    [cell.photoView setContentMode:UIViewContentModeScaleAspectFit];
-    [cell.photoView setImageWithURL:[NSURL URLWithString:message.PhotoThumbnail]];
+    [cell.userNameLabel setText:message.User.UserName];
+    [cell.timeLabel setText:message.CreateAt];
     
+    //construct a lable show message
+    cell.messageLabel.text = message.Text;
+    [cell.messageLabel sizeToFitFixedWidth:280 lines:3];
     
+    //construct the photoViews
+    if (message.PhotoThumbnail != nil)
+    {
+        float textHeight = [NSString calculateTextHeight:message.Text];
+        NSLog(@"%@ %f", message.Location.LocationDescription, textHeight);
+        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 70 + textHeight, 90, 90)];
+        [cell.contentView addSubview:photoView];
+        [photoView setImageWithURL:[NSURL URLWithString:message.PhotoThumbnail]];
+        [photoView setContentMode:UIViewContentModeScaleToFill];
+        photoView.tag = 100;
+    }
+
     //设置选中cell的style
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
@@ -176,14 +185,17 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 {
     MessageModel* message = [messageArray objectAtIndex:[indexPath row]];
     NSString* photoURL = message.PhotoThumbnail;
+    
+    float textHeight = [NSString calculateTextHeight:message.Text];
+    
     if (photoURL == nil)
-        return 110;
+        return 70 + textHeight;
     else
     {
         NSLog(@"heightForRowAtIndexPath");
         // NSData* imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:photoURL]];
         // UIImage* image = [UIImage imageWithData:imageData];
-        return 110 + 90;
+        return 70 + textHeight + 90 + 5;
     }
 }
 
