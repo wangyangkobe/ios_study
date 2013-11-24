@@ -14,7 +14,6 @@
 @property (retain, nonatomic) IBOutlet UIImageView *headImageView;
 @property (retain, nonatomic) IBOutlet UILabel *subjectLabel;
 @property (retain, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (retain, nonatomic) IBOutlet UILabel *timeLabel;
-@property (retain, nonatomic) IBOutlet UILabel *messageLabel;
+@property (retain, nonatomic) IBOutlet UIImageView *genderImageView;
 
 @end

@@ -146,36 +146,53 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     }
     
     [cell.headImageView setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
-                  placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     float hegithPos = 55;
     if (message.Type == 2)
     {
         cell.subjectLabel.text = message.Activity.Theme;
-        UILabel *activityTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 55, 310, 25)];
-        [cell.contentView addSubview:activityTimeLabel];
-        activityTimeLabel.text = message.CreateAt;
-        [activityTimeLabel setTag:1];
         
-        UILabel* locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 80, 310, 25)];
+        UIImageView* timeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 55, 20, 20)];
+        [cell.contentView addSubview:timeImageView];
+        [timeImageView setImage:[UIImage imageNamed:@"group_list_clock_src.png"]];
+        timeImageView.tag = 1;
+        
+        UILabel *activityTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 55, 310, 20)];
+        [cell.contentView addSubview:activityTimeLabel];
+        activityTimeLabel.text = [NSString stringWithFormat:@"活动时间:%@", message.CreateAt];
+        [activityTimeLabel setTextColor:[UIColor redColor]];
+        [activityTimeLabel setTag:2];
+        
+        UIImageView* locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 75, 20, 20)];
+        [cell.contentView addSubview:locationImageView];
+        [locationImageView setImage:[UIImage imageNamed:@"group_list_location_src.png"]];
+        [locationImageView setTag:3];
+        
+        UILabel* locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 75, 310, 20)];
         [cell.contentView addSubview:locationLabel];
         locationLabel.text = message.Location.LocationAddress;
-        [locationLabel setTag:2];
-        hegithPos = 110;
+        [locationLabel setTextColor:[UIColor grayColor]];
+        
+        [locationLabel setTag:4];
+        hegithPos += ACTIVITY_LABEL_HEIGHT; //40 stand for the height of locationLabel and activityTimeLabel
     }
     else
     {
         NSString* str = message.Location.LocationDescription;
         cell.subjectLabel.text = [NSString stringWithFormat:@"在%@大声说:", str];
     }
+    
     [cell.userNameLabel setText:message.User.UserName];
     NSString* genderPic = (message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
     [cell.genderImageView setImage:[UIImage imageNamed:genderPic]];
     
     
     //construct a lable show message
-    [cell.messageLabel setFrame:CGRectMake(5, hegithPos, 310, 0)];
-    cell.messageLabel.text = message.Text;
-    [cell.messageLabel sizeToFitFixedWidth:310 lines:3];
+    UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, hegithPos, 320, 0)];
+    [cell.contentView addSubview:messageLabel];
+    [messageLabel setTag:5];
+    messageLabel.text = message.Text;
+    [messageLabel sizeToFitFixedWidth:310 lines:3];
     
     //construct the photoViews
     if (message.PhotoThumbnail != nil)
@@ -188,7 +205,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
         [photoView setContentMode:UIViewContentModeScaleToFill];
         photoView.tag = 100;
     }
-
+    
     //设置选中cell的style
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
@@ -203,16 +220,16 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     if (message.Type == 2)
     {
-        textHeight += 50;
+        textHeight += ACTIVITY_LABEL_HEIGHT;
     }
     if (photoURL == nil)
-        return 70 + textHeight;
+        return 60 + textHeight;
     else
     {
         NSLog(@"heightForRowAtIndexPath");
         // NSData* imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:photoURL]];
         // UIImage* image = [UIImage imageWithData:imageData];
-        return 70 + textHeight + 90 + 5;
+        return 60 + textHeight + 90 + 5;
     }
 }
 

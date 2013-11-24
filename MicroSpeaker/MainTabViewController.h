@@ -13,6 +13,8 @@
 #define kFileName @"MessageData.plist"
 #define kDataKey @"MessageData"
 
+#define ACTIVITY_LABEL_HEIGHT 40  //stand for the height of locationLabel and activityTimeLabel
+
 @interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
 {
     NSMutableArray* messageArray;
