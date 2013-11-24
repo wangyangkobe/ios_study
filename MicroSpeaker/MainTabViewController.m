@@ -147,7 +147,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     [cell.headImageView setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    float hegithPos = 55;
+    float heightPos = 55;
     if (message.Type == 2)
     {
         cell.subjectLabel.text = message.Activity.Theme;
@@ -174,7 +174,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
         [locationLabel setTextColor:[UIColor grayColor]];
         
         [locationLabel setTag:4];
-        hegithPos += ACTIVITY_LABEL_HEIGHT; //40 stand for the height of locationLabel and activityTimeLabel
+        heightPos += ACTIVITY_LABEL_HEIGHT; //40 stand for the height of locationLabel and activityTimeLabel
     }
     else
     {
@@ -188,7 +188,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     
     //construct a lable show message
-    UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, hegithPos, 320, 0)];
+    UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, heightPos, 320, 0)];
     [cell.contentView addSubview:messageLabel];
     [messageLabel setTag:5];
     messageLabel.text = message.Text;
@@ -198,8 +198,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     if (message.PhotoThumbnail != nil)
     {
         float textHeight = [NSString calculateTextHeight:message.Text];
-        NSLog(@"%@ %f", message.Location.LocationDescription, textHeight);
-        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, hegithPos + textHeight, 90, 90)];
+        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, heightPos + textHeight, 90, 90)];
         [cell.contentView addSubview:photoView];
         [photoView setImageWithURL:[NSURL URLWithString:message.PhotoThumbnail]];
         [photoView setContentMode:UIViewContentModeScaleToFill];

@@ -17,7 +17,6 @@
 
 @interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
 {
-    NSMutableArray* messageArray;
     NSMutableDictionary* heightCache;
     UIActivityIndicatorView* screenActivityIndicator;
 }
