@@ -147,29 +147,42 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     [cell.headImageView setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
                   placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    float hegithPos = 55;
     if (message.Type == 2)
     {
         cell.subjectLabel.text = message.Activity.Theme;
+        UILabel *activityTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 55, 310, 25)];
+        [cell.contentView addSubview:activityTimeLabel];
+        activityTimeLabel.text = message.CreateAt;
+        [activityTimeLabel setTag:1];
+        
+        UILabel* locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 80, 310, 25)];
+        [cell.contentView addSubview:locationLabel];
+        locationLabel.text = message.Location.LocationAddress;
+        [locationLabel setTag:2];
+        hegithPos = 110;
     }
     else
     {
         NSString* str = message.Location.LocationDescription;
-        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@ 大声说", str];
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@大声说:", str];
     }
-    
     [cell.userNameLabel setText:message.User.UserName];
-    [cell.timeLabel setText:message.CreateAt];
+    NSString* genderPic = (message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
+    [cell.genderImageView setImage:[UIImage imageNamed:genderPic]];
+    
     
     //construct a lable show message
+    [cell.messageLabel setFrame:CGRectMake(5, hegithPos, 310, 0)];
     cell.messageLabel.text = message.Text;
-    [cell.messageLabel sizeToFitFixedWidth:280 lines:3];
+    [cell.messageLabel sizeToFitFixedWidth:310 lines:3];
     
     //construct the photoViews
     if (message.PhotoThumbnail != nil)
     {
         float textHeight = [NSString calculateTextHeight:message.Text];
         NSLog(@"%@ %f", message.Location.LocationDescription, textHeight);
-        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 70 + textHeight, 90, 90)];
+        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, hegithPos + textHeight, 90, 90)];
         [cell.contentView addSubview:photoView];
         [photoView setImageWithURL:[NSURL URLWithString:message.PhotoThumbnail]];
         [photoView setContentMode:UIViewContentModeScaleToFill];
@@ -188,6 +201,10 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     float textHeight = [NSString calculateTextHeight:message.Text];
     
+    if (message.Type == 2)
+    {
+        textHeight += 50;
+    }
     if (photoURL == nil)
         return 70 + textHeight;
     else
