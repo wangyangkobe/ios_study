@@ -21,7 +21,7 @@
     [aCoder encodeObject:_City forKey:@"City"];
     [aCoder encodeObject:_Country forKey:@"Country"];
     [aCoder encodeObject:_LocationAddress forKey:@"LocationAddress"];
-    [aCoder encodeObject:_LocationAddress forKey:@"LocationDescription"];
+    [aCoder encodeObject:_LocationDescription forKey:@"LocationDescription"];
     [aCoder encodeObject:_Province forKey:@"Province"];
 }
 -(id)initWithCoder:(NSCoder *)aDecoder
