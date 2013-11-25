@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "MessageModel.h"
-
-@interface ActivityDetailViewController : UIViewController<UIScrollViewDelegate>
+#import "JMStaticContentTableViewController.h"
+@interface ActivityDetailViewController : JMStaticContentTableViewController
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (retain, atomic) MessageModel* message;

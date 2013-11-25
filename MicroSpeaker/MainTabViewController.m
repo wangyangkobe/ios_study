@@ -42,6 +42,9 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     [super viewWillAppear:animated];
+
+    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"tab栏样图.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    //[[UIToolbar appearance] setBackgroundImage:@"tab栏样图.png" forToolBarPosition:UIBarPositionBottom barMetrics:UIBarMetricsDefault];
 }
 
 -(NSString*) dataFilePath
@@ -53,7 +56,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 -(void)loadView
 {
     [super loadView];
-    
     screenActivityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [screenActivityIndicator setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2 - 50)];
     screenActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
@@ -355,13 +357,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
     NSInteger row = [indexPath row];
@@ -369,7 +364,8 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     if (selectedMessage.Type == 2)
     {
-        ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
+       // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
+        ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
     }

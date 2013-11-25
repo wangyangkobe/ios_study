@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1502019D183704D80072C32F /* AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15165F34183365A600D94D8D /* AreaModel.m */; };
+		150E97ED18437B8C0027C104 /* broadcast.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E97EC18437B8C0027C104 /* broadcast.png */; };
+		150E97EF184383040027C104 /* tab栏样图.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E97EE184383040027C104 /* tab栏样图.png */; };
 		15165F38183365A600D94D8D /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15165F30183365A600D94D8D /* ActivityModel.m */; };
 		15165F3B183365A600D94D8D /* LocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15165F35183365A600D94D8D /* LocationModel.m */; };
 		15165F3C183365A600D94D8D /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15165F37183365A600D94D8D /* UserModel.m */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		150E97EC18437B8C0027C104 /* broadcast.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = broadcast.png; sourceTree = "<group>"; };
+		150E97EE184383040027C104 /* tab栏样图.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab栏样图.png"; sourceTree = "<group>"; };
 		15165F2F183365A600D94D8D /* ActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityModel.h; sourceTree = "<group>"; };
 		15165F30183365A600D94D8D /* ActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityModel.m; sourceTree = "<group>"; };
 		15165F33183365A600D94D8D /* AreaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaModel.h; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				150E97EE184383040027C104 /* tab栏样图.png */,
+				150E97EC18437B8C0027C104 /* broadcast.png */,
 				154BDB0C1842235C0019E85F /* group_detail_menu_share.png */,
 				15AD56431841F8E6007CF595 /* group_list_clock_src.png */,
 				15AD56441841F8E6007CF595 /* group_list_location_src.png */,
@@ -307,9 +313,11 @@
 				522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */,
 				15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */,
 				15AD56401841E234007CF595 /* gender_girl_big.png in Resources */,
+				150E97EF184383040027C104 /* tab栏样图.png in Resources */,
 				522D7F461827BFBD00AF71F8 /* MainStoryboard.storyboard in Resources */,
 				522D7F501827C71F00AF71F8 /* MessageCell.xib in Resources */,
 				154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */,
+				150E97ED18437B8C0027C104 /* broadcast.png in Resources */,
 				15AD56421841F876007CF595 /* time.png in Resources */,
 				154B1800182E1E7A00750C71 /* placeholder.png in Resources */,
 				15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */,

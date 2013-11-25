@@ -1,10 +1,13 @@
 PODS:
+  - JMStaticContentTableViewController (0.1.1)
   - JSONModel (0.10.0)
 
 DEPENDENCIES:
+  - JMStaticContentTableViewController
   - JSONModel
 
 SPEC CHECKSUMS:
+  JMStaticContentTableViewController: ec2ae8be90eafabe63e75e49160a2b828ae28731
   JSONModel: cecca3c3a9ee1a248b56f7139e2d64b85ce536ec
 
 COCOAPODS: 0.27.1

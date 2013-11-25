@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-JMStaticContentTableViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-JSONModel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>13375E9C30E94518938046E3</key>
+		<key>884B7BE745624659ABEE069C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DA65A4CE717C48BB9DC96AD6</key>
+		<key>AF6C2F996D7048A9A6479C71</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E462F57840CA46AEAA618471</key>
 		<dict>
 			<key>primary</key>
 			<true/>
