@@ -40,11 +40,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
     [super viewWillAppear:animated];
-
-    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"tab栏样图.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    //[[UIToolbar appearance] setBackgroundImage:@"tab栏样图.png" forToolBarPosition:UIBarPositionBottom barMetrics:UIBarMetricsDefault];
 }
 
 -(NSString*) dataFilePath
@@ -103,7 +99,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             });
         }
     });
-    
 }
 
 -(void)applicationWillResignActive:(NSNotification*) notification
@@ -312,47 +307,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     [self stopLoading];
 }
 
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -364,7 +318,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     if (selectedMessage.Type == 2)
     {
-       // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
+        // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
@@ -372,6 +326,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 
 #pragma mark - for NMPaginator
+
 - (void)setupTableViewFooter
 {
     // set up label

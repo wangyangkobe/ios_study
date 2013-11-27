@@ -10,7 +10,8 @@
 
 #import "MessageModel.h"
 #import "JMStaticContentTableViewController.h"
-@interface ActivityDetailViewController : JMStaticContentTableViewController
+#import "FGalleryViewController.h"
+@interface ActivityDetailViewController : JMStaticContentTableViewController<FGalleryViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (retain, atomic) MessageModel* message;
@@ -21,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *createTimeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *genderImageView;
+
 -(void) shareActivity;
 @end

@@ -10,7 +10,6 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UILabel+Extensions.h"
 @interface ActivityDetailViewController ()
-
 @end
 
 @implementation ActivityDetailViewController
@@ -149,6 +148,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tabBarController.tabBar setHidden:NO];
+}
 -(void) shareActivity
 {
     
@@ -163,12 +167,35 @@
         return 110;
     else if(2 == sectionIdex && 0 == rowIndex)
     {
-       NSString* str = _message.Activity.Description;
+        NSString* str = _message.Activity.Description;
         CGSize size = [str sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1000) lineBreakMode:NSLineBreakByWordWrapping];
         return size.height;
     }
     else
         return 25;
+}
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int rowIndex    = [indexPath row];
+    int sectionIdex = [indexPath section];
+    if (1 == sectionIdex && 0 == rowIndex && [_message.Photos count] > 0)
+    {
+        FGalleryViewController* networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+        [self.navigationController pushViewController:networkGallery animated:YES];
+    }
+}
+
+#pragma mark - FGalleryViewControllerDelegate Methods
+- (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
+{
+    return [_message.Photos count];
+}
+- (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController *)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index
+{
+	return FGalleryPhotoSourceTypeNetwork;
+}
+- (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return [_message.Photos objectAtIndex:index];
 }
 
 @end
