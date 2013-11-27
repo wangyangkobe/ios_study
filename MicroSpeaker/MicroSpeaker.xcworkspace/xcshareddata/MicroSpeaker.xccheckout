@@ -5,46 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>186EA63C-D9BB-4A5C-9811-9E7C7C16DF06</string>
+	<string>F384773F-9144-4435-BA61-E92014100C08</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MicroSpeaker</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>2A2716D2-0D33-44AE-B498-3ECB0B919850</key>
+		<key>993E5C13-AFD6-490E-A4F9-430F6B2B71A8</key>
 		<string>ssh://github.com/wangyangkobe/ios_study.git</string>
-		<key>7ACA1AD5-7BD0-4186-834D-F143C256C1B9</key>
-		<string>https://github.com/AdrianFlorian/AFImageViewer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MicroSpeaker/MicroSpeaker.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>2A2716D2-0D33-44AE-B498-3ECB0B919850</key>
+		<key>993E5C13-AFD6-490E-A4F9-430F6B2B71A8</key>
 		<string>../..</string>
-		<key>7ACA1AD5-7BD0-4186-834D-F143C256C1B9</key>
-		<string>../../../../Desktop/AFImageViewer</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/wangyangkobe/ios_study.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2A2716D2-0D33-44AE-B498-3ECB0B919850</string>
+	<string>993E5C13-AFD6-490E-A4F9-430F6B2B71A8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>7ACA1AD5-7BD0-4186-834D-F143C256C1B9</string>
-			<key>IDESourceControlWCCName</key>
-			<string>AFImageViewer</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>2A2716D2-0D33-44AE-B498-3ECB0B919850</string>
+			<string>993E5C13-AFD6-490E-A4F9-430F6B2B71A8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ios_study</string>
 		</dict>

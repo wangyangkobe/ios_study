@@ -10,7 +10,7 @@
             <objects>
                 <tableViewController id="c9J-Yw-tbd" customClass="MainTabViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yTS-9K-a5G">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -43,7 +43,7 @@
                         <viewControllerLayoutGuide type="bottom" id="HHR-UH-CPC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xiO-Q8-Oku">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -54,11 +54,11 @@
             </objects>
             <point key="canvasLocation" x="504" y="746"/>
         </scene>
-        <!--Navigation Controller - 广播-->
+        <!--Navigation Controller - MainTab-->
         <scene sceneID="zP4-Ox-UzX">
             <objects>
                 <navigationController id="5aX-80-AFq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="广播" id="FpM-Wm-mQV"/>
+                    <tabBarItem key="tabBarItem" title="MainTab" id="FpM-Wm-mQV"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rlx-lW-gR9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -73,23 +73,23 @@
             </objects>
             <point key="canvasLocation" x="785" y="8"/>
         </scene>
-        <!--View Controller-->
+        <!--Activity Detail View Controller-->
         <scene sceneID="afH-Eo-pHs">
             <objects>
-                <viewController storyboardIdentifier="ActivityDetailViewController" id="Ozu-5D-44O" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ActivityDetailViewController" id="Ozu-5D-44O" customClass="ActivityDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vqS-Mq-dwx"/>
                         <viewControllerLayoutGuide type="bottom" id="h4l-ri-Lzm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tpb-V6-dy2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <userGuides>
                             <userLayoutGuide location="158" affinity="minY"/>
                         </userGuides>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6l7-la-8W1">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="712"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <userGuides>
                                     <userLayoutGuide location="35" affinity="minY"/>
@@ -188,7 +188,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pbu-0A-wYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1892" y="-53"/>
+            <point key="canvasLocation" x="1554" y="-26"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kbg-kt-8ex">
@@ -196,7 +196,7 @@
                 <tabBarController id="WkM-AO-Xog" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="zD4-zt-pmg">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="zD4-zt-pmg">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -217,6 +217,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>
