@@ -7,7 +7,7 @@
 //
 
 #import "ActivityDetailViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "SDWebImage/UIImageView+WebCache.h"
 #import "UILabel+Extensions.h"
 @interface ActivityDetailViewController ()
 @end
