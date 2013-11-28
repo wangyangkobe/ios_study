@@ -14,7 +14,7 @@
 #import "NSString+Extensions.h"
 #import "MessageCell.h"
 #import "ActivityDetailViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "SDWebImage/UIImageView+WebCache.h"
 
 NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 
