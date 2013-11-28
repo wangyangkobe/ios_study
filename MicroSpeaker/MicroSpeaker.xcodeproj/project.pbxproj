@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
-		154BDB0B18421D6B0019E85F /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */; };
 		154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 154BDB0C1842235C0019E85F /* group_detail_menu_share.png */; };
 		1566EA4C182E3F6500B61EF7 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */; };
 		15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563D1841E234007CF595 /* gender_boy_big.png */; };
@@ -17,33 +16,14 @@
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
 		15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56431841F8E6007CF595 /* group_list_clock_src.png */; };
 		15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56441841F8E6007CF595 /* group_list_location_src.png */; };
-		15F0950618464DE0004F3DAD /* FGalleryPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950118464DE0004F3DAD /* FGalleryPhoto.m */; };
-		15F0950718464DE0004F3DAD /* FGalleryPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950318464DE0004F3DAD /* FGalleryPhotoView.m */; };
-		15F0950818464DE0004F3DAD /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950518464DE0004F3DAD /* FGalleryViewController.m */; };
-		15F0951118464F1A004F3DAD /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950C18464F1A004F3DAD /* NMPaginator.m */; };
-		15F0951218464F1A004F3DAD /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950E18464F1A004F3DAD /* PullRefreshTableViewController.m */; };
-		15F0951318464F1A004F3DAD /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951018464F1A004F3DAD /* STHTTPRequest.m */; };
-		15F0951F18464FB2004F3DAD /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951618464FB2004F3DAD /* ActivityModel.m */; };
-		15F0952018464FB2004F3DAD /* AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951818464FB2004F3DAD /* AreaModel.m */; };
-		15F0952118464FB2004F3DAD /* LocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951A18464FB2004F3DAD /* LocationModel.m */; };
-		15F0952218464FB2004F3DAD /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951C18464FB2004F3DAD /* MessageModel.m */; };
-		15F0952318464FB2004F3DAD /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951E18464FB2004F3DAD /* UserModel.m */; };
-		15F0952618464FF5004F3DAD /* MessagePaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0952518464FF5004F3DAD /* MessagePaginator.m */; };
-		15F0952918465071004F3DAD /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0952818465071004F3DAD /* MessageCell.m */; };
-		15FCA5B1184187C40055ECAA /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FCA5B0184187C40055ECAA /* UILabel+Extensions.m */; };
-		15FCA5B418419D9B0055ECAA /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FCA5B318419D9B0055ECAA /* NSString+Extensions.m */; };
-		520570DC182BCB0300416496 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520570DB182BCB0300416496 /* MainTabViewController.m */; };
 		522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2C1827BFBD00AF71F8 /* UIKit.framework */; };
 		522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2E1827BFBD00AF71F8 /* Foundation.framework */; };
 		522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F301827BFBD00AF71F8 /* CoreGraphics.framework */; };
 		522D7F371827BFBD00AF71F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F351827BFBD00AF71F8 /* InfoPlist.strings */; };
-		522D7F391827BFBD00AF71F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F381827BFBD00AF71F8 /* main.m */; };
-		522D7F3D1827BFBD00AF71F8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */; };
 		522D7F3F1827BFBD00AF71F8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F3E1827BFBD00AF71F8 /* Default.png */; };
 		522D7F411827BFBD00AF71F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F401827BFBD00AF71F8 /* Default@2x.png */; };
 		522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */; };
 		522D7F461827BFBD00AF71F8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */; };
-		522D7F491827BFBD00AF71F8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F481827BFBD00AF71F8 /* ViewController.m */; };
 		522D7F501827C71F00AF71F8 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F4F1827C71F00AF71F8 /* MessageCell.xib */; };
 		5245C491182D192600FF63F7 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5245C490182D192600FF63F7 /* ImageIO.framework */; };
 		529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 529710C41827E1EB007DD4A5 /* QuartzCore.framework */; };
@@ -379,26 +359,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				154BDB0B18421D6B0019E85F /* ActivityDetailViewController.m in Sources */,
-				522D7F391827BFBD00AF71F8 /* main.m in Sources */,
-				15FCA5B418419D9B0055ECAA /* NSString+Extensions.m in Sources */,
-				522D7F3D1827BFBD00AF71F8 /* AppDelegate.m in Sources */,
-				15F0951218464F1A004F3DAD /* PullRefreshTableViewController.m in Sources */,
-				522D7F491827BFBD00AF71F8 /* ViewController.m in Sources */,
-				15F0952318464FB2004F3DAD /* UserModel.m in Sources */,
-				15F0950818464DE0004F3DAD /* FGalleryViewController.m in Sources */,
-				15FCA5B1184187C40055ECAA /* UILabel+Extensions.m in Sources */,
-				15F0951F18464FB2004F3DAD /* ActivityModel.m in Sources */,
-				15F0951118464F1A004F3DAD /* NMPaginator.m in Sources */,
-				15F0950618464DE0004F3DAD /* FGalleryPhoto.m in Sources */,
-				15F0952918465071004F3DAD /* MessageCell.m in Sources */,
-				15F0950718464DE0004F3DAD /* FGalleryPhotoView.m in Sources */,
-				15F0952218464FB2004F3DAD /* MessageModel.m in Sources */,
-				15F0952618464FF5004F3DAD /* MessagePaginator.m in Sources */,
-				15F0952118464FB2004F3DAD /* LocationModel.m in Sources */,
-				520570DC182BCB0300416496 /* MainTabViewController.m in Sources */,
-				15F0951318464F1A004F3DAD /* STHTTPRequest.m in Sources */,
-				15F0952018464FB2004F3DAD /* AreaModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
