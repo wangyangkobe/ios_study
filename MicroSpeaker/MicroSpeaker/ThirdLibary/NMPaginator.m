@@ -62,12 +62,10 @@
 }
 
 # pragma - fetch results
-
 - (void)fetchFirstPage
 {
     // reset paginator
     [self reset];
-    
     [self fetchNextPage];
 }
 
@@ -84,16 +82,13 @@
 }
 
 #pragma mark - Sublclass methods
-
 - (void)fetchResultsWithPage:(NSInteger)page pageSize:(NSInteger)pageSize
 {
     // override this in subclass
 }
 
 #pragma mark received results
-
 // call these from subclass when you receive the results
-
 - (void)receivedResults:(NSArray *)results total:(NSInteger)total
 {
     [self.results addObjectsFromArray:results];

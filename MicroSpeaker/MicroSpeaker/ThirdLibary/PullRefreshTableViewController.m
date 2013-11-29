@@ -175,14 +175,6 @@
 }
 
 - (void)dealloc {
-  /*  [refreshHeaderView release];
-    [refreshLabel release];
-    [refreshArrow release];
-    [refreshSpinner release];
-    [textPull release];
-    [textRelease release];
-    [textLoading release];
-    [super dealloc];*/
 }
 
 @end

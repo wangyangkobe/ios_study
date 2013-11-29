@@ -6,28 +6,32 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef enum
+{
     RequestStatusNone,
     RequestStatusInProgress,
     RequestStatusDone // request succeeded or failed
 } RequestStatus;
 
 @protocol NMPaginatorDelegate
+
 @required
 - (void)paginator:(id)paginator didReceiveResults:(NSArray *)results;
 @optional
 - (void)paginatorDidFailToRespond:(id)paginator;
 - (void)paginatorDidReset:(id)paginator;
+
 @end
 
-@interface NMPaginator : NSObject {
+@interface NMPaginator : NSObject
+{
     id <NMPaginatorDelegate> __weak delegate;
 }
 
 @property (weak) id delegate;
 @property (assign, readonly) NSInteger pageSize; // number of results per page
-@property (assign, readonly) NSInteger page; // number of pages already fetched
-@property (assign, readonly) NSInteger total; // total number of results
+@property (assign, readonly) NSInteger page;     // number of pages already fetched
+@property (assign, readonly) NSInteger total;    // total number of results
 @property (assign, readonly) RequestStatus requestStatus;
 @property (nonatomic, strong, readonly) NSMutableArray *results;
 
