@@ -10,7 +10,6 @@
 #import "NMPaginator.h"
 #import "STHTTPRequest.h"
 #import "MessageModel.h"
-
 extern NSString* requestURL;
 @interface MessagePaginator : NMPaginator
 

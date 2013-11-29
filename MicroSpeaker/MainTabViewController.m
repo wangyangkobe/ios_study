@@ -14,16 +14,15 @@
 #import "NSString+Extensions.h"
 #import "MessageCell.h"
 #import "ActivityDetailViewController.h"
+#import "SpeakerDetailViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
 NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 
 @interface MainTabViewController ()
-
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
 -(void)requestDataFromServer;
-
 @end
 
 @implementation MainTabViewController
@@ -310,6 +309,7 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 
 #pragma mark - Table view delegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
@@ -319,13 +319,19 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     if (selectedMessage.Type == 2)
     {
+        // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
+        subViewController.message = selectedMessage;
+        [self.navigationController pushViewController:subViewController animated:YES];
+    }else{
+        SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
     }
 }
 
 #pragma mark - for NMPaginator
+
 - (void)setupTableViewFooter
 {
     // set up label

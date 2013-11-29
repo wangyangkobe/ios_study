@@ -10,7 +10,28 @@
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
 		154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 154BDB0C1842235C0019E85F /* group_detail_menu_share.png */; };
-		1566EA4C182E3F6500B61EF7 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */; };
+		156034C91848DC0400C237B0 /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951618464FB2004F3DAD /* ActivityModel.m */; };
+		156034CA1848DC0A00C237B0 /* LocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951A18464FB2004F3DAD /* LocationModel.m */; };
+		156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951C18464FB2004F3DAD /* MessageModel.m */; };
+		156034CC1848DC1100C237B0 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951E18464FB2004F3DAD /* UserModel.m */; };
+		156034CD1848DC1600C237B0 /* MessagePaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0952518464FF5004F3DAD /* MessagePaginator.m */; };
+		156034CF1848DC2100C237B0 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951018464F1A004F3DAD /* STHTTPRequest.m */; };
+		156034D01848DC2500C237B0 /* FGalleryPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950118464DE0004F3DAD /* FGalleryPhoto.m */; };
+		156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950318464DE0004F3DAD /* FGalleryPhotoView.m */; };
+		156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950518464DE0004F3DAD /* FGalleryViewController.m */; };
+		156034D31848DC3200C237B0 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0952818465071004F3DAD /* MessageCell.m */; };
+		156034D41848DC5400C237B0 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520570DB182BCB0300416496 /* MainTabViewController.m */; };
+		156034D51848DC5A00C237B0 /* SpeakerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */; };
+		156034D61848DC6100C237B0 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */; };
+		156034D71848DC6E00C237B0 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FCA5B318419D9B0055ECAA /* NSString+Extensions.m */; };
+		156034D81848DC7200C237B0 /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950C18464F1A004F3DAD /* NMPaginator.m */; };
+		156034D91848DC7600C237B0 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950E18464F1A004F3DAD /* PullRefreshTableViewController.m */; };
+		156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951818464FB2004F3DAD /* AreaModel.m */; };
+		156034DB1848DC7E00C237B0 /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FCA5B0184187C40055ECAA /* UILabel+Extensions.m */; };
+		156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156034DC1848DD5700C237B0 /* SDWebImage.framework */; };
+		156034DE1848DDEC00C237B0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5245C490182D192600FF63F7 /* ImageIO.framework */; };
+		156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */; };
+		156034E01848DE4300C237B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F381827BFBD00AF71F8 /* main.m */; };
 		15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563D1841E234007CF595 /* gender_boy_big.png */; };
 		15AD56401841E234007CF595 /* gender_girl_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563E1841E234007CF595 /* gender_girl_big.png */; };
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
@@ -25,7 +46,6 @@
 		522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */; };
 		522D7F461827BFBD00AF71F8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */; };
 		522D7F501827C71F00AF71F8 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F4F1827C71F00AF71F8 /* MessageCell.xib */; };
-		5245C491182D192600FF63F7 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5245C490182D192600FF63F7 /* ImageIO.framework */; };
 		529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 529710C41827E1EB007DD4A5 /* QuartzCore.framework */; };
 		DF68A3674B904B81A93047A9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 371AA0B4ABDB49B1A103131D /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -37,7 +57,9 @@
 		154BDB0918421D6B0019E85F /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
 		154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
 		154BDB0C1842235C0019E85F /* group_detail_menu_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_detail_menu_share.png; sourceTree = "<group>"; };
-		1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
+		156034C61848DB3800C237B0 /* SpeakerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerDetailViewController.h; sourceTree = "<group>"; };
+		156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerDetailViewController.m; sourceTree = "<group>"; };
+		156034DC1848DD5700C237B0 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		15AD563D1841E234007CF595 /* gender_boy_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_boy_big.png; sourceTree = "<group>"; };
 		15AD563E1841E234007CF595 /* gender_girl_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_girl_big.png; sourceTree = "<group>"; };
 		15AD56411841F876007CF595 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
@@ -102,11 +124,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5245C491182D192600FF63F7 /* ImageIO.framework in Frameworks */,
+				156034DE1848DDEC00C237B0 /* ImageIO.framework in Frameworks */,
 				529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */,
 				522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */,
 				522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */,
-				1566EA4C182E3F6500B61EF7 /* SDWebImage.framework in Frameworks */,
+				156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */,
 				522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */,
 				DF68A3674B904B81A93047A9 /* libPods.a in Frameworks */,
 			);
@@ -195,7 +217,7 @@
 		522D7F2B1827BFBD00AF71F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1566EA4B182E3F6500B61EF7 /* SDWebImage.framework */,
+				156034DC1848DD5700C237B0 /* SDWebImage.framework */,
 				5245C490182D192600FF63F7 /* ImageIO.framework */,
 				529710C41827E1EB007DD4A5 /* QuartzCore.framework */,
 				522D7F2C1827BFBD00AF71F8 /* UIKit.framework */,
@@ -222,6 +244,9 @@
 				154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */,
 				522D7F471827BFBD00AF71F8 /* ViewController.h */,
 				522D7F481827BFBD00AF71F8 /* ViewController.m */,
+				156034C61848DB3800C237B0 /* SpeakerDetailViewController.h */,
+				156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */,
+				522D7F381827BFBD00AF71F8 /* main.m */,
 				522D7F331827BFBD00AF71F8 /* Supporting Files */,
 			);
 			path = MicroSpeaker;
@@ -240,7 +265,6 @@
 				154B17FD182E1E7A00750C71 /* placeholder@2x.png */,
 				522D7F341827BFBD00AF71F8 /* MicroSpeaker-Info.plist */,
 				522D7F351827BFBD00AF71F8 /* InfoPlist.strings */,
-				522D7F381827BFBD00AF71F8 /* main.m */,
 				522D7F3A1827BFBD00AF71F8 /* MicroSpeaker-Prefix.pch */,
 				522D7F3E1827BFBD00AF71F8 /* Default.png */,
 				522D7F401827BFBD00AF71F8 /* Default@2x.png */,
@@ -359,6 +383,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156034E01848DE4300C237B0 /* main.m in Sources */,
+				156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */,
+				156034DB1848DC7E00C237B0 /* UILabel+Extensions.m in Sources */,
+				156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */,
+				156034D91848DC7600C237B0 /* PullRefreshTableViewController.m in Sources */,
+				156034D81848DC7200C237B0 /* NMPaginator.m in Sources */,
+				156034D71848DC6E00C237B0 /* NSString+Extensions.m in Sources */,
+				156034D61848DC6100C237B0 /* ActivityDetailViewController.m in Sources */,
+				156034D51848DC5A00C237B0 /* SpeakerDetailViewController.m in Sources */,
+				156034D41848DC5400C237B0 /* MainTabViewController.m in Sources */,
+				156034D31848DC3200C237B0 /* MessageCell.m in Sources */,
+				156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */,
+				156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */,
+				156034D01848DC2500C237B0 /* FGalleryPhoto.m in Sources */,
+				156034CF1848DC2100C237B0 /* STHTTPRequest.m in Sources */,
+				156034CD1848DC1600C237B0 /* MessagePaginator.m in Sources */,
+				156034CC1848DC1100C237B0 /* UserModel.m in Sources */,
+				156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */,
+				156034CA1848DC0A00C237B0 /* LocationModel.m in Sources */,
+				156034C91848DC0400C237B0 /* ActivityModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,7 +489,7 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/Desktop/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = /Users/wy/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
@@ -462,7 +506,7 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/Desktop/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = /Users/wy/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
