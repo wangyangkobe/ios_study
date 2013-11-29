@@ -47,6 +47,8 @@
             UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
             [headPicView setContentMode:UIViewContentModeScaleToFill];
             [headPicView setImageWithURL:[NSURL URLWithString:weakMessage.User.HeadPic]];
+            headPicView.layer.cornerRadius = 5.0f;
+            headPicView.layer.masksToBounds = YES;
             [cell.contentView addSubview:headPicView];
             
             UILabel* nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 40)];

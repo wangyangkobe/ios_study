@@ -20,6 +20,8 @@
     if (self) {
         // Initialization code
         _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
+        _headImageView.layer.cornerRadius = 5.0;
+        _headImageView.layer.masksToBounds = YES;
         [self.contentView addSubview:_headImageView];
         _subjectLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 5, 250, 25)];
         [_subjectLabel setTextColor:[UIColor blueColor]];
