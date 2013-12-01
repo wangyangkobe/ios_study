@@ -40,6 +40,7 @@
         section.title = weakMessage.Activity.Theme;
 		[section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"User";
+            staticContentCell.cellHeight = 60;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.imageView removeFromSuperview];
             [cell.textLabel removeFromSuperview];
@@ -65,17 +66,5 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int row = [indexPath row];
-    int section = [indexPath section];
-    
-    if (0 == section && 0 == row)
-    {
-        return 60;
-    }
-    return tableView.rowHeight;
 }
 @end
