@@ -11,7 +11,7 @@
 #import "MessageModel.h"
 #import "JMStaticContentTableViewController.h"
 #import "FGalleryViewController.h"
-@interface ActivityDetailViewController : JMStaticContentTableViewController <FGalleryViewControllerDelegate>
+@interface ActivityDetailViewController : JMStaticContentTableViewController <FGalleryViewControllerDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (retain, atomic) MessageModel* message;

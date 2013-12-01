@@ -10,9 +10,14 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UILabel+Extensions.h"
 @interface ActivityDetailViewController ()
+
+@property (nonatomic, assign) bool isParticipateActivity;
+@property (nonatomic, retain)  UIButton* activityButton;
 @end
 
 @implementation ActivityDetailViewController
+
+@synthesize activityButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -139,6 +144,29 @@
 		}];
     }];
     
+    __weak typeof(self) weakSelf = self;
+    activityButton = [[UIButton alloc] init];
+    __weak UIButton* weakActivityButton = activityButton;
+    _isParticipateActivity = false;
+    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+			staticContentCell.reuseIdentifier = @"ActivityButton";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            
+            //weakActivityButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 280, 40)];
+            [weakActivityButton setFrame:CGRectMake(10, 10, 280, 40)];
+            [weakActivityButton addTarget:weakSelf action:@selector(activityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            weakActivityButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            [weakActivityButton setTitle:@"参加" forState:UIControlStateNormal];
+            [weakActivityButton setBackgroundColor:[UIColor purpleColor]];
+            [cell.contentView addSubview:weakActivityButton];
+            //清除cell的边框和背景
+            [cell setBackgroundView:[[UIView alloc] init]];
+            [cell setBackgroundColor:[UIColor clearColor]];
+		}];
+    }];
+    
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"group_detail_menu_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareActivity)];
     self.navigationItem.rightBarButtonItem = rightButton;
 }
@@ -152,6 +180,24 @@
 {
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:NO];
+}
+-(void)activityButtonPressed:(id)sender
+{
+    UIButton* button = (UIButton*)sender;
+    
+    if (_isParticipateActivity) //参加了
+    {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"您已参加了该活动!" message:@"是否取消参加?" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否", nil];
+        [alertView show];
+    }else{
+        [button setBackgroundColor:[UIColor redColor]];
+        NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy/mm/dd"];
+        NSString* date = [formatter stringFromDate:[NSDate new]];
+        NSLog(@"%@", date);
+        [button setTitle:[NSString stringWithFormat:@"%@\n参加", date] forState:UIControlStateNormal];
+        _isParticipateActivity = true;
+    }
 }
 -(void) shareActivity
 {
@@ -170,7 +216,8 @@
         NSString* str = _message.Activity.Description;
         CGSize size = [str sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1000) lineBreakMode:NSLineBreakByWordWrapping];
         return size.height;
-    }
+    } else if(3 == sectionIdex && 0 == rowIndex)
+        return 60;
     else
         return 25;
 }
@@ -184,7 +231,19 @@
         [self.navigationController pushViewController:networkGallery animated:YES];
     }
 }
-
+#pragma mart UIAlertViewDelegate Methods
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%d", buttonIndex);
+    if (0 == buttonIndex) //取消参加
+    {
+        [self.activityButton setBackgroundColor:[UIColor purpleColor]];
+        [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
+        _isParticipateActivity = false;
+    }else{
+        
+    }
+}
 #pragma mark - FGalleryViewControllerDelegate Methods
 - (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
 {
