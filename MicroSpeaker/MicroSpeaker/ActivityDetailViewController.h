@@ -11,6 +11,9 @@
 #import "MessageModel.h"
 #import "JMStaticContentTableViewController.h"
 #import "FGalleryViewController.h"
+
+extern NSString* homePageUrl;
+
 @interface ActivityDetailViewController : JMStaticContentTableViewController <FGalleryViewControllerDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

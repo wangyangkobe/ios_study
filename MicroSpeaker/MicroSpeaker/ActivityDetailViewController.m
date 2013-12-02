@@ -9,9 +9,12 @@
 #import "ActivityDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UILabel+Extensions.h"
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequest.h"
 @interface ActivityDetailViewController ()
 
-@property (nonatomic, assign) bool isParticipateActivity;
+@property (nonatomic, assign) bool isAttendActivity;
+@property (nonatomic, copy) NSString* attendActivityTime;
 @property (nonatomic, retain)  UIButton* activityButton;
 @end
 
@@ -35,37 +38,28 @@
     
 	return self;
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tabBarController.tabBar setHidden:NO];
+    [self checkAttendActivity];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    /*
-     self.title = _message.Area.AreaName;
-     
-     [_scrollView setFrame:CGRectMake(0, 0, 320, 500)];
-     _scrollView.delegate = self;
-     _scrollView.contentSize = CGSizeMake(320, 900);
-     _scrollView.scrollEnabled = YES;
-     
-     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"group_detail_menu_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareActivity)];
-     self.navigationItem.rightBarButtonItem = rightButton;
-     
-     self.themeLabel.text = _message.Activity.Theme;
-     self.timeLabel.text = [NSString stringWithFormat:@"活动时间%@至%@", _message.Activity.FromTime, _message.Activity.FromTime];
-     self.locationLabel.text = _message.Location.LocationAddress;
-     self.createTimeLabel.text = _message.CreateAt;
-     self.userNameLabel.text = _message.User.UserName;
-     
-     NSString* imageName = (_message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
-     [self.genderImageView setImage:[UIImage imageNamed:imageName]];*/
     
     self.title = _message.Area.AreaName;
     __unsafe_unretained MessageModel* weakMessage = _message;
+    
+    NSString* str = _message.Activity.Description;
+    float fontHeight = [str sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1000) lineBreakMode:NSLineBreakByWordWrapping].height;
     
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         section.title = weakMessage.Activity.Theme;
 		[section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"ActivityTime";
+            staticContentCell.cellHeight = 40.0;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.textLabel.text = [NSString stringWithFormat:@"活动时间:%@至%@", weakMessage.Activity.FromTime, weakMessage.Activity.FromTime];
 			cell.imageView.image = [UIImage imageNamed:@"group_list_clock_src.png"];
@@ -77,6 +71,7 @@
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"ActivityLocation";
+            staticContentCell.cellHeight = 25;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.textLabel.text = weakMessage.Location.LocationAddress;
 			cell.imageView.image = [UIImage imageNamed:@"group_list_location_src.png"];
@@ -87,6 +82,7 @@
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"User";
+            staticContentCell.cellHeight = 25;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.textLabel.text = weakMessage.User.UserName;
             NSString* imageName = (weakMessage.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
@@ -98,6 +94,7 @@
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"CreateTime";
+            staticContentCell.cellHeight = 25;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.textLabel.text = [NSString stringWithFormat:@"发布时间:%@", weakMessage.CreateAt] ;
             cell.textLabel.font = [UIFont systemFontOfSize:14];
@@ -112,6 +109,7 @@
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"ActivityPic";
+            staticContentCell.cellHeight = 110;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 90, 90)];
@@ -125,6 +123,7 @@
         section.title = @"活动简介";
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+            staticContentCell.cellHeight = fontHeight;
 			staticContentCell.reuseIdentifier = @"ActivityDetail";
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -147,10 +146,10 @@
     __weak typeof(self) weakSelf = self;
     activityButton = [[UIButton alloc] init];
     __weak UIButton* weakActivityButton = activityButton;
-    _isParticipateActivity = false;
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"ActivityButton";
+            staticContentCell.cellHeight = 60;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             
@@ -158,8 +157,9 @@
             [weakActivityButton setFrame:CGRectMake(10, 10, 280, 40)];
             [weakActivityButton addTarget:weakSelf action:@selector(activityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             weakActivityButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [weakActivityButton setTitle:@"参加" forState:UIControlStateNormal];
-            [weakActivityButton setBackgroundColor:[UIColor purpleColor]];
+            
+            [weakSelf changeButtonTitleAndColor:weakActivityButton];
+            
             [cell.contentView addSubview:weakActivityButton];
             //清除cell的边框和背景
             [cell setBackgroundView:[[UIView alloc] init]];
@@ -176,50 +176,66 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void) viewWillAppear:(BOOL)animated
+-(void)checkAttendActivity
 {
-    [super viewWillAppear:animated];
-    [self.tabBarController.tabBar setHidden:NO];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/checkAttend?activityID=%d", homePageUrl, _message.MessageID];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+        [request setProxyPort:8080];
+        [request startSynchronous];
+        
+        NSLog(@"checkAttendActivity: %@", [request responseString]);
+        if ([[request responseString] isEqualToString:@"false"]) {
+            _isAttendActivity = NO;
+            _attendActivityTime = nil;
+        }else{
+            _isAttendActivity = YES;
+            _attendActivityTime = [NSString stringWithString:[request responseString]];
+        }
+    });
+}
+-(void)changeButtonTitleAndColor:(UIButton*)button
+{
+    if (_isAttendActivity == NO)
+    {
+        [button setTitle:@"参加" forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor purpleColor]];
+        
+    }else{
+        [button setBackgroundColor:[UIColor redColor]];
+        [button setTitle:[NSString stringWithFormat:@"%@\n参加", _attendActivityTime] forState:UIControlStateNormal];
+    }
 }
 -(void)activityButtonPressed:(id)sender
 {
     UIButton* button = (UIButton*)sender;
     
-    if (_isParticipateActivity) //参加了
+    if (_isAttendActivity) //已经参加了
     {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"您已参加了该活动!" message:@"是否取消参加?" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否", nil];
         [alertView show];
     }else{
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", homePageUrl];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+        [request setProxyPort:8080];
+        [request setRequestMethod:@"POST"];
+        [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
+        [request startSynchronous];
+        
         [button setBackgroundColor:[UIColor redColor]];
-        NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"yyyy/mm/dd"];
-        NSString* date = [formatter stringFromDate:[NSDate new]];
-        NSLog(@"%@", date);
-        [button setTitle:[NSString stringWithFormat:@"%@\n参加", date] forState:UIControlStateNormal];
-        _isParticipateActivity = true;
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-mm-dd HH:mm:ss"];
+        [button setTitle:[NSString stringWithFormat:@"%@参加", [formatter stringFromDate:[NSDate date]]]
+                forState:UIControlStateNormal];
+        _isAttendActivity = true;
+        NSLog(@"参加活动:%@", [request responseString]);
     }
 }
 -(void) shareActivity
 {
     
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int rowIndex    = [indexPath row];
-    int sectionIdex = [indexPath section];
-    if (0 == rowIndex && 0 == sectionIdex)
-        return 40;
-    else if(1 == sectionIdex && 0 == rowIndex)
-        return 110;
-    else if(2 == sectionIdex && 0 == rowIndex)
-    {
-        NSString* str = _message.Activity.Description;
-        CGSize size = [str sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1000) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height;
-    } else if(3 == sectionIdex && 0 == rowIndex)
-        return 60;
-    else
-        return 25;
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -234,12 +250,23 @@
 #pragma mart UIAlertViewDelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"%d", buttonIndex);
     if (0 == buttonIndex) //取消参加
     {
         [self.activityButton setBackgroundColor:[UIColor purpleColor]];
         [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
-        _isParticipateActivity = false;
+        _isAttendActivity = false;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", homePageUrl];
+            ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+            [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+            [request setProxyPort:8080];
+            [request setRequestMethod:@"POST"];
+            [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
+            [request startSynchronous];
+            NSLog(@"cancel result: %@", [request responseString]);
+        });
+        
     }else{
         
     }
