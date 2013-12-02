@@ -58,7 +58,7 @@
     if(self.requestStatus == RequestStatusNone) return NO; // if we haven't made a request, we can't know for sure
     
     NSInteger totalPages = ceil((float)self.total/(float)self.pageSize); // total number of pages
-    return self.page >= totalPages;
+    return self.page > totalPages;
 }
 
 # pragma - fetch results
@@ -91,9 +91,7 @@
 }
 
 #pragma mark received results
-
 // call these from subclass when you receive the results
-
 - (void)receivedResults:(NSArray *)results total:(NSInteger)total
 {
     [self.results addObjectsFromArray:results];
@@ -103,7 +101,6 @@
     
     [self.delegate paginator:self didReceiveResults:results];
 }
-
 - (void)failed
 {
     self.requestStatus = RequestStatusDone;
