@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "NMPaginator.h"
-#import "STHTTPRequest.h"
 #import "MessageModel.h"
-extern NSString* requestURL;
+
+extern NSString* homePageUrl;
+
 @interface MessagePaginator : NMPaginator
 
 @end

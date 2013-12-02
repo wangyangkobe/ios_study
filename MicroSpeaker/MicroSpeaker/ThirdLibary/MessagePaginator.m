@@ -7,13 +7,13 @@
 //
 
 #import "MessagePaginator.h"
-
+#import "ASIHTTPRequest.h"
 @implementation MessagePaginator
 
 #pragma mark - override Parent class's method
 - (void)fetchResultsWithPage:(NSInteger)page pageSize:(NSInteger)pageSize
 {
-    NSString* pageUrl = [NSString stringWithFormat:@"%@?page=%d&num=%d", requestURL, page, pageSize];
+    NSString* pageUrl = [NSString stringWithFormat:@"%@/message/getByArea?areaID=2&page=%d&num=%d", homePageUrl, page, pageSize];
     NSLog(@"requst URL = %@", pageUrl);
     
     // do request on async thread
@@ -21,15 +21,15 @@
     __block NSMutableArray* messagesArray = [NSMutableArray array];
     
     dispatch_async(fetchQ, ^{
-        
-        STHTTPRequest* request = [STHTTPRequest requestWithURLString:pageUrl];
-        NSError *error = nil;
-        NSString *jsonStr = [request startSynchronousWithError:&error];
-        
-        NSData* jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-        
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:
+                                    [NSURL URLWithString:pageUrl]];
+        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+        [request setProxyPort:8080];
+        [request startSynchronous];
+        NSLog(@"result = %@", [request responseString]);
+        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
         for (id entry in jsonArray)
         {
             [messagesArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
@@ -40,7 +40,6 @@
             [self receivedResults:messagesArray total:totalResults];
         });
     });
-    //dispatch_release(fetchQ);
 }
 
 @end
