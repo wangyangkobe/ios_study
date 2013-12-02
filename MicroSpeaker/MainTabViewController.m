@@ -7,7 +7,7 @@
 //
 
 #import "MainTabViewController.h"
-#import "STHTTPRequest.h"
+//#import "STHTTPRequest.h"
 #import "MessageModel.h"
 #import "JSONModelLib.h"
 #import "UILabel+Extensions.h"
@@ -16,13 +16,17 @@
 #import "ActivityDetailViewController.h"
 #import "SpeakerDetailViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
-NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
+//NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
+//NSString* requestURL = @"http:101.78.230.95:8082/microbroadcastDEV/message/getByID";
+NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 @interface MainTabViewController ()
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
--(void)requestDataFromServer;
+//-(void)requestDataFromServer;
 @end
 
 @implementation MainTabViewController
@@ -53,11 +57,17 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 -(void)loadView
 {
     [super loadView];
-    screenActivityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [screenActivityIndicator setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2 - 50)];
-    screenActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [screenActivityIndicator setHidesWhenStopped:YES];
-    [self.view addSubview:screenActivityIndicator];
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:
+                                   [NSURL URLWithString:@"http://101.78.230.95:8082/microbroadcastDEV/user/checkUser"]];
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:@"1989424925" forKey:@"weiboID"];
+    [request startSynchronous];
+    NSLog(@"headers:%@", [request responseHeaders]);
+    NSLog(@"response:%@", [request responseString]);
 }
 - (void)viewDidLoad
 {
@@ -73,7 +83,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     [self setupTableViewFooter];
     self.messagePaginator = [[MessagePaginator alloc] initWithPageSize:15 delegate:self];
     
-    [screenActivityIndicator startAnimating];
     __block NSMutableArray* storedMessage;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [[NSMutableData alloc] initWithContentsOfFile:[self dataFilePath]];
@@ -86,7 +95,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 messageArray = [storedMessage mutableCopy];
-                [screenActivityIndicator stopAnimating];
                 [self.tableView reloadData];
             });
         }
@@ -94,7 +102,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
         {
             //[self performSelectorOnMainThread:@selector(requestDataFromServer) withObject:nil waitUntilDone:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [screenActivityIndicator stopAnimating];
                 [self.messagePaginator fetchFirstPage];
                 //[self.tableView reloadData];
             });
@@ -230,27 +237,26 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
         return 60 + textHeight + 90 + 5;
     }
 }
-
+/*
 -(void)requestDataFromServer
 {
-    STHTTPRequest* request = [STHTTPRequest requestWithURLString:requestURL];
-    NSError *error = nil;
-    NSString *jsonStr = [request startSynchronousWithError:&error];
-    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
+    [request startSynchronous];
+    NSError *error = [request error];
     if (error != nil)
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
         return;
     }
-    NSData* jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-    
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
     for (NSDictionary* entry in jsonArray)
     {
         [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
     }
-}
+}*/
 - (void)refresh
 {
     [self performSelector:@selector(addItem) withObject:nil afterDelay:2.0];
@@ -288,16 +294,14 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
      NSLog(@"Error: %@", [error description]);
      };
      
-     [request startAsynchronous];*/
+     [request startAsynchronous];
     
-    STHTTPRequest* request = [STHTTPRequest requestWithURLString:requestURL];
-    NSError *error = nil;
-    NSString *jsonStr = [request startSynchronousWithError:&error];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
+    [request startSynchronous];
     
-    NSData* jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-    
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
     for (id entry in jsonArray)
     {
         [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
@@ -305,11 +309,10 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
     
     [self.tableView reloadData];
     
-    [self stopLoading];
+    [self stopLoading];*/
 }
 
 #pragma mark - Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
@@ -331,7 +334,6 @@ NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 }
 
 #pragma mark - for NMPaginator
-
 - (void)setupTableViewFooter
 {
     // set up label
