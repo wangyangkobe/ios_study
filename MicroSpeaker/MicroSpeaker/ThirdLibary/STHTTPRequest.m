@@ -1,9 +1,9 @@
 //
-// STHTTPRequest.m
-// STHTTPRequest
+//  STHTTPRequest.m
+//  STHTTPRequest
 //
-// Created by Nicolas Seriot on 07.11.11.
-// Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Nicolas Seriot on 07.11.11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #if __has_feature(objc_arc)
@@ -91,8 +91,8 @@ static NSMutableArray *localCookiesStorage = nil;
     return self;
 }
 
-- (void)clearSession {
-    [self deleteAllCookies];
++ (void)clearSession {
+    [[self class] deleteAllCookiesFromSharedCookieStorage];
     [[self class] deleteAllCredentials];
 }
 
@@ -149,6 +149,17 @@ static NSMutableArray *localCookiesStorage = nil;
     return localCookiesStorage;
 }
 
++ (NSArray *)sessionCookiesInSharedCookiesStorage {
+    NSArray *allCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    
+    NSArray *sessionCookies = [allCookies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        NSHTTPCookie *cookie = (NSHTTPCookie *)evaluatedObject;
+        return [cookie isSessionOnly];
+    }]];
+    
+    return sessionCookies;
+}
+
 - (NSArray *)sessionCookies {
     
     NSArray *allCookies = nil;
@@ -178,16 +189,29 @@ static NSMutableArray *localCookiesStorage = nil;
     }
 }
 
++ (void)deleteAllCookiesFromSharedCookieStorage {
+    NSHTTPCookieStorage *sharedCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [sharedCookieStorage cookies];
+    for (NSHTTPCookie *cookie in cookies) {
+        [sharedCookieStorage deleteCookie:cookie];
+    }
+}
+
 - (void)deleteAllCookies {
     if(_ignoreSharedCookiesStorage) {
         [[[self class] localCookiesStorage] removeAllObjects];
     } else {
-        NSHTTPCookieStorage *sharedCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        NSArray *cookies = [sharedCookieStorage cookies];
-        for (NSHTTPCookie *cookie in cookies) {
-            [sharedCookieStorage deleteCookie:cookie];
-        }
+        [[self class] deleteAllCookiesFromSharedCookieStorage];
     }
+}
+
++ (void)addCookieToSharedCookiesStorage:(NSHTTPCookie *)cookie {
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    
+#if DEBUG
+    NSHTTPCookie *readCookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] lastObject];
+    NSAssert(readCookie, @"cannot read any cookie after adding one");
+#endif
 }
 
 - (void)addCookie:(NSHTTPCookie *)cookie {
@@ -198,19 +222,19 @@ static NSMutableArray *localCookiesStorage = nil;
     if(_ignoreSharedCookiesStorage) {
         [[[self class] localCookiesStorage] addObject:cookie];
     } else {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-        
-#if DEBUG
-        NSHTTPCookie *readCookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] lastObject];
-        NSAssert(readCookie, @"cannot read any cookie after adding one");
-#endif
+        [[self class] addCookieToSharedCookiesStorage:cookie];
     }
 }
 
-- (void)addCookieWithName:(NSString *)name value:(NSString *)value url:(NSURL *)url {
++ (void)addCookieToSharedCookiesStorageWithName:(NSString *)name value:(NSString *)value url:(NSURL *)url {
+    NSHTTPCookie *cookie = [[self class] createCookieWithName:name value:value url:url];
     
+    [self addCookieToSharedCookiesStorage:cookie];
+}
+
++ (NSHTTPCookie *)createCookieWithName:(NSString *)name value:(NSString *)value url:(NSURL *)url {
     NSParameterAssert(url);
-    if(url == nil) return;
+    if(url == nil) return nil;
     
     NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                              name, NSHTTPCookieName,
@@ -223,6 +247,12 @@ static NSMutableArray *localCookiesStorage = nil;
                                              nil];
     
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+    
+    return cookie;
+}
+
+- (void)addCookieWithName:(NSString *)name value:(NSString *)value url:(NSURL *)url {
+    NSHTTPCookie *cookie = [[self class] createCookieWithName:name value:value url:url];
     
     [self addCookie:cookie];
 }
@@ -489,6 +519,10 @@ static NSMutableArray *localCookiesStorage = nil;
 
 #pragma mark Response
 
+- (NSString *)responseString {
+    return [self stringWithData:_responseData encodingName:_responseStringEncodingName];
+}
+
 - (NSString *)stringWithData:(NSData *)data encodingName:(NSString *)encodingName {
     if(data == nil) return nil;
     
@@ -525,7 +559,7 @@ static NSMutableArray *localCookiesStorage = nil;
         [ma addObject:s];
     }
     
-    // -d "k1=v1&k2=v2" // POST, url encoded params
+    // -d "k1=v1&k2=v2"                                             // POST, url encoded params
     
     if(_POSTDictionary) {
         NSMutableArray *postParameters = [NSMutableArray array];
@@ -537,14 +571,14 @@ static NSMutableArray *localCookiesStorage = nil;
         [ma addObject:[NSString stringWithFormat:@"-d \"%@\"", ss]];
     }
     
-    // -F "coolfiles=@fil1.gif;type=image/gif,fil2.txt,fil3.html" // file upload
+    // -F "coolfiles=@fil1.gif;type=image/gif,fil2.txt,fil3.html"   // file upload
     
     for(STHTTPRequestFileUpload *f in _filesToUpload) {
         NSString *s = [NSString stringWithFormat:@"%@=@%@", f.parameterName, f.path];
         [ma addObject:[NSString stringWithFormat:@"-F \"%@\"", s]];
     }
     
-    // -b "name=Daniel;age=35" // cookies
+    // -b "name=Daniel;age=35"                                      // cookies
     
     NSArray *cookies = [self requestCookies];
     
@@ -558,7 +592,7 @@ static NSMutableArray *localCookiesStorage = nil;
         [ma addObject:[NSString stringWithFormat:@"-b \"%@\"", [cookiesStrings componentsJoinedByString:@";"]]];
     }
     
-    // -H "X-you-and-me: yes" // extra headers
+    // -H "X-you-and-me: yes"                                       // extra headers
     
     NSMutableDictionary *headers = [[_request allHTTPHeaderFields] mutableCopy];
     [headers removeObjectForKey:@"Cookie"];
@@ -736,6 +770,13 @@ static NSMutableArray *localCookiesStorage = nil;
 
 #pragma mark NSURLConnectionDelegate
 
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
+    
+    if(_preventRedirections && redirectResponse) return nil;
+    
+    return request;
+}
+
 -(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
 {
     //return YES to say that we have the necessary credentials to access the requested resource
@@ -807,15 +848,22 @@ static NSMutableArray *localCookiesStorage = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
-    self.responseString = [self stringWithData:_responseData encodingName:_responseStringEncodingName];
-    
     if(_responseStatus >= 400) {
         self.error = [NSError errorWithDomain:NSStringFromClass([self class]) code:_responseStatus userInfo:nil];
         _errorBlock(_error);
         return;
     }
     
-    _completionBlock(_responseHeaders, [self responseString]);
+    if(_completionDataBlock)
+    {
+        _completionDataBlock(_responseHeaders,_responseData);
+    }
+    
+    if(_completionBlock)
+    {
+        NSString *responseString = [self stringWithData:_responseData encodingName:_responseStringEncodingName];
+        _completionBlock(_responseHeaders, responseString);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)e {
