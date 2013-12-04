@@ -35,13 +35,12 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (!self) return nil;
-    
+    self.hidesBottomBarWhenPushed = YES;
 	return self;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.tabBarController.tabBar setHidden:NO];
     [self checkAttendActivity];
 }
 - (void)viewDidLoad
@@ -181,8 +180,10 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/checkAttend?activityID=%d", homePageUrl, _message.MessageID];
         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
         [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
         [request setProxyPort:8080];
+#endif
         [request startSynchronous];
         
         NSLog(@"checkAttendActivity: %@", [request responseString]);
@@ -193,6 +194,8 @@
             _isAttendActivity = YES;
             _attendActivityTime = [NSString stringWithString:[request responseString]];
         }
+        
+        [self performSelectorOnMainThread:@selector(changeButtonTitleAndColor:) withObject:activityButton waitUntilDone:NO];
     });
 }
 -(void)changeButtonTitleAndColor:(UIButton*)button
@@ -218,8 +221,10 @@
     }else{
         NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", homePageUrl];
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
         [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
         [request setProxyPort:8080];
+#endif
         [request setRequestMethod:@"POST"];
         [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
         [request startSynchronous];
@@ -259,8 +264,10 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", homePageUrl];
             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
             [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
             [request setProxyPort:8080];
+#endif
             [request setRequestMethod:@"POST"];
             [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
             [request startSynchronous];
