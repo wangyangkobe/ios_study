@@ -13,12 +13,12 @@
 #import "InputToolBar.h"
 #import "HPGrowingTextView.h"
 
-@interface SpeakerDetailViewController : JMStaticContentTableViewController<HPGrowingTextViewDelegate, UIScrollViewDelegate, FaceViewDelegate, UIGestureRecognizerDelegate>
+@interface SpeakerDetailViewController : JMStaticContentTableViewController<UITextFieldDelegate, UIScrollViewDelegate, FaceViewDelegate, UIGestureRecognizerDelegate>
 {
-    UIToolbar*  toolBar;
-    HPGrowingTextView* textView;
-    UIButton* faceButton;  //表情按钮
-    UIButton* sendButton;  //表情按钮
+    UIToolbar*   toolBar;
+    UITextField* textField;
+    UIButton*    faceButton;  //表情按钮
+    UIButton*    sendButton;  //表情按钮
     
     BOOL isKeyboardShow;   //键盘时候显示
     

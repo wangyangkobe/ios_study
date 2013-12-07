@@ -81,22 +81,14 @@
     [toolBar setBarStyle:UIBarStyleBlack];
     toolBar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
     
-    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(35, 5, 240, 30)];
-    textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(4.0f, 0.0f, 10.0f, 0.0f);
-    [textView.internalTextView setReturnKeyType:UIReturnKeySend];
-    textView.delegate = self;
-    textView.isScrollable = NO;
-    textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
-	textView.minNumberOfLines = 1;
-	textView.maxNumberOfLines = 6;
-	textView.returnKeyType = UIReturnKeyGo; //just as an example
-	textView.font = [UIFont systemFontOfSize:15.0f];
-	textView.delegate = self;
-    textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
-    textView.backgroundColor = [UIColor whiteColor];
-    textView.layer.cornerRadius = 5;
-    textView.layer.masksToBounds = YES;
-    [toolBar addSubview:textView];
+    textField = [[UITextField alloc] initWithFrame:CGRectMake(30, 5, 250, 30)];
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.delegate = self;
+	textField.font = [UIFont systemFontOfSize:13.0f];
+    textField.backgroundColor = [UIColor whiteColor];
+    textField.returnKeyType = UIReturnKeySend;
+    [toolBar addSubview:textField];
     
     faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [faceButton setFrame:CGRectMake(0, 5, 30, 30)];
@@ -106,7 +98,7 @@
     [toolBar addSubview:faceButton];
     
     sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendButton setFrame:CGRectMake(toolBar.bounds.size.width - 45.0f, 7, 40, 30)];
+    [sendButton setFrame:CGRectMake(280, 5, 40, 30)];
     [sendButton setTitle:@"发送" forState:UIControlStateNormal];
     sendButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [sendButton addTarget:self action:@selector(sendTextAction) forControlEvents:UIControlEventTouchUpInside];
@@ -178,7 +170,7 @@
         [UIView animateWithDuration:0.25 animations:^{
             [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
         }];
-        [textView becomeFirstResponder];
+        [textField becomeFirstResponder];
     }else{
         //键盘显示的时候，toolbar需要还原到正常位置，并显示表情
         NSLog(@"3");
@@ -189,14 +181,18 @@
         [UIView animateWithDuration:0.25 animations:^{
             [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, keyboardHeight)];
         }];
-        [textView resignFirstResponder];
+        [textField resignFirstResponder];
     }
 }
-
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    [self sendTextAction];
+    return TRUE;
+}
 -(void)sendTextAction
 {
-    [textView resignFirstResponder];
-    NSLog(@"sendTextAction：%@", [textView text]);
+    [textField resignFirstResponder];
+    NSLog(@"sendTextAction：%@", [textField text]);
     
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
@@ -208,7 +204,7 @@
     [request setProxyPort:8080];
 #endif
     [request setRequestMethod:@"POST"];
-    [request setPostValue:[textView text] forKey:@"text"];
+    [request setPostValue:[textField text] forKey:@"text"];
     [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"messageID"];
     if (replyCommentID > 0)
         [request setPostValue:[NSString stringWithFormat:@"%d", replyCommentID] forKey:@"replyCommentID"];
@@ -220,7 +216,7 @@
     
     [self.tableView reloadData];
     
-    textView.text = @"";
+    textField.text = @"";
 }
 -(void)dealloc
 {
@@ -307,21 +303,21 @@
     NSLog(@"进代理了");
     NSString *newStr;
     if ([str isEqualToString:@"删除"]) {
-        if (textView.text.length > 0) {
-            if ([[Emoji allEmoji] containsObject:[textView.text substringFromIndex:textView.text.length-2]]) {
-                NSLog(@"删除emoji %@",[textView.text substringFromIndex:textView.text.length-2]);
-                newStr=[textView.text substringToIndex:textView.text.length-2];
+        if (textField.text.length > 0) {
+            if ([[Emoji allEmoji] containsObject:[textField.text substringFromIndex:textField.text.length-2]]) {
+                NSLog(@"删除emoji %@",[textField.text substringFromIndex:textField.text.length-2]);
+                newStr=[textField.text substringToIndex:textField.text.length-2];
             }else{
-                NSLog(@"删除文字%@",[textView.text substringFromIndex:textView.text.length-1]);
-                newStr=[textView.text substringToIndex:textView.text.length-1];
+                NSLog(@"删除文字%@",[textField.text substringFromIndex:textField.text.length-1]);
+                newStr=[textField.text substringToIndex:textField.text.length-1];
             }
-            textView.text=newStr;
+            textField.text=newStr;
         }
-        NSLog(@"删除后更新%@",textView.text);
+        NSLog(@"删除后更新%@",textField.text);
     }else{
-        NSString *newStr=[NSString stringWithFormat:@"%@%@",textView.text,str];
-        [textView setText:newStr];
-        NSLog(@"点击其他后更新%d,%@",str.length,textView.text);
+        NSString *newStr=[NSString stringWithFormat:@"%@%@",textField.text,str];
+        [textField setText:newStr];
+        NSLog(@"点击其他后更新%d,%@",str.length,textField.text);
     }
     NSLog(@"出代理了");
 }
@@ -331,7 +327,7 @@
     UIButton* button = (UIButton*)sender;
     CommentModel* comment = [commentsArray objectAtIndex:button.tag];
     replyCommentID = comment.ReplyCommentID;
-    [textView setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
+    [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
 }
 #pragma mark UITableView delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -487,7 +483,7 @@
 
 -(void)backGroundTap
 {
-    [textView resignFirstResponder];
+    [textField resignFirstResponder];
     [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
