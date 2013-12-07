@@ -28,7 +28,7 @@
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeInt:_CommentsCount forKey:@"CommentsCount"];
-    [aCoder encodeInt:_MessageID forKey:@"MessageID"];
+    [aCoder encodeInt64:_MessageID forKey:@"MessageID"];
     [aCoder encodeInt:_Type forKey:@"Type"];
     
     [aCoder encodeObject:_Activity forKey:@"Activity"];
@@ -49,7 +49,7 @@
     if (self = [super init])
     {
         _CommentsCount = [aDecoder decodeIntForKey:@"CommentsCount"];
-        _MessageID = [aDecoder decodeIntForKey:@"MessageID"];
+        _MessageID = [aDecoder decodeInt64ForKey:@"MessageID"];
         _Type = [aDecoder decodeIntForKey:@"Type"];
         
         _Activity = [aDecoder decodeObjectForKey:@"Activity"];
