@@ -47,6 +47,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     self.title = _message.Area.AreaName;
     __unsafe_unretained MessageModel* weakMessage = _message;

@@ -21,6 +21,7 @@
     [aCoder encodeInt:_UserID forKey:@"UserID"];
     
     [aCoder encodeObject:_HeadPic forKey:@"HeadPic"];
+    [aCoder encodeObject:_HeadPicOriginal forKey:@"HeadPicOriginal"];
     [aCoder encodeObject:_UserName forKey:@"UserName"];
 }
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -31,6 +32,7 @@
         _UserID = [aDecoder decodeIntForKey:@"UserID"];
         
         _HeadPic = [aDecoder decodeObjectForKey:@"HeadPic"];
+        _HeadPicOriginal = [aDecoder decodeObjectForKey:@"HeadPicOriginal"];
         _UserName = [aDecoder decodeObjectForKey:@"UserName"];
     }
     return self;
@@ -43,6 +45,7 @@
     
     copy.UserName = [self.UserName copyWithZone:zone];
     copy.HeadPic = [self.HeadPic copyWithZone:zone];
+    copy.HeadPicOriginal = [self.HeadPicOriginal copyWithZone:zone];
     
     copy.UserID = self.UserID;
     copy.Gender = self.Gender;

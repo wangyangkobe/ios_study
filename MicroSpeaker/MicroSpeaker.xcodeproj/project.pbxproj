@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1518E1E0184DFEF400172A14 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1CF184DFEF400172A14 /* Emoji.m */; };
+		1518E1E1184DFEF400172A14 /* EmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D1184DFEF400172A14 /* EmojiEmoticons.m */; };
+		1518E1E2184DFEF400172A14 /* EmojiMapSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D3184DFEF400172A14 /* EmojiMapSymbols.m */; };
+		1518E1E3184DFEF400172A14 /* EmojiPictographs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D5184DFEF400172A14 /* EmojiPictographs.m */; };
+		1518E1E4184DFEF400172A14 /* EmojiTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D7184DFEF400172A14 /* EmojiTransport.m */; };
+		1518E1E5184DFEF400172A14 /* InputToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D9184DFEF400172A14 /* InputToolBar.m */; };
+		1518E1E6184DFEF400172A14 /* FaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1DB184DFEF400172A14 /* FaceView.m */; };
+		1518E1E7184DFEF400172A14 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1DD184DFEF400172A14 /* HPGrowingTextView.m */; };
+		1518E1E8184DFEF400172A14 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1DF184DFEF400172A14 /* HPTextViewInternal.m */; };
+		1518E1EC184E137100172A14 /* SpeakerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1EB184E137100172A14 /* SpeakerDetailViewController.m */; };
+		1518E1EF184E2A2D00172A14 /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1ED184E2A2D00172A14 /* face.png */; };
+		1518E1F0184E2A2D00172A14 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1EE184E2A2D00172A14 /* face@2x.png */; };
+		1518E1F3184E2A6100172A14 /* InputBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1F1184E2A6100172A14 /* InputBack.png */; };
+		1518E1F4184E2A6100172A14 /* InputBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1F2184E2A6100172A14 /* InputBack@2x.png */; };
+		1518E1F7184E314100172A14 /* Text.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1F5184E314100172A14 /* Text.png */; };
+		1518E1F8184E314100172A14 /* Text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1518E1F6184E314100172A14 /* Text@2x.png */; };
+		15199C0E184F3CF1002F5C0F /* facesBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 15199C0C184F3CF1002F5C0F /* facesBack.png */; };
+		15199C0F184F3CF1002F5C0F /* facesBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15199C0D184F3CF1002F5C0F /* facesBack@2x.png */; };
+		15199C12184F5628002F5C0F /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 15199C10184F5628002F5C0F /* faceDelete.png */; };
+		15199C13184F5628002F5C0F /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15199C11184F5628002F5C0F /* faceDelete@2x.png */; };
+		152D83221852030400FE7FCE /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152D83211852030400FE7FCE /* CommentModel.m */; };
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
 		154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 154BDB0C1842235C0019E85F /* group_detail_menu_share.png */; };
@@ -21,7 +42,6 @@
 		156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950518464DE0004F3DAD /* FGalleryViewController.m */; };
 		156034D31848DC3200C237B0 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0952818465071004F3DAD /* MessageCell.m */; };
 		156034D41848DC5400C237B0 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520570DB182BCB0300416496 /* MainTabViewController.m */; };
-		156034D51848DC5A00C237B0 /* SpeakerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */; };
 		156034D61848DC6100C237B0 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */; };
 		156034D71848DC6E00C237B0 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FCA5B318419D9B0055ECAA /* NSString+Extensions.m */; };
 		156034D81848DC7200C237B0 /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0950C18464F1A004F3DAD /* NMPaginator.m */; };
@@ -65,13 +85,44 @@
 
 /* Begin PBXFileReference section */
 		0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1518E1CE184DFEF400172A14 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
+		1518E1CF184DFEF400172A14 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
+		1518E1D0184DFEF400172A14 /* EmojiEmoticons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiEmoticons.h; sourceTree = "<group>"; };
+		1518E1D1184DFEF400172A14 /* EmojiEmoticons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiEmoticons.m; sourceTree = "<group>"; };
+		1518E1D2184DFEF400172A14 /* EmojiMapSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiMapSymbols.h; sourceTree = "<group>"; };
+		1518E1D3184DFEF400172A14 /* EmojiMapSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiMapSymbols.m; sourceTree = "<group>"; };
+		1518E1D4184DFEF400172A14 /* EmojiPictographs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiPictographs.h; sourceTree = "<group>"; };
+		1518E1D5184DFEF400172A14 /* EmojiPictographs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiPictographs.m; sourceTree = "<group>"; };
+		1518E1D6184DFEF400172A14 /* EmojiTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiTransport.h; sourceTree = "<group>"; };
+		1518E1D7184DFEF400172A14 /* EmojiTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiTransport.m; sourceTree = "<group>"; };
+		1518E1D8184DFEF400172A14 /* InputToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputToolBar.h; sourceTree = "<group>"; };
+		1518E1D9184DFEF400172A14 /* InputToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputToolBar.m; sourceTree = "<group>"; };
+		1518E1DA184DFEF400172A14 /* FaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceView.h; sourceTree = "<group>"; };
+		1518E1DB184DFEF400172A14 /* FaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceView.m; sourceTree = "<group>"; };
+		1518E1DC184DFEF400172A14 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
+		1518E1DD184DFEF400172A14 /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
+		1518E1DE184DFEF400172A14 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
+		1518E1DF184DFEF400172A14 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
+		1518E1E9184E08AA00172A14 /* MacroDefination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefination.h; sourceTree = "<group>"; };
+		1518E1EA184E137100172A14 /* SpeakerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerDetailViewController.h; sourceTree = "<group>"; };
+		1518E1EB184E137100172A14 /* SpeakerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerDetailViewController.m; sourceTree = "<group>"; };
+		1518E1ED184E2A2D00172A14 /* face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = face.png; path = InputToolBar/face.png; sourceTree = "<group>"; };
+		1518E1EE184E2A2D00172A14 /* face@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "face@2x.png"; path = "InputToolBar/face@2x.png"; sourceTree = "<group>"; };
+		1518E1F1184E2A6100172A14 /* InputBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InputBack.png; path = InputToolBar/InputBack.png; sourceTree = "<group>"; };
+		1518E1F2184E2A6100172A14 /* InputBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "InputBack@2x.png"; path = "InputToolBar/InputBack@2x.png"; sourceTree = "<group>"; };
+		1518E1F5184E314100172A14 /* Text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Text.png; path = InputToolBar/Text.png; sourceTree = "<group>"; };
+		1518E1F6184E314100172A14 /* Text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Text@2x.png"; path = "InputToolBar/Text@2x.png"; sourceTree = "<group>"; };
+		15199C0C184F3CF1002F5C0F /* facesBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facesBack.png; path = InputToolBar/facesBack.png; sourceTree = "<group>"; };
+		15199C0D184F3CF1002F5C0F /* facesBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facesBack@2x.png"; path = "InputToolBar/facesBack@2x.png"; sourceTree = "<group>"; };
+		15199C10184F5628002F5C0F /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = faceDelete.png; path = InputToolBar/faceDelete.png; sourceTree = "<group>"; };
+		15199C11184F5628002F5C0F /* faceDelete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "faceDelete@2x.png"; path = "InputToolBar/faceDelete@2x.png"; sourceTree = "<group>"; };
+		152D83201852030400FE7FCE /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		152D83211852030400FE7FCE /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		154B17FD182E1E7A00750C71 /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		154B17FE182E1E7A00750C71 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		154BDB0918421D6B0019E85F /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
 		154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
 		154BDB0C1842235C0019E85F /* group_detail_menu_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_detail_menu_share.png; sourceTree = "<group>"; };
-		156034C61848DB3800C237B0 /* SpeakerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerDetailViewController.h; sourceTree = "<group>"; };
-		156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerDetailViewController.m; sourceTree = "<group>"; };
 		156034DC1848DD5700C237B0 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		15AD563D1841E234007CF595 /* gender_boy_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_boy_big.png; sourceTree = "<group>"; };
 		15AD563E1841E234007CF595 /* gender_girl_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_girl_big.png; sourceTree = "<group>"; };
@@ -180,6 +231,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1518E1CA184DFA4100172A14 /* InputToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				1518E1CE184DFEF400172A14 /* Emoji.h */,
+				1518E1CF184DFEF400172A14 /* Emoji.m */,
+				1518E1D0184DFEF400172A14 /* EmojiEmoticons.h */,
+				1518E1D1184DFEF400172A14 /* EmojiEmoticons.m */,
+				1518E1D2184DFEF400172A14 /* EmojiMapSymbols.h */,
+				1518E1D3184DFEF400172A14 /* EmojiMapSymbols.m */,
+				1518E1D4184DFEF400172A14 /* EmojiPictographs.h */,
+				1518E1D5184DFEF400172A14 /* EmojiPictographs.m */,
+				1518E1D6184DFEF400172A14 /* EmojiTransport.h */,
+				1518E1D7184DFEF400172A14 /* EmojiTransport.m */,
+				1518E1D8184DFEF400172A14 /* InputToolBar.h */,
+				1518E1D9184DFEF400172A14 /* InputToolBar.m */,
+				1518E1DA184DFEF400172A14 /* FaceView.h */,
+				1518E1DB184DFEF400172A14 /* FaceView.m */,
+				1518E1DC184DFEF400172A14 /* HPGrowingTextView.h */,
+				1518E1DD184DFEF400172A14 /* HPGrowingTextView.m */,
+				1518E1DE184DFEF400172A14 /* HPTextViewInternal.h */,
+				1518E1DF184DFEF400172A14 /* HPTextViewInternal.m */,
+			);
+			path = InputToolBar;
+			sourceTree = "<group>";
+		};
 		15F094FF18464DE0004F3DAD /* FGallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +298,8 @@
 				15F0951C18464FB2004F3DAD /* MessageModel.m */,
 				15F0951D18464FB2004F3DAD /* UserModel.h */,
 				15F0951E18464FB2004F3DAD /* UserModel.m */,
+				152D83201852030400FE7FCE /* CommentModel.h */,
+				152D83211852030400FE7FCE /* CommentModel.m */,
 			);
 			path = ClassModule;
 			sourceTree = "<group>";
@@ -258,6 +336,7 @@
 		15FCA5AE184187690055ECAA /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
+				1518E1CA184DFA4100172A14 /* InputToolBar */,
 				15F0952718465071004F3DAD /* MessageCell.h */,
 				15F0952818465071004F3DAD /* MessageCell.m */,
 				522D7F4F1827C71F00AF71F8 /* MessageCell.xib */,
@@ -308,6 +387,7 @@
 		522D7F321827BFBD00AF71F8 /* MicroSpeaker */ = {
 			isa = PBXGroup;
 			children = (
+				1518E1E9184E08AA00172A14 /* MacroDefination.h */,
 				15F0951418464FB2004F3DAD /* ClassModule */,
 				15F0950A18464F1A004F3DAD /* ThirdLibary */,
 				15F094FF18464DE0004F3DAD /* FGallery */,
@@ -315,14 +395,14 @@
 				520570DA182BCB0300416496 /* MainTabViewController.h */,
 				520570DB182BCB0300416496 /* MainTabViewController.m */,
 				522D7F3B1827BFBD00AF71F8 /* AppDelegate.h */,
+				1518E1EA184E137100172A14 /* SpeakerDetailViewController.h */,
+				1518E1EB184E137100172A14 /* SpeakerDetailViewController.m */,
 				522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */,
 				522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */,
 				154BDB0918421D6B0019E85F /* ActivityDetailViewController.h */,
 				154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */,
 				522D7F471827BFBD00AF71F8 /* ViewController.h */,
 				522D7F481827BFBD00AF71F8 /* ViewController.m */,
-				156034C61848DB3800C237B0 /* SpeakerDetailViewController.h */,
-				156034C71848DB3800C237B0 /* SpeakerDetailViewController.m */,
 				522D7F381827BFBD00AF71F8 /* main.m */,
 				522D7F331827BFBD00AF71F8 /* Supporting Files */,
 			);
@@ -332,6 +412,16 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				15199C10184F5628002F5C0F /* faceDelete.png */,
+				15199C11184F5628002F5C0F /* faceDelete@2x.png */,
+				15199C0C184F3CF1002F5C0F /* facesBack.png */,
+				15199C0D184F3CF1002F5C0F /* facesBack@2x.png */,
+				1518E1F5184E314100172A14 /* Text.png */,
+				1518E1F6184E314100172A14 /* Text@2x.png */,
+				1518E1F1184E2A6100172A14 /* InputBack.png */,
+				1518E1F2184E2A6100172A14 /* InputBack@2x.png */,
+				1518E1ED184E2A2D00172A14 /* face.png */,
+				1518E1EE184E2A2D00172A14 /* face@2x.png */,
 				154BDB0C1842235C0019E85F /* group_detail_menu_share.png */,
 				15AD56431841F8E6007CF595 /* group_list_clock_src.png */,
 				15AD56441841F8E6007CF595 /* group_list_location_src.png */,
@@ -387,6 +477,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 522D7F201827BFBD00AF71F8;
 			productRefGroup = 522D7F2A1827BFBD00AF71F8 /* Products */;
@@ -403,17 +494,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1518E1F3184E2A6100172A14 /* InputBack.png in Resources */,
 				15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */,
 				154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */,
 				522D7F371827BFBD00AF71F8 /* InfoPlist.strings in Resources */,
+				15199C0F184F3CF1002F5C0F /* facesBack@2x.png in Resources */,
 				522D7F3F1827BFBD00AF71F8 /* Default.png in Resources */,
 				522D7F411827BFBD00AF71F8 /* Default@2x.png in Resources */,
+				1518E1F4184E2A6100172A14 /* InputBack@2x.png in Resources */,
+				15199C13184F5628002F5C0F /* faceDelete@2x.png in Resources */,
 				522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */,
+				15199C0E184F3CF1002F5C0F /* facesBack.png in Resources */,
 				15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */,
+				1518E1F0184E2A2D00172A14 /* face@2x.png in Resources */,
+				1518E1F7184E314100172A14 /* Text.png in Resources */,
 				15AD56401841E234007CF595 /* gender_girl_big.png in Resources */,
 				522D7F461827BFBD00AF71F8 /* MainStoryboard.storyboard in Resources */,
+				1518E1F8184E314100172A14 /* Text@2x.png in Resources */,
 				522D7F501827C71F00AF71F8 /* MessageCell.xib in Resources */,
+				15199C12184F5628002F5C0F /* faceDelete.png in Resources */,
 				154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */,
+				1518E1EF184E2A2D00172A14 /* face.png in Resources */,
 				15AD56421841F876007CF595 /* time.png in Resources */,
 				154B1800182E1E7A00750C71 /* placeholder.png in Resources */,
 				15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */,
@@ -460,18 +561,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1518E1E5184DFEF400172A14 /* InputToolBar.m in Sources */,
 				15F691B1184C3F2C009986CD /* ASIFormDataRequest.m in Sources */,
 				156034E01848DE4300C237B0 /* main.m in Sources */,
 				156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */,
 				156034DB1848DC7E00C237B0 /* UILabel+Extensions.m in Sources */,
 				156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */,
 				156034D91848DC7600C237B0 /* PullRefreshTableViewController.m in Sources */,
+				1518E1E0184DFEF400172A14 /* Emoji.m in Sources */,
+				1518E1E2184DFEF400172A14 /* EmojiMapSymbols.m in Sources */,
 				156034D81848DC7200C237B0 /* NMPaginator.m in Sources */,
 				156034D71848DC6E00C237B0 /* NSString+Extensions.m in Sources */,
 				156034D61848DC6100C237B0 /* ActivityDetailViewController.m in Sources */,
 				15F691AE184C3F2C009986CD /* ASIDataCompressor.m in Sources */,
-				156034D51848DC5A00C237B0 /* SpeakerDetailViewController.m in Sources */,
 				156034D41848DC5400C237B0 /* MainTabViewController.m in Sources */,
+				1518E1E8184DFEF400172A14 /* HPTextViewInternal.m in Sources */,
+				1518E1E4184DFEF400172A14 /* EmojiTransport.m in Sources */,
 				156034D31848DC3200C237B0 /* MessageCell.m in Sources */,
 				156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */,
 				15F691B3184C3F2C009986CD /* ASIInputStream.m in Sources */,
@@ -481,14 +586,20 @@
 				156034CF1848DC2100C237B0 /* STHTTPRequest.m in Sources */,
 				156034CD1848DC1600C237B0 /* MessagePaginator.m in Sources */,
 				15F691B2184C3F2C009986CD /* ASIHTTPRequest.m in Sources */,
+				1518E1E7184DFEF400172A14 /* HPGrowingTextView.m in Sources */,
 				156034CC1848DC1100C237B0 /* UserModel.m in Sources */,
+				1518E1E3184DFEF400172A14 /* EmojiPictographs.m in Sources */,
 				15F691AF184C3F2C009986CD /* ASIDataDecompressor.m in Sources */,
 				156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */,
 				15F691BF184C42FF009986CD /* Reachability.m in Sources */,
+				1518E1EC184E137100172A14 /* SpeakerDetailViewController.m in Sources */,
 				15F691B4184C3F2C009986CD /* ASINetworkQueue.m in Sources */,
+				152D83221852030400FE7FCE /* CommentModel.m in Sources */,
 				156034CA1848DC0A00C237B0 /* LocationModel.m in Sources */,
 				15F691AD184C3F2C009986CD /* ASIAuthenticationDialog.m in Sources */,
 				156034C91848DC0400C237B0 /* ActivityModel.m in Sources */,
+				1518E1E6184DFEF400172A14 /* FaceView.m in Sources */,
+				1518E1E1184DFEF400172A14 /* EmojiEmoticons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +691,7 @@
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -597,6 +709,7 @@
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

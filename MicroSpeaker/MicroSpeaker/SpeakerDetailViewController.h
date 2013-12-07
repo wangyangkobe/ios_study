@@ -10,7 +10,25 @@
 #import "JMStaticContentTableViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MessageModel.h"
-@interface SpeakerDetailViewController : JMStaticContentTableViewController
+#import "InputToolBar.h"
+#import "HPGrowingTextView.h"
+
+@interface SpeakerDetailViewController : JMStaticContentTableViewController<HPGrowingTextViewDelegate, UIScrollViewDelegate, FaceViewDelegate>
+{
+    UIToolbar*  toolBar;
+    HPGrowingTextView* textView;
+    UIButton* faceButton;  //表情按钮
+    UIButton* sendButton;  //表情按钮
+    
+    BOOL isKeyboardShow;   //键盘时候显示
+    
+    UIScrollView*  scrollView;  //表情滚动视图
+    UIPageControl* pageControl;
+    
+    NSMutableArray* commentsArray;
+    
+    int replyCommentID;
+}
 
 @property(nonatomic, strong) MessageModel* message;
 

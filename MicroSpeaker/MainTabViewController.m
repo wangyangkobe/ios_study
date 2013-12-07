@@ -18,6 +18,7 @@
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "MacroDefination.h"
 
 //NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 //NSString* requestURL = @"http:101.78.230.95:8082/microbroadcastDEV/message/getByID";
@@ -61,8 +62,10 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:
                                    [NSURL URLWithString:@"http://101.78.230.95:8082/microbroadcastDEV/user/checkUser"]];
+#if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
+#endif
     [request setRequestMethod:@"POST"];
     [request setPostValue:@"1989424925" forKey:@"weiboID"];
     [request startSynchronous];
@@ -238,25 +241,25 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     }
 }
 /*
--(void)requestDataFromServer
-{
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
-    [request startSynchronous];
-    NSError *error = [request error];
-    if (error != nil)
-    {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        return;
-    }
-    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                         options:NSJSONReadingMutableContainers
-                                                           error:nil];
-    for (NSDictionary* entry in jsonArray)
-    {
-        [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
-    }
-}*/
+ -(void)requestDataFromServer
+ {
+ ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
+ [request startSynchronous];
+ NSError *error = [request error];
+ if (error != nil)
+ {
+ UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+ [alert show];
+ return;
+ }
+ NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+ options:NSJSONReadingMutableContainers
+ error:nil];
+ for (NSDictionary* entry in jsonArray)
+ {
+ [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
+ }
+ }*/
 - (void)refresh
 {
     [self performSelector:@selector(addItem) withObject:nil afterDelay:2.0];
@@ -295,21 +298,21 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
      };
      
      [request startAsynchronous];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
-    [request startSynchronous];
-    
-    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                         options:NSJSONReadingMutableContainers
-                                                           error:nil];
-    for (id entry in jsonArray)
-    {
-        [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
-    }
-    
-    [self.tableView reloadData];
-    
-    [self stopLoading];*/
+     
+     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
+     [request startSynchronous];
+     
+     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+     options:NSJSONReadingMutableContainers
+     error:nil];
+     for (id entry in jsonArray)
+     {
+     [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
+     }
+     
+     [self.tableView reloadData];
+     
+     [self stopLoading];*/
 }
 
 #pragma mark - Table view delegate

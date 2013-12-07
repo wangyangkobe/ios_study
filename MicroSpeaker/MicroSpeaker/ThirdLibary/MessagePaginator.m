@@ -8,6 +8,7 @@
 
 #import "MessagePaginator.h"
 #import "ASIHTTPRequest.h"
+#import "MacroDefination.h"
 @implementation MessagePaginator
 
 #pragma mark - override Parent class's method
@@ -22,9 +23,11 @@
     
     dispatch_async(fetchQ, ^{
         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:
-                                    [NSURL URLWithString:pageUrl]];
+                                   [NSURL URLWithString:pageUrl]];
+#if SET_PROXY
         [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
         [request setProxyPort:8080];
+#endif
         [request startSynchronous];
         NSLog(@"result = %@", [request responseString]);
         NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
