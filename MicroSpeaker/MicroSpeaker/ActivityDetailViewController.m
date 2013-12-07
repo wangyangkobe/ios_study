@@ -11,6 +11,7 @@
 #import "UILabel+Extensions.h"
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
+#import "MacroDefination.h"
 @interface ActivityDetailViewController ()
 
 @property (nonatomic, assign) bool isAttendActivity;
@@ -41,7 +42,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self checkAttendActivity];
 }
 - (void)viewDidLoad
 {
@@ -49,6 +49,8 @@
 	// Do any additional setup after loading the view.
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    
+    [self checkAttendActivity];
     
     self.title = _message.Area.AreaName;
     __unsafe_unretained MessageModel* weakMessage = _message;
@@ -154,7 +156,6 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             
-            //weakActivityButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 280, 40)];
             [weakActivityButton setFrame:CGRectMake(10, 10, 280, 40)];
             [weakActivityButton addTarget:weakSelf action:@selector(activityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             weakActivityButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -180,7 +181,7 @@
 -(void)checkAttendActivity
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/checkAttend?activityID=%d", homePageUrl, _message.MessageID];
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/checkAttend?activityID=%ld", HOME_PAGE, _message.MessageID];
         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
         [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -197,7 +198,7 @@
             _attendActivityTime = [NSString stringWithString:[request responseString]];
         }
         
-        [self performSelectorOnMainThread:@selector(changeButtonTitleAndColor:) withObject:activityButton waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(changeButtonTitleAndColor:) withObject:activityButton waitUntilDone:YES];
     });
 }
 -(void)changeButtonTitleAndColor:(UIButton*)button
@@ -221,14 +222,14 @@
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"您已参加了该活动!" message:@"是否取消参加?" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否", nil];
         [alertView show];
     }else{
-        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", homePageUrl];
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", HOME_PAGE];
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
         [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
         [request setProxyPort:8080];
 #endif
         [request setRequestMethod:@"POST"];
-        [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
+        [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
         [request startSynchronous];
         
         [button setBackgroundColor:[UIColor redColor]];
@@ -254,6 +255,7 @@
         [self.navigationController pushViewController:networkGallery animated:YES];
     }
 }
+
 #pragma mart UIAlertViewDelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -264,22 +266,23 @@
         _isAttendActivity = false;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", homePageUrl];
+            NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", HOME_PAGE];
             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
             [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
             [request setProxyPort:8080];
 #endif
             [request setRequestMethod:@"POST"];
-            [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"activityID"];
+            [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
             [request startSynchronous];
             NSLog(@"cancel result: %@", [request responseString]);
         });
         
     }else{
-        
+        // do nothing
     }
 }
+
 #pragma mark - FGalleryViewControllerDelegate Methods
 - (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
 {
