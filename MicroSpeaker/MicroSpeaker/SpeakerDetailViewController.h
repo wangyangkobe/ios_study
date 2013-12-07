@@ -13,7 +13,7 @@
 #import "InputToolBar.h"
 #import "HPGrowingTextView.h"
 
-@interface SpeakerDetailViewController : JMStaticContentTableViewController<HPGrowingTextViewDelegate, UIScrollViewDelegate, FaceViewDelegate>
+@interface SpeakerDetailViewController : JMStaticContentTableViewController<HPGrowingTextViewDelegate, UIScrollViewDelegate, FaceViewDelegate, UIGestureRecognizerDelegate>
 {
     UIToolbar*  toolBar;
     HPGrowingTextView* textView;
@@ -31,5 +31,7 @@
 }
 
 @property(nonatomic, strong) MessageModel* message;
+
+-(void)backGroundTap; //触摸view的background关闭键盘
 
 @end

@@ -62,6 +62,11 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.title = @"正文";
     
+    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
+    oneTap.delegate = self;
+    oneTap.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
+    
     commentsArray = [[NSMutableArray alloc] init];
     [self getCommentsByMessageID:_message.MessageID];
     
@@ -212,7 +217,7 @@
     NSLog(@"response:%@", [request responseString]);
     
     [self getCommentsByMessageID:_message.MessageID];
-
+    
     [self.tableView reloadData];
     
     textView.text = @"";
@@ -403,7 +408,7 @@
             timeLabel =  [[UILabel alloc] initWithFrame:CGRectMake(40, 15, SCREEN_WIDTH - 35, 10)];
             textLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 280, 40)];
         }
-
+        
         [headImageView setImageWithURL:[NSURL URLWithString:comment.UserBasic.HeadPic]];
         [nameLabel setText:comment.UserBasic.UserName];
         [nameLabel setBackgroundColor:[UIColor clearColor]];
@@ -458,12 +463,11 @@
         return 50;
 }
 
-
 // some methods for get or post data
 -(void)getCommentsByMessageID:(int)messageID
 {
+    [commentsArray removeAllObjects];
     NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%d", HOME_PAGE, messageID];
-    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestStr]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -479,5 +483,12 @@
     {
         [commentsArray addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
     }
+}
+
+-(void)backGroundTap
+{
+    [textView resignFirstResponder];
+    [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
+    [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
 @end
