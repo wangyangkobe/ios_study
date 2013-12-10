@@ -36,7 +36,7 @@
                 
             }else{
                 [button.titleLabel setFont:[UIFont fontWithName:@"AppleColorEmoji" size:29.0]];
-                [button setTitle: [faces objectAtIndex:i*3+y+(page*19)]forState:UIControlStateNormal];
+                [button setTitle: [faces objectAtIndex:i*3+y+(page*19)] forState:UIControlStateNormal];
                 button.tag=i*3+y+(page*19);
                 
             }

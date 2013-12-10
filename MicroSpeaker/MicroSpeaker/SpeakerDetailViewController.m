@@ -14,7 +14,7 @@
 #import "CommentModel.h"
 
 @interface SpeakerDetailViewController ()
--(void) getCommentsByMessageID:(int) messageID;
+-(void) getCommentsByMessageID:(long) messageID;
 @end
 
 @implementation SpeakerDetailViewController
@@ -46,8 +46,7 @@
 {
     [super viewWillDisappear:animated];
     [toolBar removeFromSuperview];
-    [scrollView removeFromSuperview];
-    [pageControl removeFromSuperview];
+    [emojiKeyBoard removeFromSuperview];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -71,13 +70,12 @@
     [self getCommentsByMessageID:_message.MessageID];
     
     [self configureToolBar];
-    
-    UIWindow* window = [[UIApplication sharedApplication].delegate window];
-    [window addSubview:toolBar];
 }
 -(void)configureToolBar
 {
-    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+    UIWindow* window = [[UIApplication sharedApplication].delegate window];
+    
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [toolBar setBarStyle:UIBarStyleBlack];
     toolBar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
     
@@ -113,75 +111,32 @@
                                              selector:@selector(inputKeyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    [self createFaceKeyboard];
+    
+    emojiKeyBoard = [[EmojiKeyBoardView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
+    emojiKeyBoard.delegate = self;
+    
+    [window addSubview:toolBar];
+    [window addSubview:emojiKeyBoard];
 }
 
--(void)createFaceKeyboard
-{
-    //创建表情键盘
-    if (scrollView==nil) {
-        scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
-        [scrollView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"facesBack"]]];
-        for (int i=0; i<9; i++) {
-            FaceView *fview=[[FaceView alloc] initWithFrame:CGRectMake(12+320*i, 15, facialViewWidth, facialViewHeight)];
-            [fview setBackgroundColor:[UIColor clearColor]];
-            [fview loadFaceView:i size:CGSizeMake(33, 43)];
-            fview.delegate = self;
-            [scrollView addSubview:fview];
-        }
-    }
-    [scrollView setShowsVerticalScrollIndicator:NO];
-    [scrollView setShowsHorizontalScrollIndicator:NO];
-    scrollView.contentSize=CGSizeMake(320*9, keyboardHeight);
-    scrollView.pagingEnabled = YES;
-    scrollView.delegate = self;
-    UIWindow* window = [[UIApplication sharedApplication].delegate window];
-    [window addSubview:scrollView];
-    
-    pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(98, SCREEN_HEIGHT - 120, 150, 30)];
-    [pageControl setCurrentPage:0];
-    pageControl.pageIndicatorTintColor = RGBACOLOR(195, 179, 163, 1);
-    pageControl.currentPageIndicatorTintColor=RGBACOLOR(132, 104, 77, 1);
-    pageControl.numberOfPages = 9;//指定页面个数
-    [pageControl setBackgroundColor:[UIColor clearColor]];
-    [pageControl setHidden:YES];
-    [pageControl addTarget:self action:@selector(changePage:)forControlEvents:UIControlEventValueChanged];
-    [window addSubview:pageControl];
-}
 -(void)showFaceKeyboard
 {
-    CGRect toolBarFrame = toolBar.frame;
-    //如果直接点击表情，通过toolbar的位置来判断
-    if (toolBarFrame.origin.y== SCREEN_HEIGHT - TOOLBAR_HEIGHT && toolBarFrame.size.height == TOOLBAR_HEIGHT) {
-        NSLog(@"1");
-        [UIView animateWithDuration:0.25 animations:^{
-            [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-        }];
-        [UIView animateWithDuration:0.25 animations:^{
-            [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
-        }];
-        //[pageControl setHidden:NO];
-        [faceButton setBackgroundImage:[UIImage imageNamed:@"Text"] forState:UIControlStateNormal];
-        return;
-    }
     //如果键盘没有显示，点击表情了，隐藏表情，显示键盘
     if (isKeyboardShow == NO) {
         NSLog(@"2");
         [UIView animateWithDuration:0.25 animations:^{
-            [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
+            [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
         }];
         [textField becomeFirstResponder];
+        isKeyboardShow = YES;
     }else{
         //键盘显示的时候，toolbar需要还原到正常位置，并显示表情
         NSLog(@"3");
         [UIView animateWithDuration:0.25 animations:^{
-            toolBar.frame = CGRectMake(0, SCREEN_HEIGHT -  KEYBOARD_HEIGHT -toolBar.frame.size.height,
-                                       SCREEN_WIDTH, toolBar.frame.size.height);
-        }];
-        [UIView animateWithDuration:0.25 animations:^{
-            [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, keyboardHeight)];
+            [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
         }];
         [textField resignFirstResponder];
+        isKeyboardShow = NO;
     }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -195,28 +150,17 @@
     NSLog(@"sendTextAction：%@", [textField text]);
     
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-    [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
+    [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:
-                                   [NSURL URLWithString:@"http://101.78.230.95:8082/microbroadcastDEV/comment/create"]];
-#if SET_PROXY
-    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-    [request setProxyPort:8080];
-#endif
-    [request setRequestMethod:@"POST"];
-    [request setPostValue:[textField text] forKey:@"text"];
-    [request setPostValue:[NSString stringWithFormat:@"%d", _message.MessageID] forKey:@"messageID"];
-    if (replyCommentID > 0)
-        [request setPostValue:[NSString stringWithFormat:@"%d", replyCommentID] forKey:@"replyCommentID"];
-    [request startSynchronous];
-    NSLog(@"headers:%@", [request responseHeaders]);
-    NSLog(@"response:%@", [request responseString]);
-    
-    [self getCommentsByMessageID:_message.MessageID];
-    
-    [self.tableView reloadData];
-    
-    textField.text = @"";
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self createCommentWithText:[textField text] messageID:_message.MessageID replyCommentID:replyCommentID];
+        [self getCommentsByMessageID:_message.MessageID];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            textField.text = @"";
+        });
+    });
 }
 -(void)dealloc
 {
@@ -236,17 +180,12 @@
         CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
         NSLog(@"键盘即将出现：%@", NSStringFromCGRect(keyBoardFrame));
         
-        CGSize toolBarSize = toolBar.frame.size;
-        if (toolBarSize.height > TOOLBAR_HEIGHT)
-        {
-            [toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - toolBarSize.height, SCREEN_WIDTH, toolBarSize.height)];
-        }else{
-            [toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-        }
+        [toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     }];
     [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
     isKeyboardShow = YES;
 }
+
 -(void)inputKeyboardWillHide:(NSNotification *)notification
 {
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -262,64 +201,19 @@
     [UIView setAnimationCurve:[curve intValue]];
     
 	// set views with new info
-    CGSize toolBarSize = toolBar.frame.size;
-    if (toolBarSize.height > TOOLBAR_HEIGHT)
-    {
-        NSLog(@"4");
-        [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT - toolBarSize.height, SCREEN_WIDTH, toolBarSize.height)];
-    }else{
-        NSLog(@"5");
-        // [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT- TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-        [faceButton setBackgroundImage:[UIImage imageNamed:@"Text"] forState:UIControlStateNormal];
-    }
+    //  CGSize toolBarSize = toolBar.frame.size;
+    // if (toolBarSize.height > TOOLBAR_HEIGHT)
+    //{
+    //   NSLog(@"4");
+    //  [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT - toolBarSize.height, SCREEN_WIDTH, toolBarSize.height)];
+    // }else{
+    NSLog(@"5");
+    // [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT- TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+    [faceButton setBackgroundImage:[UIImage imageNamed:@"Text"] forState:UIControlStateNormal];
+    // }
 	// commit animations
 	[UIView commitAnimations];
     isKeyboardShow = NO;
-}
-
-#pragma mark HPGrowingTextView delegate  //改变键盘高度
-- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
-{
-    float diff = (growingTextView.frame.size.height - height);
-	CGRect r = toolBar.frame;
-    r.size.height -= diff;
-    r.origin.y += diff;
-	toolBar.frame = r;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)sender {
-    int page = scrollView.contentOffset.x / 320; //通过滚动的偏移量来判断目前页面所对应的小白点
-    pageControl.currentPage = page; //pagecontroll响应值的变化
-}
-//pagecontroll的委托方法
-- (IBAction)changePage:(id)sender
-{
-    int page = pageControl.currentPage; //获取当前pagecontroll的值
-    [scrollView setContentOffset:CGPointMake(320 * page, 0)]; //根据pagecontroll的值来改变scrollview的滚动位置，以此切换到指定的页面
-}
-#pragma mark facialView delegate 点击表情键盘上的文字
--(void)selectedFacialView:(NSString*)str
-{
-    NSLog(@"进代理了");
-    NSString *newStr;
-    if ([str isEqualToString:@"删除"]) {
-        if (textField.text.length > 0) {
-            if ([[Emoji allEmoji] containsObject:[textField.text substringFromIndex:textField.text.length-2]]) {
-                NSLog(@"删除emoji %@",[textField.text substringFromIndex:textField.text.length-2]);
-                newStr=[textField.text substringToIndex:textField.text.length-2];
-            }else{
-                NSLog(@"删除文字%@",[textField.text substringFromIndex:textField.text.length-1]);
-                newStr=[textField.text substringToIndex:textField.text.length-1];
-            }
-            textField.text=newStr;
-        }
-        NSLog(@"删除后更新%@",textField.text);
-    }else{
-        NSString *newStr=[NSString stringWithFormat:@"%@%@",textField.text,str];
-        [textField setText:newStr];
-        NSLog(@"点击其他后更新%d,%@",str.length,textField.text);
-    }
-    NSLog(@"出代理了");
 }
 
 -(void)replyComments:(id)sender
@@ -329,6 +223,28 @@
     replyCommentID = comment.ReplyCommentID;
     [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
 }
+
+#pragma Mark EmojiKeyboardViewDelegate
+- (void)emojiKeyBoardView:(EmojiKeyBoardView *)emojiKeyBoardView didUseEmoji:(NSString *)emojiStr
+{
+    NSLog(@"Controller: %@ pressed", emojiStr);
+    NSLog(@"length = %d", [emojiStr length]);
+    textField.text = [textField.text stringByAppendingString:emojiStr];
+}
+
+- (void)emojiKeyBoardViewDidPressBackSpace:(EmojiKeyBoardView *)emojiKeyBoardView
+{
+    NSLog(@"Controller: Back pressed, %@", textField.text);
+    int strLen = [textField.text length];
+    if (strLen < 2)
+        return;
+    NSString* lastStr = [textField.text substringFromIndex:strLen - 2];
+    NSLog(@"%d", [emojiKeyBoardView allEmojiFaces].count);
+    if ([[emojiKeyBoardView allEmojiFaces] containsObject:lastStr]) {
+        textField.text = [textField.text substringToIndex:strLen - 2];
+    }
+}
+
 #pragma mark UITableView delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (0 == section)
@@ -460,17 +376,18 @@
 }
 
 // some methods for get or post data
--(void)getCommentsByMessageID:(int)messageID
+-(void)getCommentsByMessageID:(long)messageID// sinceID:(long)sinceId
 {
     [commentsArray removeAllObjects];
-    NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%d", HOME_PAGE, messageID];
+    NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld", HOME_PAGE, messageID];
+    //    if (sinceId != -1)
+    //        [requestStr stringByAppendingFormat:@"&sinceID=%ld", sinceId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestStr]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
-    NSLog(@"result = %@", [request responseString]);
     
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
@@ -479,12 +396,29 @@
     {
         [commentsArray addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
     }
+    
+    NSLog(@"Comments number is %d.", [commentsArray count]);
 }
-
--(void)backGroundTap
+-(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId
+{
+    NSString* requestURL = [NSString stringWithFormat:@"%@/comment/create", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestURL]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:text forKey:@"text"];
+    [request setPostValue:[NSString stringWithFormat:@"%d", messageId] forKey:@"messageID"];
+    if (replyCommentID > 0)
+        [request setPostValue:[NSString stringWithFormat:@"%d", replyCommentId] forKey:@"replyCommentID"];
+    [request startSynchronous];
+    NSLog(@"response:%@", [request responseString]);
+}
+-(IBAction)backGroundTap
 {
     [textField resignFirstResponder];
-    [scrollView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
+    [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
 @end

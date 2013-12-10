@@ -10,20 +10,18 @@
 #import "JMStaticContentTableViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MessageModel.h"
-#import "InputToolBar.h"
-#import "HPGrowingTextView.h"
+#import "EmojiKeyBoardView.h"
 
-@interface SpeakerDetailViewController : JMStaticContentTableViewController<UITextFieldDelegate, UIScrollViewDelegate, FaceViewDelegate, UIGestureRecognizerDelegate>
+@interface SpeakerDetailViewController : JMStaticContentTableViewController<UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
 {
     UIToolbar*   toolBar;
     UITextField* textField;
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
     
-    BOOL isKeyboardShow;   //键盘时候显示
+    BOOL isKeyboardShow;      //键盘时候显示
     
-    UIScrollView*  scrollView;  //表情滚动视图
-    UIPageControl* pageControl;
+    EmojiKeyBoardView* emojiKeyBoard;
     
     NSMutableArray* commentsArray;
     
@@ -32,6 +30,6 @@
 
 @property(nonatomic, strong) MessageModel* message;
 
--(void)backGroundTap; //触摸view的background关闭键盘
+-(IBAction)backGroundTap; //触摸view的background关闭键盘
 
 @end
