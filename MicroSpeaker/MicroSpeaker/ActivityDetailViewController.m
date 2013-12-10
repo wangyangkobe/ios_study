@@ -58,17 +58,26 @@
     NSString* str = _message.Activity.Description;
     float fontHeight = [str sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1000) lineBreakMode:NSLineBreakByWordWrapping].height;
     
+    UIImageView* headPic = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 25, 25)];
+    UILabel* timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 270, 40)];
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         section.title = weakMessage.Activity.Theme;
 		[section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			staticContentCell.reuseIdentifier = @"ActivityTime";
             staticContentCell.cellHeight = 40.0;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.textLabel.text = [NSString stringWithFormat:@"活动时间:%@至%@", weakMessage.Activity.FromTime, weakMessage.Activity.FromTime];
-			cell.imageView.image = [UIImage imageNamed:@"group_list_clock_src.png"];
+			         
+			headPic.image = [UIImage imageNamed:@"group_list_clock_src.png"];
+            [cell.contentView addSubview:headPic];
+            
+            [timeLabel setBackgroundColor:[UIColor clearColor]];
+            timeLabel.font = [UIFont systemFontOfSize:14];
+            timeLabel.textColor = [UIColor darkGrayColor];
+            timeLabel.numberOfLines = 2;
+            timeLabel.text = [NSString stringWithFormat:@"活动时间:%@至%@", weakMessage.Activity.FromTime, weakMessage.Activity.FromTime];
+            [cell.contentView addSubview:timeLabel];
             cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.textLabel.font = [UIFont systemFontOfSize:14];
-            cell.textLabel.numberOfLines = 2;
+
             cell.textLabel.textColor = [UIColor darkGrayColor];
 		}];
         
