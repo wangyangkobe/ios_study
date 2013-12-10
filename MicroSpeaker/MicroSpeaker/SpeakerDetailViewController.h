@@ -12,7 +12,7 @@
 #import "MessageModel.h"
 #import "EmojiKeyBoardView.h"
 
-@interface SpeakerDetailViewController : JMStaticContentTableViewController<UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
+@interface SpeakerDetailViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
 {
     UIToolbar*   toolBar;
     UITextField* textField;

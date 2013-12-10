@@ -12,6 +12,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "CommentModel.h"
+#import "NSString+Emoji.h"
 
 @interface SpeakerDetailViewController ()
 -(void) getCommentsByMessageID:(long) messageID;
@@ -57,6 +58,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.title = @"正文";
@@ -149,18 +154,18 @@
 -(void)sendTextAction
 {
     [textField resignFirstResponder];
-    NSLog(@"sendTextAction：%@", [textField text]);
+    NSString* str = [[textField text] stringByReplacingEmojiUnicodeWithCheatCodes];
+    NSLog(@"sendTextAction：%@", str);
     
+    textField.text = @"";
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self createCommentWithText:[textField text] messageID:_message.MessageID replyCommentID:replyCommentID];
+        [self createCommentWithText:str messageID:_message.MessageID replyCommentID:replyCommentID];
         [self getCommentsByMessageID:_message.MessageID];
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            textField.text = @"";
         });
     });
 }
@@ -225,7 +230,6 @@
     if (strLen < 2)
         return;
     NSString* lastStr = [textField.text substringFromIndex:strLen - 2];
-    NSLog(@"%d", [emojiKeyBoardView allEmojiFaces].count);
     if ([[emojiKeyBoardView allEmojiFaces] containsObject:lastStr]) {
         textField.text = [textField.text substringToIndex:strLen - 2];
     }
@@ -265,6 +269,7 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
     int section = [indexPath section];
     int row     = [indexPath row];
     if (0 == section) {
@@ -303,7 +308,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 20, 20)];
             nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, SCREEN_WIDTH - 35, 10)];
-            timeLabel =  [[UILabel alloc] initWithFrame:CGRectMake(40, 15, SCREEN_WIDTH - 35, 10)];
+            timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, SCREEN_WIDTH - 35, 10)];
             textLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 280, 40)];
         }
         
@@ -322,7 +327,7 @@
         [cell addSubview:timeLabel];
         
         
-        [textLabel setText:comment.Text];
+        [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
         [textLabel setBackgroundColor:[UIColor clearColor]];
         [textLabel setFont:[UIFont systemFontOfSize:12]];
         [textLabel sizeToFitFixedWidth:280 lines:5];
@@ -330,12 +335,12 @@
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
-        [button setFrame:CGRectMake(280, 10, 15, 15)];
-        [cell.contentView addSubview:button];
-        button.tag = row;
-        [button addTarget:self action:@selector(replyComments:) forControlEvents:UIControlEventTouchUpInside];
+        UIButton* replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [replyButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
+        [replyButton setFrame:CGRectMake(280, 10, 15, 15)];
+        [cell.contentView addSubview:replyButton];
+        replyButton.tag = row;
+        [replyButton addTarget:self action:@selector(replyComments:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
 }
@@ -362,12 +367,10 @@
 }
 
 // some methods for get or post data
--(void)getCommentsByMessageID:(long)messageID// sinceID:(long)sinceId
+-(void)getCommentsByMessageID:(long)messageID
 {
     [commentsArray removeAllObjects];
-    NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld", HOME_PAGE, messageID];
-    //    if (sinceId != -1)
-    //        [requestStr stringByAppendingFormat:@"&sinceID=%ld", sinceId];
+    NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld&num=5", HOME_PAGE, messageID];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestStr]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -378,11 +381,11 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
+    NSLog(@"first = %@", [jsonArray objectAtIndex:0]);
     for (id comment in jsonArray)
     {
         [commentsArray addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
     }
-    
     NSLog(@"Comments number is %d.", [commentsArray count]);
 }
 -(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId

@@ -66,7 +66,7 @@
 			staticContentCell.reuseIdentifier = @"ActivityTime";
             staticContentCell.cellHeight = 40.0;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			         
+            
 			headPic.image = [UIImage imageNamed:@"group_list_clock_src.png"];
             [cell.contentView addSubview:headPic];
             
@@ -77,7 +77,7 @@
             timeLabel.text = [NSString stringWithFormat:@"活动时间:%@至%@", weakMessage.Activity.FromTime, weakMessage.Activity.FromTime];
             [cell.contentView addSubview:timeLabel];
             cell.accessoryType = UITableViewCellAccessoryNone;
-
+            
             cell.textLabel.textColor = [UIColor darkGrayColor];
 		}];
         
