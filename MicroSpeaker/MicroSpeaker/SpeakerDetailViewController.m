@@ -70,6 +70,7 @@
     [self getCommentsByMessageID:_message.MessageID];
     
     [self configureToolBar];
+    emojiKeyBoardShow = NO;
 }
 -(void)configureToolBar
 {
@@ -121,25 +122,26 @@
 
 -(void)showFaceKeyboard
 {
-    //如果键盘没有显示，点击表情了，隐藏表情，显示键盘
-    if (isKeyboardShow == NO) {
-        NSLog(@"2");
-        [UIView animateWithDuration:0.25 animations:^{
-            [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
-        }];
-        [textField becomeFirstResponder];
-        isKeyboardShow = YES;
-    }else{
-        //键盘显示的时候，toolbar需要还原到正常位置，并显示表情
-        NSLog(@"3");
-        [UIView animateWithDuration:0.25 animations:^{
-            [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
-        }];
+    //表情键盘显示，点击, 显示系统键盘
+    if (emojiKeyBoardShow != NO) {
+        NSLog(@"----1");
+        [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
         [textField resignFirstResponder];
-        isKeyboardShow = NO;
+        textField.inputView = nil;
+        [textField becomeFirstResponder];
+        emojiKeyBoardShow = NO;
+    }else{
+        //键盘显示的时候,切换到显示表情
+        NSLog(@"2");
+        [faceButton setBackgroundImage:[UIImage imageNamed:@"text"] forState:UIControlStateNormal];
+        [textField resignFirstResponder];
+        textField.inputView = emojiKeyBoard;
+        [textField becomeFirstResponder];
+        emojiKeyBoardShow = YES;
     }
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     [self sendTextAction];
     return TRUE;
@@ -171,28 +173,24 @@
                                                     name:UIKeyboardDidShowNotification
                                                   object:nil];
 }
+
 #pragma mark 监听键盘的显示与隐藏
 -(void)inputKeyboardWillShow:(NSNotification *)notification
 {
+    NSLog(@"3 -- keyboard show");
     //键盘显示，设置toolbar的frame跟随键盘的frame
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     [UIView animateWithDuration:animationTime animations:^{
         CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        NSLog(@"键盘即将出现：%@", NSStringFromCGRect(keyBoardFrame));
-        
         [toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     }];
-    [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
-    isKeyboardShow = YES;
 }
 
 -(void)inputKeyboardWillHide:(NSNotification *)notification
 {
+    NSLog(@"4 -- keyboard hide");
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-	
-    CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    NSLog(@"键盘即将消失：%@", NSStringFromCGRect(keyBoardFrame));
     
 	// animations settings
 	[UIView beginAnimations:nil context:NULL];
@@ -200,20 +198,8 @@
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-	// set views with new info
-    //  CGSize toolBarSize = toolBar.frame.size;
-    // if (toolBarSize.height > TOOLBAR_HEIGHT)
-    //{
-    //   NSLog(@"4");
-    //  [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - KEYBOARD_HEIGHT - toolBarSize.height, SCREEN_WIDTH, toolBarSize.height)];
-    // }else{
-    NSLog(@"5");
-    // [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT- TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-    [faceButton setBackgroundImage:[UIImage imageNamed:@"Text"] forState:UIControlStateNormal];
-    // }
 	// commit animations
 	[UIView commitAnimations];
-    isKeyboardShow = NO;
 }
 
 -(void)replyComments:(id)sender

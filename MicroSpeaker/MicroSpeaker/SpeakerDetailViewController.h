@@ -19,7 +19,7 @@
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
     
-    BOOL isKeyboardShow;      //键盘时候显示
+    BOOL emojiKeyBoardShow;  //系统键盘显示
     
     EmojiKeyBoardView* emojiKeyBoard;
     
