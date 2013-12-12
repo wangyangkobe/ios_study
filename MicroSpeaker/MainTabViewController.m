@@ -27,7 +27,6 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 @interface MainTabViewController ()
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
-//-(void)requestDataFromServer;
 @end
 
 @implementation MainTabViewController
@@ -114,8 +113,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 -(void)applicationWillResignActive:(NSNotification*) notification
 {
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
-    
+    //当app变成inActive时（进入backgroud），讲数据存储起来
     NSMutableData* data = [[NSMutableData alloc] init];
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     
@@ -240,79 +238,44 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
         return 60 + textHeight + 90 + 5;
     }
 }
-/*
- -(void)requestDataFromServer
- {
- ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
- [request startSynchronous];
- NSError *error = [request error];
- if (error != nil)
- {
- UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
- [alert show];
- return;
- }
- NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
- options:NSJSONReadingMutableContainers
- error:nil];
- for (NSDictionary* entry in jsonArray)
- {
- [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
- }
- }*/
-- (void)refresh
+
+//重写PullRefreshTableViewController中的pullDownRefresh方法，实现下拉获取新的消息
+- (void)pullDownRefresh
 {
-    [self performSelector:@selector(addItem) withObject:nil afterDelay:2.0];
+    if (0 == [messageArray count])
+        return;
+    long sinceID = ((MessageModel*)messageArray[0]).MessageID;
+    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceID] afterDelay:2.0];
 }
 
-- (void)addItem
+- (void)getNewMessageBySinceID:(NSNumber*) sinceID
 {
-    // Add a new time
-    //request the data
-    /*__block STHTTPRequest* request = [STHTTPRequest requestWithURLString:requestURL];
-     __block NSMutableArray* userArr = [[NSMutableArray alloc] init];
-     request.completionBlock = ^(NSDictionary* headers, NSString* jsonStr)
-     {
-     NSData* jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
-     
-     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-     
-     NSDictionary* userInfoDict = nil;
-     for (id entry in jsonArray)
-     {
-     userInfoDict = [entry objectForKey:@"User"];
-     userInfo.userName = [userInfoDict objectForKey:@"UserName"];
-     userInfo.userId   = [[userInfoDict objectForKey:@"UserID"] integerValue];
-     userInfo.userGender = [[userInfoDict objectForKey:@"Gender"] boolValue];
-     userInfo.userHeadPic = [userInfoDict objectForKey:@"HeadPic"];
-     
-     [userArr addObject:userInfo];
-     NSLog(@"%@", [userArr description]);
-     }
-     NSLog(@"end");
-     };
-     
-     request.errorBlock = ^(NSError* error)
-     {
-     NSLog(@"Error: %@", [error description]);
-     };
-     
-     [request startAsynchronous];
-     
-     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
-     [request startSynchronous];
-     
-     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-     options:NSJSONReadingMutableContainers
-     error:nil];
-     for (id entry in jsonArray)
-     {
-     [messageArray addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
-     }
-     
-     [self.tableView reloadData];
-     
-     [self stopLoading];*/
+    NSString* requestURL = [NSString stringWithFormat:@"%@/message/getByArea?areaID=2&sinceID=%ld", homePageUrl, [sinceID longValue]];
+    NSLog(@"requst URL = %@", requestURL);
+    
+    // do request on async thread
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
+#if SET_PROXY
+        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+        [request setProxyPort:8080];
+#endif
+        [request startSynchronous];
+        NSLog(@"result = %@", [request responseString]);
+        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
+        for (id entry in [jsonArray reverseObjectEnumerator])
+        {
+            [messageArray insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
+        }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self stopLoading];
+        });
+        
+    });
 }
 
 #pragma mark - Table view delegate
