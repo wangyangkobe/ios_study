@@ -5,6 +5,10 @@
 
 #define HOME_PAGE @"http://101.78.230.95:8082/microbroadcastDEV"
 #define SET_PROXY 1
+
+
+#define ACTIVITY_LABEL_HEIGHT 40  //stand for the height of locationLabel and activityTimeLabel
+
 //-------------------获取设备大小-------------------------
 //NavBar高度
 #define NavigationBar_HEIGHT 44
@@ -14,6 +18,7 @@
 
 //键盘高度
 #define KEYBOARD_HEIGHT 216
+
 //获取屏幕 宽度、高度
 #define SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
