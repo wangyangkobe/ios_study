@@ -275,72 +275,89 @@
     if (0 == section) {
         static NSString* CellIdentifier = @"UserCellIdentifier";
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
+        
+        if (cell == nil)
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
+            [headPicView setContentMode:UIViewContentModeScaleToFill];
+            headPicView.layer.cornerRadius = 5.0f;
+            headPicView.layer.masksToBounds = YES;
+            headPicView.tag = 1001;
+            
+            UILabel* nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 40)];
+            [nameLabel setTextColor:[UIColor grayColor]];
+            [nameLabel setFont:[UIFont systemFontOfSize:13]];
+            [nameLabel setBackgroundColor:[UIColor clearColor]];
+            nameLabel.tag = 1002;
+
+            [cell.contentView addSubview:headPicView];
+            [cell.contentView addSubview:nameLabel];
         }
         cell.selectionStyle = UITableViewCellEditingStyleNone;
         cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
-        UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
-        [headPicView setContentMode:UIViewContentModeScaleToFill];
-        [headPicView setImageWithURL:[NSURL URLWithString:_message.User.HeadPic]];
-        headPicView.layer.cornerRadius = 5.0f;
-        headPicView.layer.masksToBounds = YES;
-        [cell.contentView addSubview:headPicView];
+     
+        UIImageView* headPicView = (UIImageView*)[cell.contentView viewWithTag:1001];
+        UILabel* nameLabel = (UILabel*)[cell.contentView viewWithTag:1002];
         
-        UILabel* nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 40)];
+        [headPicView setImageWithURL:[NSURL URLWithString:_message.User.HeadPic]];
         nameLabel.text = _message.User.UserName;
-        [nameLabel setTextColor:[UIColor grayColor]];
-        [nameLabel setFont:[UIFont systemFontOfSize:13]];
-        [cell.contentView addSubview:nameLabel];
-        [nameLabel setBackgroundColor:[UIColor clearColor]];
         
         return  cell;
     }
     else{
         CommentModel* comment = [commentsArray objectAtIndex:row];
         static NSString* CellIdentifier = @"CommentsCellIdentifier";
-        UIImageView* headImageView = nil;
-        UILabel* nameLabel = nil;
-        UILabel* timeLabel = nil;
-        UILabel* textLabel = nil;
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
+        if (cell == nil)
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 20, 20)];
-            nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, SCREEN_WIDTH - 35, 10)];
-            timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, SCREEN_WIDTH - 35, 10)];
-            textLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 280, 40)];
+            UIImageView* headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 20, 20)];
+            headImageView.tag = 1003;
+            
+            UILabel* nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, SCREEN_WIDTH - 35, 10)];
+            [nameLabel setBackgroundColor:[UIColor clearColor]];
+            [nameLabel setTextColor:[UIColor brownColor]];
+            [nameLabel setFont:[UIFont systemFontOfSize:10]];
+            nameLabel.tag = 1004;
+            
+            UILabel* timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, SCREEN_WIDTH - 35, 10)];
+            [timeLabel setBackgroundColor:[UIColor clearColor]];
+            [timeLabel setFont:[UIFont systemFontOfSize:10]];
+            [timeLabel setTextColor:[UIColor grayColor]];
+            timeLabel.tag = 1005;
+            
+            UILabel* textLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 280, 40)];
+            [textLabel setBackgroundColor:[UIColor clearColor]];
+            [textLabel setFont:[UIFont systemFontOfSize:12]];
+            textLabel.tag = 1006;
+            
+            UIButton* replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [replyButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
+            [replyButton setFrame:CGRectMake(280, 10, 15, 15)];
+            [replyButton addTarget:self action:@selector(replyComments:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [cell.contentView addSubview:headImageView];
+            [cell.contentView addSubview:nameLabel];
+            [cell.contentView addSubview:timeLabel];
+            [cell.contentView addSubview:textLabel];
+            [cell.contentView addSubview:replyButton];
         }
+        
+        UIImageView* headImageView = (UIImageView*)[cell.contentView viewWithTag:1003];
+        UILabel*  nameLabel   = (UILabel*)[cell.contentView viewWithTag:1004];
+        UILabel*  timeLabel   = (UILabel*)[cell.contentView viewWithTag:1005];
+        UILabel*  textLabel   = (UILabel*)[cell.contentView viewWithTag:1006];
         
         [headImageView setImageWithURL:[NSURL URLWithString:comment.UserBasic.HeadPic]];
         [nameLabel setText:comment.UserBasic.UserName];
-        [nameLabel setBackgroundColor:[UIColor clearColor]];
-        [nameLabel setTextColor:[UIColor brownColor]];
-        [nameLabel setFont:[UIFont systemFontOfSize:10]];
-        
         [timeLabel setText:comment.CreateAt];
-        [timeLabel setBackgroundColor:[UIColor clearColor]];
-        [timeLabel setFont:[UIFont systemFontOfSize:10]];
-        [timeLabel setTextColor:[UIColor grayColor]];
-        [cell addSubview:headImageView];
-        [cell addSubview:nameLabel];
-        [cell addSubview:timeLabel];
-        
-        
+
         [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
-        [textLabel setBackgroundColor:[UIColor clearColor]];
-        [textLabel setFont:[UIFont systemFontOfSize:12]];
         [textLabel sizeToFitFixedWidth:280 lines:5];
-        [cell.contentView addSubview:textLabel];
-        
+
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        UIButton* replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [replyButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
-        [replyButton setFrame:CGRectMake(280, 10, 15, 15)];
-        [cell.contentView addSubview:replyButton];
-        replyButton.tag = row;
-        [replyButton addTarget:self action:@selector(replyComments:) forControlEvents:UIControlEventTouchUpInside];
+       
         return cell;
     }
 }
