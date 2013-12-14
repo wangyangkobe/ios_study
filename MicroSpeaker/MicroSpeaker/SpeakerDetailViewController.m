@@ -73,7 +73,6 @@
     
     commentsArray = [[NSMutableArray alloc] init];
     [self getCommentsByMessageID:_message.MessageID];
-    
     [self configureToolBar];
     emojiKeyBoardShow = NO;
 }
@@ -209,23 +208,25 @@
 
 -(void)replyComments:(id)sender
 {
+    if (userInfo == nil)
+        [self showUserInfo];
     UIButton* button = (UIButton*)sender;
     CommentModel* comment = [commentsArray objectAtIndex:button.tag];
     replyCommentID = comment.ReplyCommentID;
-    [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
+    if (userInfo.UserID != comment.UserBasic.UserID)
+        [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
+    else
+        [textField setText:@""];
 }
 
 #pragma Mark EmojiKeyboardViewDelegate
 - (void)emojiKeyBoardView:(EmojiKeyBoardView *)emojiKeyBoardView didUseEmoji:(NSString *)emojiStr
 {
-    NSLog(@"Controller: %@ pressed", emojiStr);
-    NSLog(@"length = %d", [emojiStr length]);
     textField.text = [textField.text stringByAppendingString:emojiStr];
 }
 
 - (void)emojiKeyBoardViewDidPressBackSpace:(EmojiKeyBoardView *)emojiKeyBoardView
 {
-    NSLog(@"Controller: Back pressed, %@", textField.text);
     int strLen = [textField.text length];
     if (strLen < 2)
         return;
@@ -290,13 +291,13 @@
             [nameLabel setFont:[UIFont systemFontOfSize:13]];
             [nameLabel setBackgroundColor:[UIColor clearColor]];
             nameLabel.tag = 1002;
-
+            
             [cell.contentView addSubview:headPicView];
             [cell.contentView addSubview:nameLabel];
         }
         cell.selectionStyle = UITableViewCellEditingStyleNone;
         cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
-     
+        
         UIImageView* headPicView = (UIImageView*)[cell.contentView viewWithTag:1001];
         UILabel* nameLabel = (UILabel*)[cell.contentView viewWithTag:1002];
         
@@ -336,6 +337,7 @@
             [replyButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
             [replyButton setFrame:CGRectMake(280, 10, 15, 15)];
             [replyButton addTarget:self action:@selector(replyComments:) forControlEvents:UIControlEventTouchUpInside];
+            replyButton.tag = 1007;
             
             [cell.contentView addSubview:headImageView];
             [cell.contentView addSubview:nameLabel];
@@ -348,16 +350,17 @@
         UILabel*  nameLabel   = (UILabel*)[cell.contentView viewWithTag:1004];
         UILabel*  timeLabel   = (UILabel*)[cell.contentView viewWithTag:1005];
         UILabel*  textLabel   = (UILabel*)[cell.contentView viewWithTag:1006];
-        
+        UIButton* replyButton = (UIButton*)[cell.contentView viewWithTag:1007];
         [headImageView setImageWithURL:[NSURL URLWithString:comment.UserBasic.HeadPic]];
         [nameLabel setText:comment.UserBasic.UserName];
         [timeLabel setText:comment.CreateAt];
-
+        
         [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
         [textLabel sizeToFitFixedWidth:280 lines:5];
-
+        
+        [replyButton setTag:row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-       
+        
         return cell;
     }
 }
@@ -368,6 +371,7 @@
         return 2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
     if (0 == section)
         return 1;
     else
@@ -380,7 +384,13 @@
     if (0 == section && 0 == row)
         return 60;
     else
-        return 50;
+    {
+        NSString* text = [((CommentModel*)[commentsArray objectAtIndex:row]).Text stringByReplacingEmojiCheatCodesWithUnicode];
+        float textHeight = [text sizeWithFont:[UIFont fontWithName:@"Helvetica" size:13]
+                            constrainedToSize:CGSizeMake(270, 63)
+                                lineBreakMode:NSLineBreakByWordWrapping].height;
+        return 30 + textHeight;
+    }
 }
 
 // some methods for get or post data
@@ -398,13 +408,13 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    NSLog(@"first = %@", [jsonArray objectAtIndex:0]);
     for (id comment in jsonArray)
     {
         [commentsArray addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
     }
     NSLog(@"Comments number is %d.", [commentsArray count]);
 }
+
 -(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId
 {
     NSString* requestURL = [NSString stringWithFormat:@"%@/comment/create", HOME_PAGE];
@@ -421,6 +431,24 @@
     [request startSynchronous];
     NSLog(@"response:%@", [request responseString]);
 }
+
+-(void)showUserInfo
+{
+    NSString* requstURL = [NSString stringWithFormat:@"%@/user/show", HOME_PAGE];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requstURL]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    //   NSLog(@"show user = %@", [request responseString]);
+    NSDictionary* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                              options:NSJSONReadingMutableContainers
+                                                                error:nil];
+    userInfo = [[UserInfoModel alloc] initWithDictionary:jsonArray error:nil];
+    
+}
+
 -(IBAction)backGroundTap
 {
     [textField resignFirstResponder];

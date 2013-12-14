@@ -10,6 +10,7 @@
 #import "JMStaticContentTableViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MessageModel.h"
+#import "UserInfoModel.h"
 #import "EmojiKeyBoardView.h"
 
 @interface SpeakerDetailViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
@@ -26,6 +27,8 @@
     NSMutableArray* commentsArray;
     
     int replyCommentID;
+    
+    UserInfoModel* userInfo;
 }
 
 @property(nonatomic, strong) MessageModel* message;
