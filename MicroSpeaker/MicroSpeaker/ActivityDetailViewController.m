@@ -17,6 +17,7 @@
 @property (nonatomic, assign) bool isAttendActivity;
 @property (nonatomic, copy) NSString* attendActivityTime;
 @property (nonatomic, retain)  UIButton* activityButton;
+
 @end
 
 @implementation ActivityDetailViewController
@@ -224,30 +225,18 @@
 }
 -(void)activityButtonPressed:(id)sender
 {
-    UIButton* button = (UIButton*)sender;
-    
     if (_isAttendActivity) //已经参加了
     {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"您已参加了该活动!" message:@"是否取消参加?" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否", nil];
+        [alertView setTag:1];
         [alertView show];
-    }else{
-        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", HOME_PAGE];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-#if SET_PROXY
-        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-        [request setProxyPort:8080];
-#endif
-        [request setRequestMethod:@"POST"];
-        [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
-        [request startSynchronous];
-        
-        [button setBackgroundColor:[UIColor redColor]];
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-mm-dd HH:mm:ss"];
-        [button setTitle:[NSString stringWithFormat:@"%@参加", [formatter stringFromDate:[NSDate date]]]
-                forState:UIControlStateNormal];
-        _isAttendActivity = true;
-        NSLog(@"参加活动:%@", [request responseString]);
+    }
+    else{
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"请输入您的信息!" message:nil delegate:self
+                                                  cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alertView setTag:2];
+        [alertView show];
     }
 }
 -(void) shareActivity
@@ -268,7 +257,7 @@
 #pragma mart UIAlertViewDelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (0 == buttonIndex) //取消参加
+    if (1 == alertView.tag && 0 == buttonIndex) //取消参加
     {
         [self.activityButton setBackgroundColor:[UIColor purpleColor]];
         [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
@@ -287,7 +276,36 @@
             NSLog(@"cancel result: %@", [request responseString]);
         });
         
-    }else{
+    }
+    else if (2 == alertView.tag && 1 == buttonIndex){ //用户输入自己的信息并提交该信息
+        UITextField* textField = [alertView textFieldAtIndex:0];
+        
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", HOME_PAGE];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+        [request setProxyPort:8080];
+#endif
+        [request setRequestMethod:@"POST"];
+        [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
+        if (textField.text != nil){
+            [request setPostValue:textField.text forKey:@"text"];
+        }
+        [request startSynchronous];
+        
+        NSLog(@"参加活动:%@", [request responseString]);
+        NSError* error = [request error];
+        
+        if (!error) {
+            [activityButton setBackgroundColor:[UIColor redColor]];
+            NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-mm-dd HH:mm:ss"];
+            [activityButton setTitle:[NSString stringWithFormat:@"%@参加", [formatter stringFromDate:[NSDate date]]]
+                            forState:UIControlStateNormal];
+            _isAttendActivity = true;
+        }
+    }
+    else{
         // do nothing
     }
 }
