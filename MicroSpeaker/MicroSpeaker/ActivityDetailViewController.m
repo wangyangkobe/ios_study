@@ -259,10 +259,6 @@
 {
     if (1 == alertView.tag && 0 == buttonIndex) //取消参加
     {
-        [self.activityButton setBackgroundColor:[UIColor purpleColor]];
-        [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
-        _isAttendActivity = false;
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", HOME_PAGE];
             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
@@ -274,6 +270,15 @@
             [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
             [request startSynchronous];
             NSLog(@"cancel result: %@", [request responseString]);
+            
+            NSError* error = [request error];
+            if (!error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.activityButton setBackgroundColor:[UIColor purpleColor]];
+                    [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
+                    _isAttendActivity = false;
+                });
+            }
         });
         
     }
