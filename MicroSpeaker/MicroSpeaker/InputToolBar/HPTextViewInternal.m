@@ -27,6 +27,7 @@
 
 #import "HPTextViewInternal.h"
 
+
 @implementation HPTextViewInternal
 
 -(void)setText:(NSString *)text
@@ -66,6 +67,10 @@
         }
 	}
     
+    // Fix "overscrolling" bug
+    if (s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging)
+        s = CGPointMake(s.x, self.contentSize.height - self.frame.size.height);
+    
 	[super setContentOffset:s];
 }
 
@@ -98,14 +103,16 @@
     [super drawRect:rect];
     if (self.displayPlaceHolder && self.placeholder && self.placeholderColor)
     {
-#ifdef __IPHONE_7_0
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = self.textAlignment;
-        [self.placeholder drawInRect:CGRectMake(5, 8 + self.contentInset.top, self.frame.size.width-self.contentInset.left, self.frame.size.height- self.contentInset.top) withAttributes:@{NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.placeholderColor, NSParagraphStyleAttributeName:paragraphStyle}];
-#else
-        [self.placeholderColor set];
-        [self.placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font];
-#endif
+        if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
+        {
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.alignment = self.textAlignment;
+            [self.placeholder drawInRect:CGRectMake(5, 8 + self.contentInset.top, self.frame.size.width-self.contentInset.left, self.frame.size.height- self.contentInset.top) withAttributes:@{NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.placeholderColor, NSParagraphStyleAttributeName:paragraphStyle}];
+        }
+        else {
+            [self.placeholderColor set];
+            [self.placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font];
+        }
     }
 }
 
