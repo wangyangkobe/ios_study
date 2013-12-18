@@ -19,6 +19,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "MacroDefination.h"
+#import "KxMenu.h"
+#import "PublishMessageViewController.h"
 
 //NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
 //NSString* requestURL = @"http:101.78.230.95:8082/microbroadcastDEV/message/getByID";
@@ -71,6 +73,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     NSLog(@"headers:%@", [request responseHeaders]);
     NSLog(@"response:%@", [request responseString]);
 }
+
 - (void)viewDidLoad
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
@@ -109,6 +112,12 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
             });
         }
     });
+    
+    //添加导航栏左边的发布信息按钮
+    UIBarButtonItem* publishButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                                   target:self
+                                                                                   action:@selector(showMenu)];
+    self.navigationItem.leftBarButtonItem =  publishButton;
 }
 
 -(void)applicationWillResignActive:(NSNotification*) notification
@@ -284,8 +293,8 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
     NSInteger row = [indexPath row];
-    MessageModel* selectedMessage = [messageArray objectAtIndex:row];
     
+    MessageModel* selectedMessage = [messageArray objectAtIndex:row];
     if (selectedMessage.Type == 2)
     {
         // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
@@ -396,5 +405,37 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 - (void)paginatorDidFailToRespond:(id)paginator
 {
     // Todo
+}
+
+-(void)showMenu
+{
+    NSArray *menuItems =
+    @[
+      [KxMenuItem menuItem:@"大声说"
+                     image:nil
+                    target:self
+                    action:@selector(showController:)],
+      [KxMenuItem menuItem:@"搞活动"
+                     image:nil
+                    target:nil
+                    action:NULL],
+      ];
+    
+    KxMenuItem *first = menuItems[0];
+    first.alignment = NSTextAlignmentCenter;
+    KxMenuItem* second = menuItems[1];
+    second.alignment = NSTextAlignmentCenter;
+    
+    [KxMenu setTintColor:[UIColor whiteColor]];
+    [KxMenu showMenuInView:self.view
+                  fromRect:CGRectMake(0, -30, 30, 30)
+                 menuItems:menuItems];
+}
+-(void)showController:(id)sender{
+    KxMenuItem* menuItem = (KxMenuItem*)sender;
+    if ([menuItem.title isEqualToString:@"大声说"]) {
+        PublishMessageViewController* controller = [[PublishMessageViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 @end
