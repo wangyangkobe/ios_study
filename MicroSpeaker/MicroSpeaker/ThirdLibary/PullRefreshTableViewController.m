@@ -35,7 +35,7 @@
 
 @implementation PullRefreshTableViewController
 
-@synthesize textPull, textRelease, textLoading, refreshHeaderView, refreshLabel, refreshArrow, refreshSpinner;
+@synthesize textPullDown, textRelease, textLoading, refreshHeaderView, refreshLabel, refreshArrow, refreshIndicator;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -67,7 +67,7 @@
 }
 
 - (void)setupStrings{
-    textPull = @"Pull down to refresh...";
+    textPullDown = @"Pull down to refresh...";
     textRelease = @"Release to refresh...";
     textLoading = @"Loading...";
 }
@@ -86,14 +86,14 @@
                                     (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
                                     27, 44);
     
-    refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    refreshSpinner.color = [UIColor blueColor];
-    refreshSpinner.frame = CGRectMake(320/2 - 20/2, floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
-    refreshSpinner.hidesWhenStopped = YES;
+    refreshIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    refreshIndicator.color = [UIColor blueColor];
+    refreshIndicator.frame = CGRectMake(320/2 - 20/2, floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
+    refreshIndicator.hidesWhenStopped = YES;
     
     [refreshHeaderView addSubview:refreshLabel];
     [refreshHeaderView addSubview:refreshArrow];
-    [refreshHeaderView addSubview:refreshSpinner];
+    [refreshHeaderView addSubview:refreshIndicator];
     [self.tableView addSubview:refreshHeaderView];
 }
 
@@ -118,7 +118,7 @@
                 [refreshArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
             } else {
                 // User is scrolling somewhere within the header
-                refreshLabel.text = self.textPull;
+                refreshLabel.text = self.textPullDown;
                 [refreshArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
             }
         }];
@@ -142,7 +142,7 @@
         self.tableView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
         refreshLabel.text = self.textLoading;
         refreshArrow.hidden = YES;
-        [refreshSpinner startAnimating];
+        [refreshIndicator startAnimating];
     }];
     
     // Refresh action!
@@ -164,26 +164,15 @@
 
 - (void)stopLoadingComplete {
     // Reset the header
-    refreshLabel.text = self.textPull;
+    refreshLabel.text = self.textPullDown;
     refreshArrow.hidden = NO;
-    [refreshSpinner stopAnimating];
+    [refreshIndicator stopAnimating];
 }
 
 - (void)pullDownRefresh {
     // This is just a demo. Override this method with your custom reload action.
     // Don't forget to call stopLoading at the end.
     [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
-}
-
-- (void)dealloc {
-    /*  [refreshHeaderView release];
-     [refreshLabel release];
-     [refreshArrow release];
-     [refreshSpinner release];
-     [textPull release];
-     [textRelease release];
-     [textLoading release];
-     [super dealloc];*/
 }
 
 @end
