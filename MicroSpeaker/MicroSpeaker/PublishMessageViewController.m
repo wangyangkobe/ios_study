@@ -115,7 +115,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ImageCellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             loadImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [loadImageButton setImage:[UIImage imageNamed:@"sharemoreAdd"] forState:UIControlStateNormal];
+            [loadImageButton setImage:[UIImage imageNamed:@"loadImage"] forState:UIControlStateNormal];
     
             [loadImageButton addTarget:self action:@selector(loadPicture) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:loadImageButton];

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1508C3A6185F0B0000AB6AE7 /* PublishMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1508C3A5185F0B0000AB6AE7 /* PublishMessageViewController.m */; };
+		1508C3A8185F251600AB6AE7 /* loadImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508C3A7185F251600AB6AE7 /* loadImage@2x.png */; };
 		1518E1E0184DFEF400172A14 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1CF184DFEF400172A14 /* Emoji.m */; };
 		1518E1E1184DFEF400172A14 /* EmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D1184DFEF400172A14 /* EmojiEmoticons.m */; };
 		1518E1E2184DFEF400172A14 /* EmojiMapSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 1518E1D3184DFEF400172A14 /* EmojiMapSymbols.m */; };
@@ -49,6 +51,8 @@
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
 		15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56431841F8E6007CF595 /* group_list_clock_src.png */; };
 		15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56441841F8E6007CF595 /* group_list_location_src.png */; };
+		15DE498D185C8B6800754EAC /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DE498C185C8B6800754EAC /* UserInfoModel.m */; };
+		15DE4991185CA15200754EAC /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DE4990185CA15200754EAC /* KxMenu.m */; };
 		15ECC14E1857517B00EB36D4 /* NSString+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 15ECC14D1857517B00EB36D4 /* NSString+Emoji.m */; };
 		15F691AD184C3F2C009986CD /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6919A184C3F2C009986CD /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		15F691AE184C3F2C009986CD /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6919D184C3F2C009986CD /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -122,6 +126,9 @@
 
 /* Begin PBXFileReference section */
 		0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1508C3A4185F0B0000AB6AE7 /* PublishMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishMessageViewController.h; sourceTree = "<group>"; };
+		1508C3A5185F0B0000AB6AE7 /* PublishMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishMessageViewController.m; sourceTree = "<group>"; };
+		1508C3A7185F251600AB6AE7 /* loadImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadImage@2x.png"; sourceTree = "<group>"; };
 		1518E1CE184DFEF400172A14 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
 		1518E1CF184DFEF400172A14 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
 		1518E1D0184DFEF400172A14 /* EmojiEmoticons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiEmoticons.h; sourceTree = "<group>"; };
@@ -158,6 +165,10 @@
 		15AD56411841F876007CF595 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
 		15AD56431841F8E6007CF595 /* group_list_clock_src.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_list_clock_src.png; sourceTree = "<group>"; };
 		15AD56441841F8E6007CF595 /* group_list_location_src.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_list_location_src.png; sourceTree = "<group>"; };
+		15DE498B185C8B6800754EAC /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		15DE498C185C8B6800754EAC /* UserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		15DE498F185CA15200754EAC /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
+		15DE4990185CA15200754EAC /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		15ECC14C1857517B00EB36D4 /* NSString+Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emoji.h"; sourceTree = "<group>"; };
 		15ECC14D1857517B00EB36D4 /* NSString+Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emoji.m"; sourceTree = "<group>"; };
 		15F0950018464DE0004F3DAD /* FGalleryPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhoto.h; sourceTree = "<group>"; };
@@ -334,6 +345,15 @@
 			path = InputToolBar;
 			sourceTree = "<group>";
 		};
+		15DE498E185CA15200754EAC /* KxMenu */ = {
+			isa = PBXGroup;
+			children = (
+				15DE498F185CA15200754EAC /* KxMenu.h */,
+				15DE4990185CA15200754EAC /* KxMenu.m */,
+			);
+			path = KxMenu;
+			sourceTree = "<group>";
+		};
 		15F094FF18464DE0004F3DAD /* FGallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +370,7 @@
 		15F0950A18464F1A004F3DAD /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				15DE498E185CA15200754EAC /* KxMenu */,
 				15FC29661855EC5700731A50 /* EmojiKeyBoard */,
 				15F69198184C3F2C009986CD /* ASIHTTPRequest */,
 				15F0952518464FF5004F3DAD /* MessagePaginator.m */,
@@ -379,6 +400,8 @@
 				15F0951E18464FB2004F3DAD /* UserModel.m */,
 				152D83201852030400FE7FCE /* CommentModel.h */,
 				152D83211852030400FE7FCE /* CommentModel.m */,
+				15DE498B185C8B6800754EAC /* UserInfoModel.h */,
+				15DE498C185C8B6800754EAC /* UserInfoModel.m */,
 			);
 			path = ClassModule;
 			sourceTree = "<group>";
@@ -544,6 +567,8 @@
 				154BDB0A18421D6B0019E85F /* ActivityDetailViewController.m */,
 				522D7F471827BFBD00AF71F8 /* ViewController.h */,
 				522D7F481827BFBD00AF71F8 /* ViewController.m */,
+				1508C3A4185F0B0000AB6AE7 /* PublishMessageViewController.h */,
+				1508C3A5185F0B0000AB6AE7 /* PublishMessageViewController.m */,
 				522D7F381827BFBD00AF71F8 /* main.m */,
 				522D7F331827BFBD00AF71F8 /* Supporting Files */,
 			);
@@ -556,6 +581,7 @@
 				15FC29721855F37F00731A50 /* Images */,
 				15FC296D1855EC8A00731A50 /* EmojisList.plist */,
 				1518E1F1184E2A6100172A14 /* InputBack.png */,
+				1508C3A7185F251600AB6AE7 /* loadImage@2x.png */,
 				1518E1F2184E2A6100172A14 /* InputBack@2x.png */,
 				154BDB0C1842235C0019E85F /* group_detail_menu_share.png */,
 				15AD56431841F8E6007CF595 /* group_list_clock_src.png */,
@@ -672,6 +698,7 @@
 				15FA7520185737BE00C788A3 /* face.png in Resources */,
 				15FC29B81855F37F00731A50 /* tab_bg@2x.png in Resources */,
 				15FC299F1855F37F00731A50 /* car_s.png in Resources */,
+				1508C3A8185F251600AB6AE7 /* loadImage@2x.png in Resources */,
 				522D7F501827C71F00AF71F8 /* MessageCell.xib in Resources */,
 				15FC299E1855F37F00731A50 /* car_n@2x.png in Resources */,
 				15FC29AC1855F37F00731A50 /* face_s@2x.png in Resources */,
@@ -735,6 +762,7 @@
 				156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */,
 				156034DB1848DC7E00C237B0 /* UILabel+Extensions.m in Sources */,
 				156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */,
+				15DE498D185C8B6800754EAC /* UserInfoModel.m in Sources */,
 				156034D91848DC7600C237B0 /* PullRefreshTableViewController.m in Sources */,
 				1518E1E0184DFEF400172A14 /* Emoji.m in Sources */,
 				1518E1E2184DFEF400172A14 /* EmojiMapSymbols.m in Sources */,
@@ -750,6 +778,7 @@
 				156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */,
 				15F691B3184C3F2C009986CD /* ASIInputStream.m in Sources */,
 				156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */,
+				15DE4991185CA15200754EAC /* KxMenu.m in Sources */,
 				15FC29711855EDF900731A50 /* DDPageControl.m in Sources */,
 				15F691B0184C3F2C009986CD /* ASIDownloadCache.m in Sources */,
 				156034D01848DC2500C237B0 /* FGalleryPhoto.m in Sources */,
@@ -771,6 +800,7 @@
 				15F691AD184C3F2C009986CD /* ASIAuthenticationDialog.m in Sources */,
 				156034C91848DC0400C237B0 /* ActivityModel.m in Sources */,
 				1518E1E6184DFEF400172A14 /* FaceView.m in Sources */,
+				1508C3A6185F0B0000AB6AE7 /* PublishMessageViewController.m in Sources */,
 				1518E1E1184DFEF400172A14 /* EmojiEmoticons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,7 +4,7 @@
 #define MacroDefinition_h
 
 #define HOME_PAGE @"http://101.78.230.95:8082/microbroadcastDEV"
-#define SET_PROXY 1
+#define SET_PROXY 0
 
 
 #define ACTIVITY_LABEL_HEIGHT 40  //stand for the height of locationLabel and activityTimeLabel

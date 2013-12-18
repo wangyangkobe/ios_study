@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "HPGrowingTextView.h"
-#import "QBImagePickerController.h"
 @interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     HPGrowingTextView* textView;
