@@ -44,6 +44,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 - (void)viewDidLoad
 {
@@ -191,6 +192,7 @@
     if (1 == sectionIdex && 0 == rowIndex && [_message.Photos count] > 0)
     {
         FGalleryViewController* networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
         [self.navigationController pushViewController:networkGallery animated:YES];
     }
 }
