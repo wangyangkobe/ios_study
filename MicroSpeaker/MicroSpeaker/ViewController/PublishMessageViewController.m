@@ -8,6 +8,7 @@
 
 #import "PublishMessageViewController.h"
 #import "MacroDefination.h"
+#import "NetWorkConnection.h"
 
 #define kImagePositionx @"positionX"
 #define kImagePositiony @"positionY"
@@ -36,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    defaultHeight = SCREEN_HEIGHT / 3;
+    textViewDefaultHeight = SCREEN_HEIGHT / 3;
     imagesArray = [[NSMutableArray alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -55,7 +56,25 @@
                           [NSValue valueWithCGRect:CGRectMake(80,  80, 70, 70)],
                           [NSValue valueWithCGRect:CGRectMake(155, 80, 70, 70)],
                           [NSValue valueWithCGRect:CGRectMake(230, 80, 70, 70)],
+                          
+                          [NSValue valueWithCGRect:CGRectMake(5,   155, 70, 70)],
+                          [NSValue valueWithCGRect:CGRectMake(80,  155, 70, 70)],
+                          [NSValue valueWithCGRect:CGRectMake(155, 155, 70, 70)],
+                          [NSValue valueWithCGRect:CGRectMake(230, 155, 70, 70)],
+                          
                           nil];
+    
+    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
+    oneTap.delegate = self;
+    oneTap.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
+    UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    
+    areaID = selfUserInfo.Area.AreaID;
+    areaName =  [NSString stringWithFormat:@"%@,%@", selfUserInfo.Area.AreaName, selfUserInfo.Area.City];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,13 +83,20 @@
     // Dispose of any resources that can be recreated.
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
 }
-
+#pragma mark - UIGestureRecognizerDelegate method
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return ![NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"];
+}
+-(void)backGroundTap
+{
+    [textView resignFirstResponder];
+}
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -78,7 +104,17 @@
     // Return the number of rows in the section.
     return 1;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int row = [indexPath row];
+    int section = [indexPath section];
+    if (0 == row && 2 == section) {
+        SelectAreaViewController* selectController = [[SelectAreaViewController alloc] init];
+        selectController.areaId = areaID;
+        selectController.delegate = self;
+        [self.navigationController pushViewController:selectController animated:YES];
+   }
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int row = [indexPath row];
@@ -90,7 +126,8 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TextCellIdentifier];
-            textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, defaultHeight)];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, textViewDefaultHeight)];
             textView.isScrollable = NO;
             textView.minNumberOfLines = 1;
             textView.maxNumberOfLines = 100;
@@ -99,10 +136,11 @@
             textView.layer.cornerRadius =5.0;
             textView.layer.masksToBounds = YES;
             textView.delegate = self;
+            textView.placeholder = @"亲，请输入您想说的话......";
+            textView.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:textView];
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-     //   [textView becomeFirstResponder];
+        [textView becomeFirstResponder];
         return cell;
     }
     else if (1 == section && 0 == row)
@@ -125,18 +163,38 @@
         [self removeImageViewsFromCell:cell];
         
         for (int i  = 0; i < count; i++) {
-            UIImageView* imageView = [[UIImageView alloc] initWithImage:[imagesArray objectAtIndex:i]];
+            UIImageView* imageView = [[UIImageView alloc] initWithImage:
+                                      [[imagesArray objectAtIndex:i] imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
+            [imageView setContentMode:UIViewContentModeScaleToFill];
             [imageView setFrame:[[self.positonsArray objectAtIndex:i] CGRectValue]];
-            NSLog(@"image = %@", [imagesArray objectAtIndex:i]);
             [cell.contentView addSubview:imageView];
         }
 
         return  cell;
     }
-    // Configure the cell...
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    return cell;
+    else
+    {
+        static NSString* AreaCellIdentifier = @"AreaCell";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:AreaCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AreaCellIdentifier];
+            cell.textLabel.text = @"推送社区";
+            cell.textLabel.textColor = [UIColor blueColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.font = [UIFont systemFontOfSize:14];
+            
+            UILabel* areaLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 235, 40)];
+            [areaLabel setBackgroundColor:[UIColor clearColor]];
+            [areaLabel setTag:10000];
+            areaLabel.textAlignment = NSTextAlignmentRight;
+            [cell.contentView addSubview:areaLabel];
+        }
+        NSLog(@"areaName = %@", areaName);
+        UILabel* label = (UILabel*)[cell viewWithTag:10000];
+        label.text = areaName;
+
+        return cell;
+    }
 }
 -(void)removeImageViewsFromCell:(UITableViewCell*)cell
 {
@@ -199,7 +257,7 @@
     int row     = [indexPath row];
     int section = [indexPath section];
     if (0 == section && 0 == row) {
-        return defaultHeight;
+        return textViewDefaultHeight;
     }
     else if(1 == section && 0 == row)
     {
@@ -215,9 +273,9 @@
 -(void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     NSLog(@"height = %f", height);
-    if (height > defaultHeight)
+    if (height > textViewDefaultHeight)
     {
-        defaultHeight = height;
+        textViewDefaultHeight = height;
         [self tableViewNeedsToUpdateHeight];
     }
 }
@@ -228,5 +286,13 @@
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
     [UIView setAnimationsEnabled:animationsEnabled];
+}
+
+#pragma mark - SelectAreaViewController delelgate
+-(void)selectAreaViewController:(SelectAreaViewController *)viewController didFinishSelectAreaId:(int)Id areaName:(NSString *)Name
+{
+    areaID = Id;
+    areaName = Name;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
 }
 @end

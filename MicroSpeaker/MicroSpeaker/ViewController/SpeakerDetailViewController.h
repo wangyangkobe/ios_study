@@ -28,7 +28,7 @@
     
     int replyCommentID;
     
-    UserInfoModel* userInfo;
+    UserInfoModel* selfUserInfo;
 }
 
 @property(nonatomic, strong) MessageModel* message;

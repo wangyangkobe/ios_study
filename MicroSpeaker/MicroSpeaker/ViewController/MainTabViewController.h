@@ -10,6 +10,7 @@
 #import "PullRefreshTableViewController.h"
 #import "MessagePaginator.h"
 #import "MacroDefination.h"
+#import "NetWorkConnection.h"
 
 #define kFileName @"MessageData.plist"
 #define kDataKey @"MessageData"
@@ -17,6 +18,7 @@
 @interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
 {
     NSMutableDictionary* heightCache;
+    
 }
 
 @property(nonatomic, copy) NSMutableArray* messageArray;

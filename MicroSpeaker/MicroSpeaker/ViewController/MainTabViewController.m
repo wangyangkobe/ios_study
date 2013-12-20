@@ -60,18 +60,17 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 {
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
+    if (checkResut) {
+        UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+        NSLog(@"%d", selfUserInfo.Area.AreaID);
+        
+        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:encodedObject forKey:SELF_USERINFO];
+        [defaults synchronize];
+    }
     
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:
-                                   [NSURL URLWithString:@"http://101.78.230.95:8082/microbroadcastDEV/user/checkUser"]];
-#if SET_PROXY
-    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-    [request setProxyPort:8080];
-#endif
-    [request setRequestMethod:@"POST"];
-    [request setPostValue:@"1989424925" forKey:@"weiboID"];
-    [request startSynchronous];
-    NSLog(@"headers:%@", [request responseHeaders]);
-    NSLog(@"response:%@", [request responseString]);
 }
 
 - (void)viewDidLoad
@@ -253,37 +252,27 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 {
     if (0 == [messageArray count])
         return;
-    long sinceID = ((MessageModel*)messageArray[0]).MessageID;
-    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceID] afterDelay:2.0];
+    long sinceId = ((MessageModel*)messageArray[0]).MessageID;
+    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:2.0];
 }
 
-- (void)getNewMessageBySinceID:(NSNumber*) sinceID
+- (void)getNewMessageBySinceID:(NSNumber*) sinceId
 {
-    NSString* requestURL = [NSString stringWithFormat:@"%@/message/getByArea?areaID=2&sinceID=%ld", homePageUrl, [sinceID longValue]];
-    NSLog(@"requst URL = %@", requestURL);
-    
-    // do request on async thread
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
-#if SET_PROXY
-        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-        [request setProxyPort:8080];
-#endif
-        [request startSynchronous];
-        NSLog(@"result = %@", [request responseString]);
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:nil];
-        for (id entry in [jsonArray reverseObjectEnumerator])
-        {
-            [messageArray insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
-        }
         
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
+        UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+
+        NSArray* newMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID sinceID:[sinceId longValue]];
+        for (MessageModel* message in [newMessage reverseObjectEnumerator])
+        {
+            [messageArray insertObject:message atIndex:0];
+        }
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             [self stopLoading];
         });
-        
     });
 }
 
@@ -411,25 +400,16 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 {
     NSArray *menuItems =
     @[
-      [KxMenuItem menuItem:@"大声说"
-                     image:nil
-                    target:self
-                    action:@selector(showController:)],
-      [KxMenuItem menuItem:@"搞活动"
-                     image:nil
-                    target:nil
-                    action:NULL],
+      [KxMenuItem menuItem:@"大声说" image:nil target:self action:@selector(showController:)],
+      [KxMenuItem menuItem:@"搞活动" image:nil target:nil action:nil],
       ];
     
-    KxMenuItem *first = menuItems[0];
-    first.alignment = NSTextAlignmentCenter;
-    KxMenuItem* second = menuItems[1];
-    second.alignment = NSTextAlignmentCenter;
+    for (KxMenuItem* item in menuItems){
+        item.alignment = NSTextAlignmentCenter;
+    }
     
     [KxMenu setTintColor:[UIColor whiteColor]];
-    [KxMenu showMenuInView:self.view
-                  fromRect:CGRectMake(0, -30, 30, 30)
-                 menuItems:menuItems];
+    [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
 }
 -(void)showController:(id)sender{
     KxMenuItem* menuItem = (KxMenuItem*)sender;

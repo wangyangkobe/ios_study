@@ -1,13 +1,13 @@
 //
-//  ViewController.h
+//  UIImage_Extensions.h
 //  MicroSpeaker
 //
-//  Created by yang on 13-11-4.
+//  Created by wy on 13-12-18.
 //  Copyright (c) 2013年 yang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface UIImage ()
 
 @end

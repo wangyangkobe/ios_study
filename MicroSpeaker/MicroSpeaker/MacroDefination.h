@@ -5,7 +5,9 @@
 
 #define HOME_PAGE @"http://101.78.230.95:8082/microbroadcastDEV"
 #define SET_PROXY 0
+#define WEIBO_ID @"1989424925"
 
+#define SELF_USERINFO @"self_UserInfo"
 
 #define ACTIVITY_LABEL_HEIGHT 40  //stand for the height of locationLabel and activityTimeLabel
 

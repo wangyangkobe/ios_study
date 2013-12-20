@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
 #import "MacroDefination.h"
+#import "NetWorkConnection.h"
 @interface ActivityDetailViewController ()
 
 @property (nonatomic, assign) bool isAttendActivity;
@@ -183,6 +184,17 @@
     self.navigationItem.rightBarButtonItem = rightButton;
 }
 
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int rowIndex    = [indexPath row];
+    int sectionIdex = [indexPath section];
+    if (1 == sectionIdex && 0 == rowIndex && [_message.Photos count] > 0)
+    {
+        FGalleryViewController* networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+        [self.navigationController pushViewController:networkGallery animated:YES];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -190,22 +202,15 @@
 }
 -(void)checkAttendActivity
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/checkAttend?activityID=%ld", HOME_PAGE, _message.MessageID];
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-#if SET_PROXY
-        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-        [request setProxyPort:8080];
-#endif
-        [request startSynchronous];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSString* result = [[NetWorkConnection sharedInstance] checkAttendActivity:_message.MessageID];
         
-        NSLog(@"checkAttendActivity: %@", [request responseString]);
-        if ([[request responseString] isEqualToString:@"false"]) {
+        if ([result isEqualToString:@"false"]) {
             _isAttendActivity = NO;
             _attendActivityTime = nil;
         }else{
             _isAttendActivity = YES;
-            _attendActivityTime = [NSString stringWithString:[request responseString]];
+            _attendActivityTime = [NSString stringWithString:result];
         }
         
         [self performSelectorOnMainThread:@selector(changeButtonTitleAndColor:) withObject:activityButton waitUntilDone:YES];
@@ -243,36 +248,15 @@
 {
     
 }
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int rowIndex    = [indexPath row];
-    int sectionIdex = [indexPath section];
-    if (1 == sectionIdex && 0 == rowIndex && [_message.Photos count] > 0)
-    {
-        FGalleryViewController* networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
-        [self.navigationController pushViewController:networkGallery animated:YES];
-    }
-}
-
 #pragma mart UIAlertViewDelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (1 == alertView.tag && 0 == buttonIndex) //取消参加
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/cancel", HOME_PAGE];
-            ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-#if SET_PROXY
-            [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-            [request setProxyPort:8080];
-#endif
-            [request setRequestMethod:@"POST"];
-            [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
-            [request startSynchronous];
-            NSLog(@"cancel result: %@", [request responseString]);
-            
-            NSError* error = [request error];
-            if (!error) {
+            BOOL result = [[NetWorkConnection sharedInstance] cancelAttendActivity:_message.MessageID];
+            if (result)
+            {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.activityButton setBackgroundColor:[UIColor purpleColor]];
                     [self.activityButton setTitle:@"参加" forState:UIControlStateNormal];
@@ -280,28 +264,13 @@
                 });
             }
         });
-        
     }
     else if (2 == alertView.tag && 1 == buttonIndex){ //用户输入自己的信息并提交该信息
         UITextField* textField = [alertView textFieldAtIndex:0];
         
-        NSString* requestUrl = [NSString stringWithFormat:@"%@/activity/attend", HOME_PAGE];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-#if SET_PROXY
-        [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-        [request setProxyPort:8080];
-#endif
-        [request setRequestMethod:@"POST"];
-        [request setPostValue:[NSString stringWithFormat:@"%ld", _message.MessageID] forKey:@"activityID"];
-        if (textField.text != nil){
-            [request setPostValue:textField.text forKey:@"text"];
-        }
-        [request startSynchronous];
+        BOOL result = [[NetWorkConnection sharedInstance] attendActivity:_message.MessageID attendInfo:textField.text];
         
-        NSLog(@"参加活动:%@", [request responseString]);
-        NSError* error = [request error];
-        
-        if (!error) {
+        if (result) {
             [activityButton setBackgroundColor:[UIColor redColor]];
             NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"yyyy-mm-dd HH:mm:ss"];

@@ -13,7 +13,7 @@
 #import "ASIFormDataRequest.h"
 #import "CommentModel.h"
 #import "NSString+Emoji.h"
-
+#import "NetWorkConnection.h"
 @interface SpeakerDetailViewController ()
 -(void) getCommentsByMessageID:(long) messageID;
 @end
@@ -58,6 +58,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
+    selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -161,8 +164,10 @@
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self createCommentWithText:str messageID:_message.MessageID replyCommentID:replyCommentID];
+        [[NetWorkConnection sharedInstance] createCommentWithText:str messageID:_message.MessageID replyCommentID:replyCommentID];
+        
         [self getCommentsByMessageID:_message.MessageID];
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -208,12 +213,10 @@
 
 -(void)replyComments:(id)sender
 {
-    if (userInfo == nil)
-        [self showUserInfo];
     UIButton* button = (UIButton*)sender;
     CommentModel* comment = [commentsArray objectAtIndex:button.tag];
     replyCommentID = comment.ReplyCommentID;
-    if (userInfo.UserID != comment.UserBasic.UserID)
+    if (selfUserInfo.UserID != comment.UserBasic.UserID)
         [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
     else
         [textField setText:@""];
@@ -225,6 +228,7 @@
     textField.text = [textField.text stringByAppendingString:emojiStr];
 }
 
+//按回退键，删除emoji表情
 - (void)emojiKeyBoardViewDidPressBackSpace:(EmojiKeyBoardView *)emojiKeyBoardView
 {
     int strLen = [textField.text length];
@@ -393,60 +397,16 @@
     }
 }
 
-// some methods for get or post data
+// get comments by message id
 -(void)getCommentsByMessageID:(long)messageID
 {
     [commentsArray removeAllObjects];
-    NSString* requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld&num=5", HOME_PAGE, messageID];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestStr]];
-#if SET_PROXY
-    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-    [request setProxyPort:8080];
-#endif
-    [request startSynchronous];
     
-    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                         options:NSJSONReadingMutableContainers
-                                                           error:nil];
-    for (id comment in jsonArray)
-    {
-        [commentsArray addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
-    }
+    NSArray* result = [[NetWorkConnection sharedInstance] getCommentsByMessageID:messageID PageSize:5];
+
+    [commentsArray addObjectsFromArray:result];
+
     NSLog(@"Comments number is %d.", [commentsArray count]);
-}
-
--(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId
-{
-    NSString* requestURL = [NSString stringWithFormat:@"%@/comment/create", HOME_PAGE];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestURL]];
-#if SET_PROXY
-    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-    [request setProxyPort:8080];
-#endif
-    [request setRequestMethod:@"POST"];
-    [request setPostValue:text forKey:@"text"];
-    [request setPostValue:[NSString stringWithFormat:@"%d", messageId] forKey:@"messageID"];
-    if (replyCommentID > 0)
-        [request setPostValue:[NSString stringWithFormat:@"%d", replyCommentId] forKey:@"replyCommentID"];
-    [request startSynchronous];
-    NSLog(@"response:%@", [request responseString]);
-}
-
--(void)showUserInfo
-{
-    NSString* requstURL = [NSString stringWithFormat:@"%@/user/show", HOME_PAGE];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requstURL]];
-#if SET_PROXY
-    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-    [request setProxyPort:8080];
-#endif
-    [request startSynchronous];
-    //   NSLog(@"show user = %@", [request responseString]);
-    NSDictionary* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                              options:NSJSONReadingMutableContainers
-                                                                error:nil];
-    userInfo = [[UserInfoModel alloc] initWithDictionary:jsonArray error:nil];
-    
 }
 
 -(IBAction)backGroundTap

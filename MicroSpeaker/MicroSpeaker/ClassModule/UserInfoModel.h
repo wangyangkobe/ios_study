@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 #include "AreaModel.h"
-@interface UserInfoModel : JSONModel
+@interface UserInfoModel : JSONModel<NSCopying, NSCoding>
 
 @property (nonatomic, copy)   AreaModel* Area;
 @property (nonatomic, copy)   NSString<Optional>* CreateAt;
