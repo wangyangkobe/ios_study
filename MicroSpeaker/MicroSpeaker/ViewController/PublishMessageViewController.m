@@ -34,6 +34,11 @@
     self.hidesBottomBarWhenPushed = YES;
 	return self;
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -43,7 +48,7 @@
     self.tableView.dataSource = self;
     
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain
-                                                                    target:self action:@selector(publishMessage)];
+                                                                   target:self action:@selector(publishMessage)];
     self.navigationItem.rightBarButtonItem = rightButton;
     
     self.positonsArray = [NSArray arrayWithObjects:
@@ -64,9 +69,10 @@
                           
                           nil];
     
-    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
+    UITapGestureRecognizer* oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
     oneTap.delegate = self;
     oneTap.numberOfTouchesRequired = 1;
+    oneTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -86,12 +92,14 @@
 #pragma mark - UIGestureRecognizerDelegate method
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    return ![NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"];
+    // return ![NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"];
+    return YES;
 }
 -(void)backGroundTap
 {
     [textView resignFirstResponder];
 }
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -113,7 +121,23 @@
         selectController.areaId = areaID;
         selectController.delegate = self;
         [self.navigationController pushViewController:selectController animated:YES];
-   }
+    }
+    else if(0 == row && section == 0)
+    {
+        [textView becomeFirstResponder];
+    }
+    else
+    {
+        if (0 == [imagesArray count])
+            return;
+        UIImage *trashIcon = [UIImage imageNamed:@"photo-gallery-trashcan.png"];
+		UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithImage:trashIcon style:UIBarButtonItemStylePlain target:self action:@selector(handleTrashButtonTouch:)];
+        NSArray *barItems = [NSArray arrayWithObjects:trashButton, nil];
+		
+		imageGallery = [[FGalleryViewController alloc] initWithPhotoSource:self barItems:barItems];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [self.navigationController pushViewController:imageGallery animated:YES];
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -154,22 +178,25 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             loadImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [loadImageButton setImage:[UIImage imageNamed:@"loadImage"] forState:UIControlStateNormal];
-    
+            
             [loadImageButton addTarget:self action:@selector(loadPicture) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:loadImageButton];
         }
-        [loadImageButton setFrame:[[self.positonsArray objectAtIndex:count] CGRectValue]];
+        NSLog(@"count:%d", count);
+        if (count < 12)
+            [loadImageButton setFrame:[[self.positonsArray objectAtIndex:count] CGRectValue]];
         
         [self removeImageViewsFromCell:cell];
         
         for (int i  = 0; i < count; i++) {
             UIImageView* imageView = [[UIImageView alloc] initWithImage:
-                                      [[imagesArray objectAtIndex:i] imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
+                                      [[UIImage imageWithContentsOfFile:[imagesArray objectAtIndex:i]]
+                                       imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
             [imageView setContentMode:UIViewContentModeScaleToFill];
             [imageView setFrame:[[self.positonsArray objectAtIndex:i] CGRectValue]];
             [cell.contentView addSubview:imageView];
         }
-
+        
         return  cell;
     }
     else
@@ -192,7 +219,7 @@
         NSLog(@"areaName = %@", areaName);
         UILabel* label = (UILabel*)[cell viewWithTag:10000];
         label.text = areaName;
-
+        
         return cell;
     }
 }
@@ -220,6 +247,9 @@
 #pragma mark - UIActionSheetDelegate Methods
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (2 == buttonIndex) //取消
+        return;
+    
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     if (0 == buttonIndex) //拍照
@@ -229,7 +259,7 @@
         else
             NSLog(@"模拟器无法打开相机!");
     }
-    else
+    else if(1 == buttonIndex)
     {
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
@@ -244,8 +274,11 @@
     NSDictionary *mediaInfoArray = (NSDictionary *)info;
     NSLog(@"%@", [mediaInfoArray description]);
     
-    NSLog(@"%@", [mediaInfoArray objectForKey:@"UIImagePickerControllerReferenceURL"]);
-    [imagesArray addObject:[[mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"] copy]];
+    UIImage* originalImage = [mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"];
+    
+    NSString* imageName = [NSString stringWithFormat:@"wy_%d", [imagesArray count]];
+    NSString* imagePath = [self saveImage:originalImage withName:imageName];
+    [imagesArray addObject:imagePath];
     
     [self.tableView reloadData];
     NSLog(@"Selected %d photos", imagesArray.count);
@@ -294,5 +327,46 @@
     areaID = Id;
     areaName = Name;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+#pragma mark - FGalleryViewControllerDelegate Methods
+- (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
+{
+    return [imagesArray count];
+}
+- (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return [imagesArray objectAtIndex:index];
+}
+- (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController*)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index;
+{
+    return FGalleryPhotoSourceTypeLocal;
+}
+- (void)handleTrashButtonTouch:(id)sender {
+
+    [imageGallery removeImageAtIndex:[imageGallery currentIndex]];
+    [imagesArray removeObjectAtIndex:[imageGallery currentIndex]];
+    [imageGallery reloadGallery];
+    [self.tableView reloadData];
+}
+
+- (NSString*)saveImage:(UIImage *)image withName:(NSString *)name {
+    
+    //grab the data from our image
+    NSData *data;
+    if (UIImagePNGRepresentation(image) == nil) {
+        data = UIImageJPEGRepresentation(image, 1);
+    } else {
+        data = UIImagePNGRepresentation(image);
+    }
+    //get a path to the documents Directory
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,  YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    // Add out name to the end of the path with .PNG
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", name]];
+    //Save the file, over write existing if exists.
+    [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+    return fullPath;
 }
 @end

@@ -11,7 +11,8 @@
 #import "UIImage+Extensions.h"
 #import "UserInfoModel.h"
 #import "SelectAreaViewController.h"
-@interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate>
+#import "FGalleryViewController.h"
+@interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate>
 {
     HPGrowingTextView* textView;
     
@@ -24,6 +25,7 @@
     int areaID;
     NSString* areaName;
     
+    FGalleryViewController *imageGallery;
 }
 
 @end
