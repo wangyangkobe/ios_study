@@ -12,7 +12,10 @@
 #import "UserInfoModel.h"
 #import "SelectAreaViewController.h"
 #import "FGalleryViewController.h"
-@interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate>
+#import "QiniuSimpleUploader.h"
+#import "QiniuPutPolicy.h"
+#import "QiniuConfig.h"
+@interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate, QiniuUploadDelegate>
 {
     HPGrowingTextView* textView;
     
@@ -20,12 +23,16 @@
     
     CGFloat textViewDefaultHeight; //textView的默认高度
     
-    NSMutableArray* imagesArray;
+    NSMutableArray* localImagesPath;
     
     int areaID;
     NSString* areaName;
     
     FGalleryViewController *imageGallery;
+    
+    QiniuSimpleUploader* qiNiuUpLoader;
+    
+    NSMutableArray* qiNiuImagesPath;
 }
 
 @end

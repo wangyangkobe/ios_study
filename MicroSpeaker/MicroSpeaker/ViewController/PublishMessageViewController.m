@@ -13,6 +13,11 @@
 #define kImagePositionx @"positionX"
 #define kImagePositiony @"positionY"
 
+static NSString *QiniuAccessKey = @"<Please specify your access key>";
+static NSString *QiniuSecretKey = @"<Please specify your secret key>";
+static NSString *QiniuBucketName = @"<Please specify your bucket name>";
+static NSString* QiniuDomian = @"";
+
 @interface PublishMessageViewController ()
 @property (strong, nonatomic) NSArray* positonsArray;
 @end
@@ -43,7 +48,7 @@
 {
     [super viewDidLoad];
     textViewDefaultHeight = SCREEN_HEIGHT / 3;
-    imagesArray = [[NSMutableArray alloc] init];
+    localImagesPath = [[NSMutableArray alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -81,6 +86,12 @@
     
     areaID = selfUserInfo.Area.AreaID;
     areaName =  [NSString stringWithFormat:@"%@,%@", selfUserInfo.Area.AreaName, selfUserInfo.Area.City];
+    
+    QiniuAccessKey = @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU";
+    QiniuSecretKey = @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23";
+    QiniuBucketName = @"microbroadcast";
+    QiniuDomian = [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName];
+    qiNiuImagesPath = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,6 +100,12 @@
     // Dispose of any resources that can be recreated.
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
 }
+
+-(void)publishMessage
+{
+    
+}
+
 #pragma mark - UIGestureRecognizerDelegate method
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
@@ -128,7 +145,7 @@
     }
     else
     {
-        if (0 == [imagesArray count])
+        if (0 == [localImagesPath count])
             return;
         UIImage *trashIcon = [UIImage imageNamed:@"photo-gallery-trashcan.png"];
 		UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithImage:trashIcon style:UIBarButtonItemStylePlain target:self action:@selector(handleTrashButtonTouch:)];
@@ -169,7 +186,7 @@
     }
     else if (1 == section && 0 == row)
     {
-        int count = [imagesArray count];
+        int count = [localImagesPath count];
         static NSString* ImageCellIdentifier = @"LoadImageCell";
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:ImageCellIdentifier];
         if (cell == nil)
@@ -190,7 +207,7 @@
         
         for (int i  = 0; i < count; i++) {
             UIImageView* imageView = [[UIImageView alloc] initWithImage:
-                                      [[UIImage imageWithContentsOfFile:[imagesArray objectAtIndex:i]]
+                                      [[UIImage imageWithContentsOfFile:[localImagesPath objectAtIndex:i]]
                                        imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
             [imageView setContentMode:UIViewContentModeScaleToFill];
             [imageView setFrame:[[self.positonsArray objectAtIndex:i] CGRectValue]];
@@ -276,12 +293,14 @@
     
     UIImage* originalImage = [mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-    NSString* imageName = [NSString stringWithFormat:@"wy_%d", [imagesArray count]];
+    NSString* imageName = [NSString stringWithFormat:@"wy_%d", [localImagesPath count]];
     NSString* imagePath = [self saveImage:originalImage withName:imageName];
-    [imagesArray addObject:imagePath];
+    [localImagesPath addObject:imagePath];
+    
+    [self uploadFile:imagePath bucket:QiniuBucketName key:imageName];
     
     [self.tableView reloadData];
-    NSLog(@"Selected %d photos", imagesArray.count);
+    NSLog(@"Selected %d photos", localImagesPath.count);
 }
 
 #pragma mark UITableView DataSource
@@ -294,7 +313,7 @@
     }
     else if(1 == section && 0 == row)
     {
-        int row = [imagesArray count] / 4;
+        int row = [localImagesPath count] / 4;
         return 80 + 75 * row;
     }
     else{
@@ -332,25 +351,25 @@
 #pragma mark - FGalleryViewControllerDelegate Methods
 - (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
 {
-    return [imagesArray count];
+    return [localImagesPath count];
 }
 - (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
-    return [imagesArray objectAtIndex:index];
+    return [localImagesPath objectAtIndex:index];
 }
 - (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController*)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index;
 {
     return FGalleryPhotoSourceTypeLocal;
 }
 - (void)handleTrashButtonTouch:(id)sender {
-
+    
     [imageGallery removeImageAtIndex:[imageGallery currentIndex]];
-    [imagesArray removeObjectAtIndex:[imageGallery currentIndex]];
+    [localImagesPath removeObjectAtIndex:[imageGallery currentIndex]];
     [imageGallery reloadGallery];
     [self.tableView reloadData];
 }
 
-- (NSString*)saveImage:(UIImage *)image withName:(NSString *)name {
-    
+- (NSString*)saveImage:(UIImage *)image withName:(NSString *)name
+{
     //grab the data from our image
     NSData *data;
     if (UIImagePNGRepresentation(image) == nil) {
@@ -369,4 +388,66 @@
     [fileManager createFileAtPath:fullPath contents:data attributes:nil];
     return fullPath;
 }
+
+#pragma mark - QiniuUploadDelegate
+// Upload completed successfully.
+- (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
+{
+    NSString *hash = [ret objectForKey:@"hash"];
+    NSString *message = [NSString stringWithFormat:@"Successfully uploaded %@ with hash: %@",  filePath, hash];
+    NSLog(@"%@", message);
+    
+    NSString* path = [QiniuDomian stringByAppendingString:hash];
+    [qiNiuImagesPath addObject:path];
+}
+
+// Upload failed.
+//
+// (NSError *)error:
+//      ErrorDomain - QiniuSimpleUploader
+//      Code - It could be a general error (< 100) or a HTTP status code (>100)
+//      Message - You can use this line of code to retrieve the message: [error.userInfo objectForKey:@"error"]
+- (void)uploadFailed:(NSString *)filePath error:(NSError *)error
+{
+    NSString *message = @"";
+    
+    // For first-time users, this is an easy-to-forget preparation step.
+    if ([QiniuAccessKey hasPrefix:@"<Please"]) {
+        message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values. These values were defined on the top of QiniuViewController.m";
+    } else {
+        message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
+        
+        //重传一次
+        [self uploadFile:filePath bucket:QiniuBucketName key:kQiniuUndefinedKey];
+    }
+    NSLog(@"%@", message);
+}
+
+- (NSString *)tokenWithScope:(NSString *)scope
+{
+    QiniuPutPolicy *policy = [QiniuPutPolicy new] ;
+    policy.scope = scope;
+    
+    return [policy makeToken:QiniuAccessKey secretKey:QiniuSecretKey];
+}
+
+-(void)upLoadMutilImages:(NSArray*)imagesPath bucket:(NSString *)bucket
+{
+    for (NSString* imagePath in imagesPath)
+    {
+        [self uploadFile:imagePath bucket:bucket key:kQiniuUndefinedKey];
+    }
+}
+- (void)uploadFile:(NSString *)filePath bucket:(NSString *)bucket key:(NSString *)key
+{
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]) {
+        if(qiNiuUpLoader == nil)
+            qiNiuUpLoader = [QiniuSimpleUploader uploaderWithToken:[self tokenWithScope:bucket]];
+        qiNiuUpLoader.delegate = self;
+        
+        [qiNiuUpLoader uploadFile:filePath key:key extra:nil];
+    }
+}
+
 @end
