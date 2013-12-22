@@ -246,9 +246,12 @@
         return [_message.Text sizeWithFont:[UIFont systemFontOfSize:17]
                          constrainedToSize:CGSizeMake(300, 1000)
                              lineBreakMode:NSLineBreakByWordWrapping].height + 20;
+    else if(1 == section)
+        return 30;
     else
         return UITableViewAutomaticDimension;
 }
+
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (0 == section) {
         float textHeight = [_message.Text sizeWithFont:[UIFont systemFontOfSize:17]
@@ -269,8 +272,18 @@
         [footer addSubview:timeLabel];
         return footer;
     }
-    else
-        return nil;
+    else if(1 == section && [commentsArray count] >= 5)
+    {
+        NSLog(@"----");
+        UIView* footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 20, 25)];
+        UIButton* loadMoreButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [loadMoreButton setFrame:CGRectMake(10, 0, SCREEN_WIDTH - 20, 25)];
+        [loadMoreButton setTitle:@"加载更多" forState:UIControlStateNormal];
+        [loadMoreButton addTarget:self action:@selector(loadMoreComments) forControlEvents:UIControlEventTouchUpInside];
+        [footer addSubview:loadMoreButton];
+        return footer;
+    }
+    return nil;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -414,5 +427,16 @@
     [textField resignFirstResponder];
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+}
+
+//加载更多的comments
+-(void)loadMoreComments
+{
+    CommentModel* lastComment = [commentsArray lastObject];
+    NSArray* result = [[NetWorkConnection sharedInstance] getCommentsByMessageID:_message.MessageID
+                                                                        PageSize:5
+                                                                           MaxID:lastComment.CommentID];
+    [commentsArray addObjectsFromArray:result];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 @end
