@@ -24,6 +24,7 @@
 //根据社区获取消息和活动
 -(NSArray*)getMessageByAreaID:(long)areaId sinceID:(long)sinceId;
 -(NSArray*)getMessageByAreaID:(long)areaId PageSize:(int)pageSize Page:(int)page;
+-(NSArray*)getMessageByAreaID:(long)areaId maxID:(long)maxId;
 
 -(BOOL)cancelAttendActivity:(long)activityID; //取消参加活动
 -(BOOL)attendActivity:(long)activityID attendInfo:(NSString*)infoStr; //参加活动
@@ -33,7 +34,14 @@
 
 //根据messageID获取评论b
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize;
+-(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize MaxID:(long)maxId;
 
 //评论一条消息
 -(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId;
+
+//发布各种消息
+-(void)publishMessage:(int)MessageType fromTime:(NSString*)FromTime toTime:(NSString*)ToTime theme:(NSString*)Theme activityAddress:(NSString*)ActivityAddress
+                  tel:(NSString*)Tel price:(NSString*)Price commerceType:(NSString*)CommerceType text:(NSString*)Text areaID:(long)AreaID lat:(double)Lat
+                 long:(double)Long address:(NSString*)Address locationDescription:(NSString*)LocationDescription city:(NSString*)City
+             province:(NSString*)Province country:(NSString*)Country url:(NSString*)Url pushNum:(int)PushNum;
 @end
