@@ -52,8 +52,12 @@
     [[self.contentView viewWithTag:3] removeFromSuperview];
     [[self.contentView viewWithTag:4] removeFromSuperview];
     [[self.contentView viewWithTag:5] removeFromSuperview];
-    UIView *photoView = [self.contentView viewWithTag:100];
-    [photoView removeFromSuperview];
+    
+    for (UIView* view in self.contentView.subviews) {
+        if ([view isKindOfClass:[UIImageView class]] && view.tag == 1000) {
+            [view removeFromSuperview];
+        }
+    }
 }
 
 @end
