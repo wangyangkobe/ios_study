@@ -63,8 +63,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
     if (checkResut) {
         UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
-        NSLog(@"%d", selfUserInfo.Area.AreaID);
-        
+       
         NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:encodedObject forKey:SELF_USERINFO];
@@ -79,6 +78,9 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     UIApplication* app = [UIApplication sharedApplication];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:)
                                                  name:UIApplicationWillResignActiveNotification object:app];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pullDownRefresh)
+                                                 name:@"publishMessageSuccess" object:nil];
     
     [super viewDidLoad];
     messageArray = [[NSMutableArray alloc] init];
@@ -210,14 +212,18 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     [messageLabel sizeToFitFixedWidth:310 lines:3];
     
     //construct the photoViews
-    if (message.PhotoThumbnail != nil)
-    {
-        float textHeight = [NSString calculateTextHeight:message.Text];
-        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, heightPos + textHeight, 90, 90)];
+    int stopFlag = 1;
+    float textHeight = [NSString calculateTextHeight:message.Text];
+    for (NSString* imagePath in message.PhotoThumbnails) {
+        if (stopFlag == 4)
+            break;
+        UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5 * stopFlag + 90 * (stopFlag-1),
+                                                                               heightPos + textHeight, 90, 90)];
         [cell.contentView addSubview:photoView];
-        [photoView setImageWithURL:[NSURL URLWithString:message.PhotoThumbnail]];
+        [photoView setImageWithURL:[NSURL URLWithString:imagePath]];
         [photoView setContentMode:UIViewContentModeScaleToFill];
-        photoView.tag = 100;
+        photoView.tag = 1000;
+        stopFlag++;
     }
     
     //设置选中cell的style
@@ -253,7 +259,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     if (0 == [messageArray count])
         return;
     long sinceId = ((MessageModel*)messageArray[0]).MessageID;
-    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:2.0];
+    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:1.0];
 }
 
 - (void)getNewMessageBySinceID:(NSNumber*) sinceId
@@ -264,7 +270,8 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
         NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
         UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
 
-        NSArray* newMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID sinceID:[sinceId longValue]];
+        NSArray* newMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+                                                                             sinceID:[sinceId longValue]];
         for (MessageModel* message in [newMessage reverseObjectEnumerator])
         {
             [messageArray insertObject:message atIndex:0];
@@ -339,6 +346,13 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 }
 - (void)fetchNextPage
 {
+    if ([messageArray count] == 0) {
+        self.messagePaginator.lastMessageId = -1; //去从第一页获取
+    }
+    else{ //获取最后一条消息还要早的消息
+        MessageModel* lastMessage = (MessageModel*)[messageArray lastObject];
+        self.messagePaginator.lastMessageId = lastMessage.MessageID;
+    }
     [self.messagePaginator fetchNextPage];
     [self.footerActivityIndicator startAnimating];
 }

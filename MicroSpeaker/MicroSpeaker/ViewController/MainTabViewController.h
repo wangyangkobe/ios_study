@@ -18,7 +18,6 @@
 @interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
 {
     NSMutableDictionary* heightCache;
-    
 }
 
 @property(nonatomic, copy) NSMutableArray* messageArray;
