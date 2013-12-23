@@ -16,7 +16,7 @@
 
 @end
 
-@interface SelectAreaViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate>
+@interface SelectAreaViewController : UITableViewController
 {
     NSArray* areasArray;
 }
