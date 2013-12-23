@@ -107,10 +107,10 @@
     return result;
 }
 ////////////////////////////////////////////////////////
--(NSArray*)getMessageByAreaID:(long)areaId maxID:(long)maxId
+-(NSArray*)getMessageByAreaID:(long)areaId PageSize:(int)pageSize maxID:(long)maxId
 {
     NSMutableArray* result = [NSMutableArray array];
-    NSString* requestURL = [NSString stringWithFormat:@"%@/message/getByArea?areaID=%ld&maxID=%ld", HOME_PAGE, areaId, maxId];
+    NSString* requestURL = [NSString stringWithFormat:@"%@/message/getByArea?areaID=%ld&maxID=%ld&num=%d", HOME_PAGE, areaId, maxId, pageSize];
     NSLog(@"URL = %@", requestURL);
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestURL]];
@@ -119,7 +119,7 @@
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
-    NSLog(@"getMessageByAreaID result = %@", [request responseString]);
+  //  NSLog(@"getMessageByAreaID result = %@", [request responseString]);
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
