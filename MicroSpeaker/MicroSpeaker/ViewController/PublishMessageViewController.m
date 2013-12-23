@@ -49,12 +49,14 @@ static NSString* QiniuDomian = @"";
     [super viewDidLoad];
     textViewDefaultHeight = SCREEN_HEIGHT / 3;
     localImagesPath = [[NSMutableArray alloc] init];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain
                                                                    target:self action:@selector(publishMessage)];
     self.navigationItem.rightBarButtonItem = rightButton;
+    
+    UIBarButtonItem* leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
+                                                                   target:self action:@selector(cancelPublishMessage)];
+    self.navigationItem.leftBarButtonItem = leftButton;
     
     self.positonsArray = [NSArray arrayWithObjects:
                           [NSValue valueWithCGRect:CGRectMake(5,   5, 70, 70)],
@@ -82,7 +84,7 @@ static NSString* QiniuDomian = @"";
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
-    UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     
     areaID = selfUserInfo.Area.AreaID;
     areaName =  [NSString stringWithFormat:@"%@,%@", selfUserInfo.Area.AreaName, selfUserInfo.Area.City];
@@ -101,9 +103,17 @@ static NSString* QiniuDomian = @"";
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
 }
 
+-(void)cancelPublishMessage
+{
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"是否保存消息?" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    [alertView show];
+}
 -(void)publishMessage
 {
-    
+    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0.0 long:0.0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:nil pushNum:50];
+    //通知父视图获取最新数据
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+    [self.navigationController popViewControllerAnimated:YES ];
 }
 
 #pragma mark - UIGestureRecognizerDelegate method
@@ -117,13 +127,22 @@ static NSString* QiniuDomian = @"";
     [textView resignFirstResponder];
 }
 
+#pragma mark - UIAlertView delegate method
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (1 == buttonIndex) //是,需要进行存档
+    {
+        
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
     return 3;
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -131,6 +150,7 @@ static NSString* QiniuDomian = @"";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     int row = [indexPath row];
     int section = [indexPath section];
     if (0 == row && 2 == section) {

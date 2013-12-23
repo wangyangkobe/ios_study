@@ -15,7 +15,7 @@
 #import "QiniuSimpleUploader.h"
 #import "QiniuPutPolicy.h"
 #import "QiniuConfig.h"
-@interface PublishMessageViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate, QiniuUploadDelegate>
+@interface PublishMessageViewController : UITableViewController<HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate, QiniuUploadDelegate, UIAlertViewDelegate>
 {
     HPGrowingTextView* textView;
     
@@ -33,6 +33,8 @@
     QiniuSimpleUploader* qiNiuUpLoader;
     
     NSMutableArray* qiNiuImagesPath;
+    
+    UserInfoModel* selfUserInfo;
 }
 
 @end
