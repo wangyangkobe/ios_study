@@ -13,7 +13,7 @@
 #import "UserInfoModel.h"
 #import "EmojiKeyBoardView.h"
 
-@interface SpeakerDetailViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
+@interface SpeakerDetailViewController : UITableViewController<UITextFieldDelegate, UIGestureRecognizerDelegate, EmojiKeyboardViewDelegate>
 {
     UIToolbar*   toolBar;
     UITextField* textField;

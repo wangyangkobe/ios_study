@@ -57,13 +57,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 	// Do any additional setup after loading the view.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
     selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-    
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
     
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor whiteColor];
