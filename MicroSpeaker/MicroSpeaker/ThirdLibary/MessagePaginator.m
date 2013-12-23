@@ -9,17 +9,28 @@
 #import "MessagePaginator.h"
 #import "ASIHTTPRequest.h"
 #import "MacroDefination.h"
-#include "NetWorkConnection.h"
+#import "NetWorkConnection.h"
+#import "UserInfoModel.h"
 @implementation MessagePaginator
 
 #pragma mark - override Parent class's method
 - (void)fetchResultsWithPage:(NSInteger)page pageSize:(NSInteger)pageSize
 {
-    // do request on async thread
-    dispatch_queue_t fetchQ = dispatch_queue_create("Message fetcher", NULL);
+    NSLog(@"%@: maxID = %ld", NSStringFromSelector(_cmd), self.lastMessageId);
     
-    dispatch_async(fetchQ, ^{
-        NSArray* messagesArray = [[NetWorkConnection sharedInstance] getMessageByAreaID:2 PageSize:pageSize Page:page];
+    if (selfUserInfo == nil) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
+        selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    }
+    long areaID = selfUserInfo.Area.AreaID;
+    // do request on async thread
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* messagesArray = nil;
+        if (self.lastMessageId == -1)
+            messagesArray = [[NetWorkConnection sharedInstance] getMessageByAreaID:areaID PageSize:pageSize Page:page];
+        else
+            messagesArray = [[NetWorkConnection sharedInstance] getMessageByAreaID:areaID PageSize:pageSize maxID:self.lastMessageId];
         
         // go back to main thread before adding results
         dispatch_sync(dispatch_get_main_queue(), ^{

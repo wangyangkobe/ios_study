@@ -31,6 +31,7 @@ typedef enum {
 @property (assign, readonly) RequestStatus requestStatus;
 @property (nonatomic, strong, readonly) NSMutableArray *results;
 
+@property(nonatomic, assign) long lastMessageId; //上次获取到的最后一条消息ID，第一次request的值为-1
 
 - (id)initWithPageSize:(NSInteger)pageSize delegate:(id<NMPaginatorDelegate>)paginatorDelegate;
 - (void)reset;

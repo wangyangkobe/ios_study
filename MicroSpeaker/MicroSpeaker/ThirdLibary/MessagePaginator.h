@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "NMPaginator.h"
 #import "MessageModel.h"
-
-extern NSString* homePageUrl;
-
+#import "UserInfoModel.h"
 @interface MessagePaginator : NMPaginator
+{
+    UserInfoModel* selfUserInfo;
+}
 
 @end

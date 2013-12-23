@@ -12,6 +12,12 @@
 		1505C4EA1863277F00AB7457 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E61863277F00AB7457 /* unchecked.png */; };
 		1505C4EB1863277F00AB7457 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E71863277F00AB7457 /* unchecked@2x.png */; };
 		1508C3A8185F251600AB6AE7 /* loadImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508C3A7185F251600AB6AE7 /* loadImage@2x.png */; };
+		151C945D186596C1003634B1 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C944F186596C1003634B1 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151C945F186596C1003634B1 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9454186596C1003634B1 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151C9461186596C1003634B1 /* QiniuPutExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9457186596C1003634B1 /* QiniuPutExtra.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151C9462186596C1003634B1 /* QiniuSimpleUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9459186596C1003634B1 /* QiniuSimpleUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151C9463186596C1003634B1 /* QiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C945C186596C1003634B1 /* QiniuUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151C94BA18659FE8003634B1 /* QiniuPutPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C94B918659FE8003634B1 /* QiniuPutPolicy.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		152D83221852030400FE7FCE /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152D83211852030400FE7FCE /* CommentModel.m */; };
 		154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FD182E1E7A00750C71 /* placeholder@2x.png */; };
 		154B1800182E1E7A00750C71 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 154B17FE182E1E7A00750C71 /* placeholder.png */; };
@@ -109,6 +115,9 @@
 		15FF0F7D186490D70086D559 /* PublishMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F76186490D70086D559 /* PublishMessageViewController.m */; };
 		15FF0F7E186490D70086D559 /* SelectAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F78186490D70086D559 /* SelectAreaViewController.m */; };
 		15FF0F7F186490D70086D559 /* SpeakerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F7A186490D70086D559 /* SpeakerDetailViewController.m */; };
+		15FF0F8218649E160086D559 /* photo-gallery-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F8018649E160086D559 /* photo-gallery-right.png */; };
+		15FF0F8318649E160086D559 /* photo-gallery-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F8118649E160086D559 /* photo-gallery-left.png */; };
+		15FF0F851864C1D40086D559 /* photo-gallery-trashcan.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F841864C1D40086D559 /* photo-gallery-trashcan.png */; };
 		522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2C1827BFBD00AF71F8 /* UIKit.framework */; };
 		522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2E1827BFBD00AF71F8 /* Foundation.framework */; };
 		522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F301827BFBD00AF71F8 /* CoreGraphics.framework */; };
@@ -129,6 +138,21 @@
 		1505C4E71863277F00AB7457 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
 		1508C3A7185F251600AB6AE7 /* loadImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadImage@2x.png"; sourceTree = "<group>"; };
 		1518E1E9184E08AA00172A14 /* MacroDefination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefination.h; sourceTree = "<group>"; };
+		151C944E186596C1003634B1 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		151C944F186596C1003634B1 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		151C9450186596C1003634B1 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		151C9453186596C1003634B1 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		151C9454186596C1003634B1 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		151C9456186596C1003634B1 /* QiniuPutExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutExtra.h; sourceTree = "<group>"; };
+		151C9457186596C1003634B1 /* QiniuPutExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutExtra.m; sourceTree = "<group>"; };
+		151C9458186596C1003634B1 /* QiniuSimpleUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuSimpleUploader.h; sourceTree = "<group>"; };
+		151C9459186596C1003634B1 /* QiniuSimpleUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuSimpleUploader.m; sourceTree = "<group>"; };
+		151C945A186596C1003634B1 /* QiniuUploadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuUploadDelegate.h; sourceTree = "<group>"; };
+		151C945B186596C1003634B1 /* QiniuUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuUtils.h; sourceTree = "<group>"; };
+		151C945C186596C1003634B1 /* QiniuUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuUtils.m; sourceTree = "<group>"; };
+		151C94B718659FDE003634B1 /* QiniuConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuConfig.h; sourceTree = "<group>"; };
+		151C94B818659FE8003634B1 /* QiniuPutPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutPolicy.h; sourceTree = "<group>"; };
+		151C94B918659FE8003634B1 /* QiniuPutPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutPolicy.m; sourceTree = "<group>"; };
 		152D83201852030400FE7FCE /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		152D83211852030400FE7FCE /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		154B17FD182E1E7A00750C71 /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
@@ -267,6 +291,9 @@
 		15FF0F78186490D70086D559 /* SelectAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAreaViewController.m; sourceTree = "<group>"; };
 		15FF0F79186490D70086D559 /* SpeakerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerDetailViewController.h; sourceTree = "<group>"; };
 		15FF0F7A186490D70086D559 /* SpeakerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerDetailViewController.m; sourceTree = "<group>"; };
+		15FF0F8018649E160086D559 /* photo-gallery-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-right.png"; sourceTree = "<group>"; };
+		15FF0F8118649E160086D559 /* photo-gallery-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-left.png"; sourceTree = "<group>"; };
+		15FF0F841864C1D40086D559 /* photo-gallery-trashcan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-trashcan.png"; sourceTree = "<group>"; };
 		371AA0B4ABDB49B1A103131D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		522D7F291827BFBD00AF71F8 /* MicroSpeaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MicroSpeaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		522D7F2C1827BFBD00AF71F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -308,6 +335,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		151C944C186596C1003634B1 /* QiniuSDK */ = {
+			isa = PBXGroup;
+			children = (
+				151C944D186596C1003634B1 /* GTMBase64 */,
+				151C9451186596C1003634B1 /* JSONKit */,
+				151C9456186596C1003634B1 /* QiniuPutExtra.h */,
+				151C9457186596C1003634B1 /* QiniuPutExtra.m */,
+				151C9458186596C1003634B1 /* QiniuSimpleUploader.h */,
+				151C9459186596C1003634B1 /* QiniuSimpleUploader.m */,
+				151C945A186596C1003634B1 /* QiniuUploadDelegate.h */,
+				151C945B186596C1003634B1 /* QiniuUtils.h */,
+				151C945C186596C1003634B1 /* QiniuUtils.m */,
+				151C94B818659FE8003634B1 /* QiniuPutPolicy.h */,
+				151C94B918659FE8003634B1 /* QiniuPutPolicy.m */,
+				151C94B718659FDE003634B1 /* QiniuConfig.h */,
+			);
+			path = QiniuSDK;
+			sourceTree = "<group>";
+		};
+		151C944D186596C1003634B1 /* GTMBase64 */ = {
+			isa = PBXGroup;
+			children = (
+				151C944E186596C1003634B1 /* GTMBase64.h */,
+				151C944F186596C1003634B1 /* GTMBase64.m */,
+				151C9450186596C1003634B1 /* GTMDefines.h */,
+			);
+			path = GTMBase64;
+			sourceTree = "<group>";
+		};
+		151C9451186596C1003634B1 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				151C9453186596C1003634B1 /* JSONKit.h */,
+				151C9454186596C1003634B1 /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = "<group>";
+		};
 		15DE498E185CA15200754EAC /* KxMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +385,9 @@
 		15F094FF18464DE0004F3DAD /* FGallery */ = {
 			isa = PBXGroup;
 			children = (
+				15FF0F841864C1D40086D559 /* photo-gallery-trashcan.png */,
+				15FF0F8018649E160086D559 /* photo-gallery-right.png */,
+				15FF0F8118649E160086D559 /* photo-gallery-left.png */,
 				15F0950018464DE0004F3DAD /* FGalleryPhoto.h */,
 				15F0950118464DE0004F3DAD /* FGalleryPhoto.m */,
 				15F0950218464DE0004F3DAD /* FGalleryPhotoView.h */,
@@ -337,8 +405,8 @@
 				15DE498E185CA15200754EAC /* KxMenu */,
 				15FC29661855EC5700731A50 /* EmojiKeyBoard */,
 				15F69198184C3F2C009986CD /* ASIHTTPRequest */,
-				15F0952518464FF5004F3DAD /* MessagePaginator.m */,
 				15F0952418464FF5004F3DAD /* MessagePaginator.h */,
+				15F0952518464FF5004F3DAD /* MessagePaginator.m */,
 				15F0950B18464F1A004F3DAD /* NMPaginator.h */,
 				15F0950C18464F1A004F3DAD /* NMPaginator.m */,
 				15F0950D18464F1A004F3DAD /* PullRefreshTableViewController.h */,
@@ -509,6 +577,7 @@
 		522D7F201827BFBD00AF71F8 = {
 			isa = PBXGroup;
 			children = (
+				151C944C186596C1003634B1 /* QiniuSDK */,
 				522D7F321827BFBD00AF71F8 /* MicroSpeaker */,
 				522D7F2B1827BFBD00AF71F8 /* Frameworks */,
 				522D7F2A1827BFBD00AF71F8 /* Products */,
@@ -674,6 +743,7 @@
 				15FC29B71855F37F00731A50 /* tab_bg.png in Resources */,
 				15FC29B21855F37F00731A50 /* icons_bg_separator@2x.png in Resources */,
 				15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */,
+				15FF0F8218649E160086D559 /* photo-gallery-right.png in Resources */,
 				15FC29A21855F37F00731A50 /* characters_n@2x.png in Resources */,
 				1505C4EA1863277F00AB7457 /* unchecked.png in Resources */,
 				15FC29A41855F37F00731A50 /* characters_s@2x.png in Resources */,
@@ -693,6 +763,8 @@
 				15FC29AF1855F37F00731A50 /* flower_s.png in Resources */,
 				154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */,
 				15FC29AD1855F37F00731A50 /* flower_n.png in Resources */,
+				15FF0F8318649E160086D559 /* photo-gallery-left.png in Resources */,
+				15FF0F851864C1D40086D559 /* photo-gallery-trashcan.png in Resources */,
 				15FC29B51855F37F00731A50 /* recent_s.png in Resources */,
 				15AD56421841F876007CF595 /* time.png in Resources */,
 				154B1800182E1E7A00750C71 /* placeholder.png in Resources */,
@@ -746,9 +818,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				15FF0F5818648E800086D559 /* HPGrowingTextView.m in Sources */,
+				151C9461186596C1003634B1 /* QiniuPutExtra.m in Sources */,
 				15F691B1184C3F2C009986CD /* ASIFormDataRequest.m in Sources */,
 				156034E01848DE4300C237B0 /* main.m in Sources */,
 				15FF0F6E186490240086D559 /* UIImage+Extensions.m in Sources */,
+				151C94BA18659FE8003634B1 /* QiniuPutPolicy.m in Sources */,
 				156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */,
 				15FF0F5918648E800086D559 /* HPTextViewInternal.m in Sources */,
 				156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */,
@@ -758,10 +832,13 @@
 				15FF0F7C186490D70086D559 /* MainTabViewController.m in Sources */,
 				15FF0F7F186490D70086D559 /* SpeakerDetailViewController.m in Sources */,
 				156034D81848DC7200C237B0 /* NMPaginator.m in Sources */,
+				151C945D186596C1003634B1 /* GTMBase64.m in Sources */,
 				15FF0F7D186490D70086D559 /* PublishMessageViewController.m in Sources */,
 				15F691AE184C3F2C009986CD /* ASIDataCompressor.m in Sources */,
 				15FF0F7E186490D70086D559 /* SelectAreaViewController.m in Sources */,
 				156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */,
+				151C9462186596C1003634B1 /* QiniuSimpleUploader.m in Sources */,
+				151C945F186596C1003634B1 /* JSONKit.m in Sources */,
 				15F691B3184C3F2C009986CD /* ASIInputStream.m in Sources */,
 				156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */,
 				15FF0F6D186490240086D559 /* NSString+Extensions.m in Sources */,
@@ -775,6 +852,7 @@
 				15F691B2184C3F2C009986CD /* ASIHTTPRequest.m in Sources */,
 				15FC296C1855EC6B00731A50 /* EmojiPageView.m in Sources */,
 				156034CC1848DC1100C237B0 /* UserModel.m in Sources */,
+				151C9463186596C1003634B1 /* QiniuUtils.m in Sources */,
 				15F691AF184C3F2C009986CD /* ASIDataDecompressor.m in Sources */,
 				156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */,
 				15F691BF184C42FF009986CD /* Reachability.m in Sources */,

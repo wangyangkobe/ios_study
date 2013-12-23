@@ -40,6 +40,7 @@
 {
     self.total = 0;
     self.page = 0;
+    self.lastMessageId = -1;
     self.results = [NSMutableArray array];
     self.requestStatus = RequestStatusNone;
 }
@@ -67,7 +68,6 @@
 {
     // reset paginator
     [self reset];
-    
     [self fetchNextPage];
 }
 
@@ -84,7 +84,6 @@
 }
 
 #pragma mark - Sublclass methods
-
 - (void)fetchResultsWithPage:(NSInteger)page pageSize:(NSInteger)pageSize
 {
     // override this in subclass
