@@ -110,7 +110,12 @@ static NSString* QiniuDomian = @"";
 }
 -(void)publishMessage
 {
-    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0.0 long:0.0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:nil pushNum:50];
+  //  [self upLoadMutilImages:localImagesPath bucket:QiniuBucketName];
+    NSLog(@"======%@", [qiNiuImagesPath description]);
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0.0 long:0.0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
     //通知父视图获取最新数据
     [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
     [self.navigationController popViewControllerAnimated:YES ];
@@ -414,10 +419,8 @@ static NSString* QiniuDomian = @"";
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
 {
     NSString *hash = [ret objectForKey:@"hash"];
-    NSString *message = [NSString stringWithFormat:@"Successfully uploaded %@ with hash: %@",  filePath, hash];
-    NSLog(@"%@", message);
-    
     NSString* path = [QiniuDomian stringByAppendingString:hash];
+    NSLog(@"qi niu path:%@", path);
     [qiNiuImagesPath addObject:path];
 }
 
