@@ -15,6 +15,8 @@
 #import "QiniuSimpleUploader.h"
 #import "QiniuPutPolicy.h"
 #import "QiniuConfig.h"
+#import "LocationHelper.h"
+
 @interface PublishMessageViewController : UITableViewController<HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate, QiniuUploadDelegate, UIAlertViewDelegate>
 {
     HPGrowingTextView* textView;

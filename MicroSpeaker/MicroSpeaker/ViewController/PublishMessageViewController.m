@@ -24,6 +24,7 @@ static NSString* QiniuDomian = @"";
 
 @implementation PublishMessageViewController
 
+static LocationHelper* locationHelper;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -43,10 +44,16 @@ static NSString* QiniuDomian = @"";
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [locationHelper start];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [locationHelper stop];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    locationHelper = [LocationHelper sharedInstance];
     textViewDefaultHeight = SCREEN_HEIGHT / 3;
     localImagesPath = [[NSMutableArray alloc] init];
     
@@ -55,7 +62,7 @@ static NSString* QiniuDomian = @"";
     self.navigationItem.rightBarButtonItem = rightButton;
     
     UIBarButtonItem* leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
-                                                                   target:self action:@selector(cancelPublishMessage)];
+                                                                  target:self action:@selector(cancelPublishMessage)];
     self.navigationItem.leftBarButtonItem = leftButton;
     
     self.positonsArray = [NSArray arrayWithObjects:
@@ -110,12 +117,18 @@ static NSString* QiniuDomian = @"";
 }
 -(void)publishMessage
 {
-  //  [self upLoadMutilImages:localImagesPath bucket:QiniuBucketName];
+    //  [self upLoadMutilImages:localImagesPath bucket:QiniuBucketName];
     NSLog(@"======%@", [qiNiuImagesPath description]);
+    
+    NSLog(@"location: %@", [locationHelper.currentLocation description]);
+    float latitude = locationHelper.currentLocation.coordinate.latitude;
+    float longitude = locationHelper.currentLocation.coordinate.longitude;
+ 
+  //  NSLog(@"====%@", [locationHelper convertToAddress]);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0.0 long:0.0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
+    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:latitude long:longitude address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
     //通知父视图获取最新数据
     [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
     [self.navigationController popViewControllerAnimated:YES ];
@@ -173,7 +186,8 @@ static NSString* QiniuDomian = @"";
         if (0 == [localImagesPath count])
             return;
         UIImage *trashIcon = [UIImage imageNamed:@"photo-gallery-trashcan.png"];
-		UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithImage:trashIcon style:UIBarButtonItemStylePlain target:self action:@selector(handleTrashButtonTouch:)];
+		UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithImage:trashIcon style:UIBarButtonItemStylePlain
+                                                                       target:self action:@selector(handleTrashButtonTouch:)];
         NSArray *barItems = [NSArray arrayWithObjects:trashButton, nil];
 		
 		imageGallery = [[FGalleryViewController alloc] initWithPhotoSource:self barItems:barItems];
@@ -185,7 +199,6 @@ static NSString* QiniuDomian = @"";
 {
     int row = [indexPath row];
     int section = [indexPath section];
-    NSLog(@"call: %@, row = %d, section = %d", NSStringFromSelector(_cmd), row, section);
     if (0 == row && 0 == section)
     {
         static NSString *TextCellIdentifier = @"TextViewCell";
@@ -198,7 +211,7 @@ static NSString* QiniuDomian = @"";
             textView.minNumberOfLines = 1;
             textView.maxNumberOfLines = 100;
             textView.returnKeyType = UIReturnKeySend;
-            textView.font = [UIFont systemFontOfSize:13];
+            textView.font = [UIFont systemFontOfSize:14];
             textView.layer.cornerRadius =5.0;
             textView.layer.masksToBounds = YES;
             textView.delegate = self;
@@ -224,13 +237,13 @@ static NSString* QiniuDomian = @"";
             [loadImageButton addTarget:self action:@selector(loadPicture) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:loadImageButton];
         }
-        NSLog(@"count:%d", count);
+        NSLog(@"%@ images count:%d", NSStringFromSelector(_cmd), count);
         if (count < 12)
             [loadImageButton setFrame:[[self.positonsArray objectAtIndex:count] CGRectValue]];
         
         [self removeImageViewsFromCell:cell];
         
-        for (int i  = 0; i < count; i++) {
+        for (int i  = 0; i < MIN(count, 12); i++) {
             UIImageView* imageView = [[UIImageView alloc] initWithImage:
                                       [[UIImage imageWithContentsOfFile:[localImagesPath objectAtIndex:i]]
                                        imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
@@ -258,7 +271,6 @@ static NSString* QiniuDomian = @"";
             areaLabel.textAlignment = NSTextAlignmentRight;
             [cell.contentView addSubview:areaLabel];
         }
-        NSLog(@"areaName = %@", areaName);
         UILabel* label = (UILabel*)[cell viewWithTag:10000];
         label.text = areaName;
         
@@ -314,7 +326,7 @@ static NSString* QiniuDomian = @"";
     [self dismissViewControllerAnimated:YES completion:NULL];
     
     NSDictionary *mediaInfoArray = (NSDictionary *)info;
-    NSLog(@"%@", [mediaInfoArray description]);
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [mediaInfoArray description]);
     
     UIImage* originalImage = [mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"];
     
@@ -325,7 +337,6 @@ static NSString* QiniuDomian = @"";
     [self uploadFile:imagePath bucket:QiniuBucketName key:imageName];
     
     [self.tableView reloadData];
-    NSLog(@"Selected %d photos", localImagesPath.count);
 }
 
 #pragma mark UITableView DataSource
@@ -349,7 +360,7 @@ static NSString* QiniuDomian = @"";
 #pragma mark HPGrowingTextViewDelegate Methods
 -(void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
-    NSLog(@"height = %f", height);
+    NSLog(@"growing TextView height = %f", height);
     if (height > textViewDefaultHeight)
     {
         textViewDefaultHeight = height;
@@ -387,8 +398,11 @@ static NSString* QiniuDomian = @"";
 }
 - (void)handleTrashButtonTouch:(id)sender {
     
-    [imageGallery removeImageAtIndex:[imageGallery currentIndex]];
-    [localImagesPath removeObjectAtIndex:[imageGallery currentIndex]];
+    int deletedImageIndex = [imageGallery currentIndex];
+    [imageGallery removeImageAtIndex:deletedImageIndex];
+    [localImagesPath removeObjectAtIndex:deletedImageIndex];
+    [qiNiuImagesPath removeObjectAtIndex:deletedImageIndex];
+    
     [imageGallery reloadGallery];
     [self.tableView reloadData];
 }
@@ -443,7 +457,7 @@ static NSString* QiniuDomian = @"";
         //重传一次
         [self uploadFile:filePath bucket:QiniuBucketName key:kQiniuUndefinedKey];
     }
-    NSLog(@"%@", message);
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), message);
 }
 
 - (NSString *)tokenWithScope:(NSString *)scope

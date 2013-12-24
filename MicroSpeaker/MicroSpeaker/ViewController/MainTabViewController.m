@@ -7,7 +7,6 @@
 //
 
 #import "MainTabViewController.h"
-//#import "STHTTPRequest.h"
 #import "MessageModel.h"
 #import "JSONModelLib.h"
 #import "UILabel+Extensions.h"
@@ -22,10 +21,6 @@
 #import "KxMenu.h"
 #import "PublishMessageViewController.h"
 
-//NSString* requestURL = @"http://101.78.230.95:8082/microbroadcast/test";
-//NSString* requestURL = @"http:101.78.230.95:8082/microbroadcastDEV/message/getByID";
-NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
-
 @interface MainTabViewController ()
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
@@ -33,7 +28,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 @implementation MainTabViewController
 
-@synthesize messageArray;
+@synthesize messagesArray;
 @synthesize messagePaginator;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -74,7 +69,8 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 - (void)viewDidLoad
 {
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    NSLog(@"call: %@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    
     UIApplication* app = [UIApplication sharedApplication];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:)
                                                  name:UIApplicationWillResignActiveNotification object:app];
@@ -83,33 +79,32 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
                                                  name:@"publishMessageSuccess" object:nil];
     
     [super viewDidLoad];
-    messageArray = [[NSMutableArray alloc] init];
+    messagesArray = [[NSMutableArray alloc] init];
     
     // set up the paginator
     [self setupTableViewFooter];
     self.messagePaginator = [[MessagePaginator alloc] initWithPageSize:15 delegate:self];
     
-    __block NSMutableArray* storedMessage;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    __block NSMutableArray* storedMessages;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSData* data = [[NSMutableData alloc] initWithContentsOfFile:[self dataFilePath]];
         if (data != nil)
         {
             NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            storedMessage = [unarchiver decodeObjectForKey:kDataKey];
+            storedMessages = [unarchiver decodeObjectForKey:kDataKey];
             [unarchiver finishDecoding];
-            NSLog(@"%d", [storedMessage count]);
+            NSLog(@"%d", [storedMessages count]);
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                messageArray = [storedMessage mutableCopy];
+                messagesArray = [storedMessages mutableCopy];
                 [self.tableView reloadData];
             });
         }
         else
         {
-            //[self performSelectorOnMainThread:@selector(requestDataFromServer) withObject:nil waitUntilDone:YES];
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.messagePaginator fetchFirstPage];
-                //[self.tableView reloadData];
             });
         }
     });
@@ -123,14 +118,13 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 -(void)applicationWillResignActive:(NSNotification*) notification
 {
-    //当app变成inActive时（进入backgroud），讲数据存储起来
+    //当app变成inActive时（进入backgroud），将数据存储起来
     NSMutableData* data = [[NSMutableData alloc] init];
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     
-    [archiver encodeObject:[messageArray subarrayWithRange:NSMakeRange(0, 15)] forKey:kDataKey];
+    [archiver encodeObject:[messagesArray subarrayWithRange:NSMakeRange(0, 15)] forKey:kDataKey];
     [archiver finishEncoding];
     [data writeToFile:[self dataFilePath] atomically:YES];
-    NSLog(@"path = %@", [self dataFilePath]);
 }
 - (void)didReceiveMemoryWarning
 {
@@ -148,13 +142,12 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [messageArray count];
-    //return [self.messagePaginator.results count];
+    return [messagesArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MessageModel* message = [messageArray objectAtIndex:[indexPath row]];
+    MessageModel* message = [messagesArray objectAtIndex:[indexPath row]];
     static NSString* cellIdentifier = @"CellIdentifier";
     MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil)
@@ -205,13 +198,13 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     
     
     //construct a lable show message
-    UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, heightPos, 320, 0)];
+    UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, heightPos, SCREEN_WIDTH, 0)];
     [cell.contentView addSubview:messageLabel];
     [messageLabel setTag:5];
     messageLabel.text = message.Text;
     [messageLabel sizeToFitFixedWidth:310 lines:3];
     
-    //construct the photoViews
+    //construct the photoViews to show images
     int stopFlag = 1;
     float textHeight = [NSString calculateTextHeight:message.Text];
     for (NSString* imagePath in message.PhotoThumbnails) {
@@ -220,7 +213,10 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
         UIImageView* photoView = [[UIImageView alloc] initWithFrame:CGRectMake(5 * stopFlag + 90 * (stopFlag-1),
                                                                                heightPos + textHeight, 90, 90)];
         [cell.contentView addSubview:photoView];
-        [photoView setImageWithURL:[NSURL URLWithString:imagePath]];
+        __weak UIImageView* weakPhotoView = photoView;
+        [photoView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [weakPhotoView setImage:[image imageByScalingAndCroppingForSize:CGSizeMake(90, 90)]];
+        }];
         [photoView setContentMode:UIViewContentModeScaleToFill];
         photoView.tag = 1000;
         stopFlag++;
@@ -233,7 +229,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MessageModel* message = [messageArray objectAtIndex:[indexPath row]];
+    MessageModel* message = [messagesArray objectAtIndex:[indexPath row]];
     NSString* photoURL = message.PhotoThumbnail;
     
     float textHeight = [NSString calculateTextHeight:message.Text];
@@ -246,9 +242,6 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
         return 60 + textHeight;
     else
     {
-        NSLog(@"heightForRowAtIndexPath");
-        // NSData* imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:photoURL]];
-        // UIImage* image = [UIImage imageWithData:imageData];
         return 60 + textHeight + 90 + 5;
     }
 }
@@ -256,9 +249,9 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 //重写PullRefreshTableViewController中的pullDownRefresh方法，实现下拉获取新的消息
 - (void)pullDownRefresh
 {
-    if (0 == [messageArray count])
+    if (0 == [messagesArray count])
         return;
-    long sinceId = ((MessageModel*)messageArray[0]).MessageID;
+    long sinceId = ((MessageModel*)messagesArray[0]).MessageID;
     [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:1.0];
 }
 
@@ -270,11 +263,11 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
         NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
         UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
 
-        NSArray* newMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+        NSArray* newMessages = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
                                                                              sinceID:[sinceId longValue]];
-        for (MessageModel* message in [newMessage reverseObjectEnumerator])
+        for (MessageModel* message in [newMessages reverseObjectEnumerator])
         {
-            [messageArray insertObject:message atIndex:0];
+            [messagesArray insertObject:message atIndex:0];
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
@@ -290,10 +283,9 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     
     NSInteger row = [indexPath row];
     
-    MessageModel* selectedMessage = [messageArray objectAtIndex:row];
+    MessageModel* selectedMessage = [messagesArray objectAtIndex:row];
     if (selectedMessage.Type == 2)
     {
-        // ActivityDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityDetailViewController"];
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
@@ -311,7 +303,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     footerView.backgroundColor = [UIColor clearColor];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    label.font = [UIFont boldSystemFontOfSize:16];
+    label.font = [UIFont boldSystemFontOfSize:14];
     label.textColor = [UIColor lightGrayColor];
     label.textAlignment = NSTextAlignmentCenter;
     
@@ -335,28 +327,27 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
 {
     if ([self.messagePaginator.results count] != 0)
     {
+        [self.footerLabel setFont:[UIFont systemFontOfSize:14]];
         self.footerLabel.text = [NSString stringWithFormat:@"%d results out of %d",
                                  [self.messagePaginator.results count], self.messagePaginator.total];
     } else
     {
         self.footerLabel.text = @"";
     }
-    
     [self.footerLabel setNeedsDisplay];
 }
 - (void)fetchNextPage
 {
-    if ([messageArray count] == 0) {
+    if ([messagesArray count] == 0) {
         self.messagePaginator.lastMessageId = -1; //去从第一页获取
     }
     else{ //获取最后一条消息还要早的消息
-        MessageModel* lastMessage = (MessageModel*)[messageArray lastObject];
+        MessageModel* lastMessage = (MessageModel*)[messagesArray lastObject];
         self.messagePaginator.lastMessageId = lastMessage.MessageID;
     }
     [self.messagePaginator fetchNextPage];
     [self.footerActivityIndicator startAnimating];
 }
-#pragma mark - end
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -386,7 +377,7 @@ NSString* homePageUrl = @"http://101.78.230.95:8082/microbroadcastDEV";
     // nicer way : use insertRowsAtIndexPaths:withAnimation:
     NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     NSInteger i = [self.messagePaginator.results count] - [results count];
-    [messageArray addObjectsFromArray:results];
+    [messagesArray addObjectsFromArray:results];
     
     for(NSDictionary *result in results)
     {

@@ -12,6 +12,9 @@
 		1505C4EA1863277F00AB7457 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E61863277F00AB7457 /* unchecked.png */; };
 		1505C4EB1863277F00AB7457 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E71863277F00AB7457 /* unchecked@2x.png */; };
 		1508C3A8185F251600AB6AE7 /* loadImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508C3A7185F251600AB6AE7 /* loadImage@2x.png */; };
+		1508D0E81869B20A0051A9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508D0E71869B20A0051A9E8 /* CoreLocation.framework */; };
+		1508D0EB1869B2C00051A9E8 /* LocationHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1508D0EA1869B2C00051A9E8 /* LocationHelper.mm */; };
+		1508D0ED1869BACC0051A9E8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508D0EC1869BACC0051A9E8 /* MapKit.framework */; };
 		151C945D186596C1003634B1 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C944F186596C1003634B1 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C945F186596C1003634B1 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9454186596C1003634B1 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C9461186596C1003634B1 /* QiniuPutExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9457186596C1003634B1 /* QiniuPutExtra.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -137,6 +140,10 @@
 		1505C4E61863277F00AB7457 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		1505C4E71863277F00AB7457 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
 		1508C3A7185F251600AB6AE7 /* loadImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadImage@2x.png"; sourceTree = "<group>"; };
+		1508D0E71869B20A0051A9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		1508D0E91869B2C00051A9E8 /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
+		1508D0EA1869B2C00051A9E8 /* LocationHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LocationHelper.mm; sourceTree = "<group>"; };
+		1508D0EC1869BACC0051A9E8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1518E1E9184E08AA00172A14 /* MacroDefination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefination.h; sourceTree = "<group>"; };
 		151C944E186596C1003634B1 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		151C944F186596C1003634B1 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
@@ -318,6 +325,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1508D0ED1869BACC0051A9E8 /* MapKit.framework in Frameworks */,
+				1508D0E81869B20A0051A9E8 /* CoreLocation.framework in Frameworks */,
 				15F691BC184C3FA2009986CD /* libz.dylib in Frameworks */,
 				522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */,
 				15F691BA184C3F8D009986CD /* MobileCoreServices.framework in Frameworks */,
@@ -553,6 +562,8 @@
 				15FF0F66186490240086D559 /* UIImage_Extensions.h */,
 				15FF0F67186490240086D559 /* UILabel+Extensions.h */,
 				15FF0F68186490240086D559 /* UILabel+Extensions.m */,
+				1508D0E91869B2C00051A9E8 /* LocationHelper.h */,
+				1508D0EA1869B2C00051A9E8 /* LocationHelper.mm */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -596,6 +607,8 @@
 		522D7F2B1827BFBD00AF71F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1508D0EC1869BACC0051A9E8 /* MapKit.framework */,
+				1508D0E71869B20A0051A9E8 /* CoreLocation.framework */,
 				15F691BB184C3FA2009986CD /* libz.dylib */,
 				15F691B9184C3F8D009986CD /* MobileCoreServices.framework */,
 				15F691B7184C3F81009986CD /* SystemConfiguration.framework */,
@@ -861,6 +874,7 @@
 				156034CA1848DC0A00C237B0 /* LocationModel.m in Sources */,
 				15FF0F6F186490240086D559 /* UILabel+Extensions.m in Sources */,
 				15F691AD184C3F2C009986CD /* ASIAuthenticationDialog.m in Sources */,
+				1508D0EB1869B2C00051A9E8 /* LocationHelper.mm in Sources */,
 				15FF0F69186490240086D559 /* MessageCell.m in Sources */,
 				156034C91848DC0400C237B0 /* ActivityModel.m in Sources */,
 				15FF0F6C186490240086D559 /* NSString+Emoji.m in Sources */,

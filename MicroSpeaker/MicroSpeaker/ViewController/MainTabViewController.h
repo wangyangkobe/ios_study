@@ -16,11 +16,8 @@
 #define kDataKey @"MessageData"
 
 @interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
-{
-    NSMutableDictionary* heightCache;
-}
 
-@property(nonatomic, copy) NSMutableArray* messageArray;
+@property(nonatomic, copy) NSMutableArray* messagesArray;
 
 // this property for NMPaginator
 @property (nonatomic, strong) MessagePaginator *messagePaginator;
@@ -28,3 +25,4 @@
 @property (nonatomic, strong) UIActivityIndicatorView *footerActivityIndicator;
 
 @end
+//-------------------获取设备大小-------------------------
