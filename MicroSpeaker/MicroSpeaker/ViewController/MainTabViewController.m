@@ -20,8 +20,11 @@
 #import "MacroDefination.h"
 #import "KxMenu.h"
 #import "PublishMessageViewController.h"
+#import "PublishActivityViewController.h"
 
-@interface MainTabViewController ()
+#import "MHFacebookImageViewer.h"
+
+@interface MainTabViewController ()<MHFacebookImageViewerDatasource>
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
 @end
@@ -219,6 +222,15 @@
         }];
         [photoView setContentMode:UIViewContentModeScaleToFill];
         photoView.tag = 1000;
+        
+        //处理点击图片进行浏览
+        photoView.clipsToBounds = YES;
+        [photoView setupImageViewerWithDatasource:self initialIndex:stopFlag - 1 onOpen:^{
+            NSLog(@"OPEN!");
+        } onClose:^{
+            NSLog(@"CLOSE!");
+        }];
+        
         stopFlag++;
     }
     
@@ -406,7 +418,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"大声说" image:nil target:self action:@selector(showController:)],
-      [KxMenuItem menuItem:@"搞活动" image:nil target:nil action:nil],
+      [KxMenuItem menuItem:@"搞活动" image:nil target:self action:@selector(showController:)],
       ];
     
     for (KxMenuItem* item in menuItems){
@@ -414,7 +426,8 @@
     }
     
     [KxMenu setTintColor:[UIColor whiteColor]];
-    [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
+  //  [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
+    [KxMenu showMenuInView:[[UIApplication sharedApplication].delegate window] fromRect:CGRectMake(0, 30, 30, 30) menuItems:menuItems];
 }
 -(void)showController:(id)sender{
     KxMenuItem* menuItem = (KxMenuItem*)sender;
@@ -422,5 +435,26 @@
         PublishMessageViewController* controller = [[PublishMessageViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
+    else{
+        PublishActivityViewController* controller = [[PublishActivityViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+#pragma mark - MHFacebookImageViewerDatasource delegate methods
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+    UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
+    int rowIndex = [[self.tableView indexPathForCell:cell] row];
+    MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
+    return [currentMessage.PhotoThumbnails count];
+}
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+    UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
+    int rowIndex = [[self.tableView indexPathForCell:cell] row];
+    MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
+    return [currentMessage.PhotoThumbnails objectAtIndex:index];
+}
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
+    NSLog(@"INDEX IS %i",index);
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 @end
