@@ -76,6 +76,9 @@
     [self getCommentsByMessageID:_message.MessageID];
     [self configureToolBar];
     emojiKeyBoardShow = NO;
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
+  //self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 -(void)configureToolBar
 {
