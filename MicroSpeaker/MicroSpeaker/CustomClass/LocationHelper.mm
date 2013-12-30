@@ -54,6 +54,7 @@ static LocationHelper* sharedInstance;
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     CLLocation* newLocation = [locations lastObject];
     if (abs([newLocation.timestamp timeIntervalSinceDate:[NSDate date]]) < 120) {
+        NSLog(@"new Location:%@", [newLocation description]);
         self.currentLocation = newLocation;
     }
 }

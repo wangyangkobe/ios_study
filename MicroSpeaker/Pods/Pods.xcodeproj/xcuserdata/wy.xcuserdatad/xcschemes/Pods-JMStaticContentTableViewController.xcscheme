@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "686D0F154F8E41A4AF3E7C4D"
+               BlueprintIdentifier = "1AE8C14895FA48EDB3C79A1C"
                BuildableName = "libPods-JMStaticContentTableViewController.a"
                BlueprintName = "Pods-JMStaticContentTableViewController"
                ReferencedContainer = "container:Pods.xcodeproj">
