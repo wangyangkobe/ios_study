@@ -54,6 +54,7 @@ static LocationHelper* locationHelper;
 {
     [super viewDidLoad];
     locationHelper = [LocationHelper sharedInstance];
+    
     textViewDefaultHeight = SCREEN_HEIGHT / 3;
     localImagesPath = [[NSMutableArray alloc] init];
     
@@ -101,6 +102,8 @@ static LocationHelper* locationHelper;
     QiniuBucketName = @"microbroadcast";
     QiniuDomian = [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName];
     qiNiuImagesPath = [NSMutableArray array];
+    
+    self.navigationController.title = @"微喇叭广播";
 }
 
 - (void)didReceiveMemoryWarning
