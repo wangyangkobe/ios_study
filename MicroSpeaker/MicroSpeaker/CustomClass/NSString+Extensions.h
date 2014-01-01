@@ -11,5 +11,5 @@
 @interface NSString (Extensions)
 
 +(CGFloat) calculateTextHeight:(NSString*) str;
-
++ (NSString *)randomAlphanumericStringWithLength:(NSInteger)length;
 @end
