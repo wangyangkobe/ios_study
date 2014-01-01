@@ -17,8 +17,15 @@ static NSString *QiniuAccessKey = @"<Please specify your access key>";
 static NSString *QiniuSecretKey = @"<Please specify your secret key>";
 static NSString *QiniuBucketName = @"<Please specify your bucket name>";
 static NSString* QiniuDomian = @"";
-
 @interface PublishMessageViewController ()
+{
+    float latitude;
+    float longitude;
+    int   loadedImageNum; //已经上传的图片数目
+    UIActivityIndicatorView *activityIndicator;
+    NSMutableArray* localImagesPath;
+    NSMutableArray* qiNiuImagesPath;
+}
 @property (strong, nonatomic) NSArray* positonsArray;
 @end
 
@@ -104,6 +111,15 @@ static LocationHelper* locationHelper;
     qiNiuImagesPath = [NSMutableArray array];
     
     self.navigationController.title = @"微喇叭广播";
+    
+    loadedImageNum = 0;
+    
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+    activityIndicator.center = CGPointMake(SCREEN_WIDTH/2.0, SCREEN_HEIGHT/4.0);
+    [activityIndicator setHidesWhenStopped:YES];
+    activityIndicator.color = [UIColor blueColor];
+    [self.tableView addSubview: activityIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,21 +136,22 @@ static LocationHelper* locationHelper;
 }
 -(void)publishMessage
 {
-    //  [self upLoadMutilImages:localImagesPath bucket:QiniuBucketName];
-    NSLog(@"======%@", [qiNiuImagesPath description]);
+    NSLog(@"local images path:%@", [localImagesPath description]);
+    [textView resignFirstResponder];
+    latitude = locationHelper.currentLocation.coordinate.latitude;
+    longitude = locationHelper.currentLocation.coordinate.longitude;
     
-    NSLog(@"location: %@", [locationHelper.currentLocation description]);
-    float latitude = locationHelper.currentLocation.coordinate.latitude;
-    float longitude = locationHelper.currentLocation.coordinate.longitude;
- 
-  //  NSLog(@"====%@", [locationHelper convertToAddress]);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:latitude long:longitude address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
-    //通知父视图获取最新数据
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-    [self.navigationController popViewControllerAnimated:YES ];
+    if (loadedImageNum < [localImagesPath count])
+    {
+        [activityIndicator setHidden:NO];
+        [activityIndicator startAnimating];
+        [self uploadFile:[localImagesPath objectAtIndex:loadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+    }
+    else //没有图片要上传
+    {
+        [self sendMessageToServer];
+    }
+
 }
 
 #pragma mark - UIGestureRecognizerDelegate method
@@ -241,12 +258,12 @@ static LocationHelper* locationHelper;
             [cell.contentView addSubview:loadImageButton];
         }
         NSLog(@"%@ images count:%d", NSStringFromSelector(_cmd), count);
-        if (count < 12)
+        if (count < 4)
             [loadImageButton setFrame:[[self.positonsArray objectAtIndex:count] CGRectValue]];
         
         [self removeImageViewsFromCell:cell];
         
-        for (int i  = 0; i < MIN(count, 12); i++) {
+        for (int i  = 0; i < MIN(count, 4); i++) {
             UIImageView* imageView = [[UIImageView alloc] initWithImage:
                                       [[UIImage imageWithContentsOfFile:[localImagesPath objectAtIndex:i]]
                                        imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
@@ -337,7 +354,7 @@ static LocationHelper* locationHelper;
     NSString* imagePath = [self saveImage:originalImage withName:imageName];
     [localImagesPath addObject:imagePath];
     
-    [self uploadFile:imagePath bucket:QiniuBucketName key:imageName];
+    //  [self uploadFile:imagePath bucket:QiniuBucketName key:imageName];
     
     [self.tableView reloadData];
 }
@@ -399,12 +416,11 @@ static LocationHelper* locationHelper;
 {
     return FGalleryPhotoSourceTypeLocal;
 }
-- (void)handleTrashButtonTouch:(id)sender {
-    
+- (void)handleTrashButtonTouch:(id)sender
+{
     int deletedImageIndex = [imageGallery currentIndex];
     [imageGallery removeImageAtIndex:deletedImageIndex];
     [localImagesPath removeObjectAtIndex:deletedImageIndex];
-    [qiNiuImagesPath removeObjectAtIndex:deletedImageIndex];
     
     [imageGallery reloadGallery];
     [self.tableView reloadData];
@@ -435,39 +451,41 @@ static LocationHelper* locationHelper;
 // Upload completed successfully.
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
 {
-    NSString *hash = [ret objectForKey:@"hash"];
-    NSString* path = [QiniuDomian stringByAppendingString:hash];
-    NSLog(@"qi niu path:%@", path);
+    NSString *key = [ret objectForKey:@"key"];
+    NSString* path = [QiniuDomian stringByAppendingString:key];
+    NSLog(@"qi niu image path:%@", path);
+    
     [qiNiuImagesPath addObject:path];
+    loadedImageNum++;
+    if(loadedImageNum < [localImagesPath count]){
+        [self uploadFile:[localImagesPath objectAtIndex:loadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+    }
+    if ([qiNiuImagesPath count] == [localImagesPath count]) {
+        [self sendMessageToServer];
+    }
 }
 
 // Upload failed.
-//
-// (NSError *)error:
-//      ErrorDomain - QiniuSimpleUploader
-//      Code - It could be a general error (< 100) or a HTTP status code (>100)
-//      Message - You can use this line of code to retrieve the message: [error.userInfo objectForKey:@"error"]
 - (void)uploadFailed:(NSString *)filePath error:(NSError *)error
 {
     NSString *message = @"";
     
     // For first-time users, this is an easy-to-forget preparation step.
-    if ([QiniuAccessKey hasPrefix:@"<Please"]) {
-        message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values. These values were defined on the top of QiniuViewController.m";
-    } else {
-        message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
-        
-        //重传一次
-        [self uploadFile:filePath bucket:QiniuBucketName key:kQiniuUndefinedKey];
+    if ([QiniuAccessKey hasPrefix:@"<Please"])
+    {
+        message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values.";
     }
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), message);
+    else {
+        message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
+        //继续重传
+        [self uploadFile:filePath bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+    }
 }
 
 - (NSString *)tokenWithScope:(NSString *)scope
 {
     QiniuPutPolicy *policy = [QiniuPutPolicy new] ;
     policy.scope = scope;
-    
     return [policy makeToken:QiniuAccessKey secretKey:QiniuSecretKey];
 }
 
@@ -475,7 +493,7 @@ static LocationHelper* locationHelper;
 {
     for (NSString* imagePath in imagesPath)
     {
-        [self uploadFile:imagePath bucket:bucket key:kQiniuUndefinedKey];
+        [self uploadFile:imagePath bucket:bucket key:[self generateQiNiuFileName]];
     }
 }
 - (void)uploadFile:(NSString *)filePath bucket:(NSString *)bucket key:(NSString *)key
@@ -485,9 +503,26 @@ static LocationHelper* locationHelper;
         if(qiNiuUpLoader == nil)
             qiNiuUpLoader = [QiniuSimpleUploader uploaderWithToken:[self tokenWithScope:bucket]];
         qiNiuUpLoader.delegate = self;
-        
         [qiNiuUpLoader uploadFile:filePath key:key extra:nil];
     }
 }
-
+-(NSString*)generateQiNiuFileName
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYYMMddHHmmss"];
+    return [NSString stringWithFormat:@"%@%@", [formatter stringFromDate:[NSDate date]],
+            [NSString randomAlphanumericStringWithLength:10]];
+}
+-(void)sendMessageToServer
+{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
+    
+    [activityIndicator stopAnimating];
+    //通知父视图获取最新数据
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+    [self.navigationController popViewControllerAnimated:YES ];
+    
+}
 @end

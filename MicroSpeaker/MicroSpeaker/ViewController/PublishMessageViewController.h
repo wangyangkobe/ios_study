@@ -16,6 +16,7 @@
 #import "QiniuPutPolicy.h"
 #import "QiniuConfig.h"
 #import "LocationHelper.h"
+#import "NSString+Extensions.h"
 
 @interface PublishMessageViewController : UITableViewController<HPGrowingTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, SelectAreaViewControllerDelegate, FGalleryViewControllerDelegate, QiniuUploadDelegate, UIAlertViewDelegate>
 {
@@ -25,16 +26,12 @@
     
     CGFloat textViewDefaultHeight; //textView的默认高度
     
-    NSMutableArray* localImagesPath;
-    
     int areaID;
     NSString* areaName;
     
     FGalleryViewController *imageGallery;
     
     QiniuSimpleUploader* qiNiuUpLoader;
-    
-    NSMutableArray* qiNiuImagesPath;
     
     UserInfoModel* selfUserInfo;
 }
