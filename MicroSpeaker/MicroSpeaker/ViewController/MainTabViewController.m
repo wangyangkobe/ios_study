@@ -61,7 +61,7 @@
     BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
     if (checkResut) {
         UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
-       
+        
         NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:encodedObject forKey:SELF_USERINFO];
@@ -105,7 +105,7 @@
         }
         else
         {
-
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.messagePaginator fetchFirstPage];
             });
@@ -217,9 +217,10 @@
                                                                                heightPos + textHeight, 90, 90)];
         [cell.contentView addSubview:photoView];
         __weak UIImageView* weakPhotoView = photoView;
-        [photoView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            [weakPhotoView setImage:[image imageByScalingAndCroppingForSize:CGSizeMake(90, 90)]];
-        }];
+        [photoView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"placeholder"]
+                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                             [weakPhotoView setImage:[image imageByScalingAndCroppingForSize:CGSizeMake(90, 90)]];
+                         }];
         [photoView setContentMode:UIViewContentModeScaleToFill];
         photoView.tag = 1000;
         
@@ -264,7 +265,7 @@
     if (0 == [messagesArray count])
         return;
     long sinceId = ((MessageModel*)messagesArray[0]).MessageID;
-    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:1.0];
+    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:1.5];
 }
 
 - (void)getNewMessageBySinceID:(NSNumber*) sinceId
@@ -274,9 +275,9 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
         UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-
+        
         NSArray* newMessages = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
-                                                                             sinceID:[sinceId longValue]];
+                                                                              sinceID:[sinceId longValue]];
         for (MessageModel* message in [newMessages reverseObjectEnumerator])
         {
             [messagesArray insertObject:message atIndex:0];
@@ -426,7 +427,7 @@
     }
     
     [KxMenu setTintColor:[UIColor whiteColor]];
-  //  [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
+    //  [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
     [KxMenu showMenuInView:[[UIApplication sharedApplication].delegate window] fromRect:CGRectMake(0, 30, 30, 30) menuItems:menuItems];
 }
 -(void)showController:(id)sender{
