@@ -14,7 +14,10 @@
 #import "CommentModel.h"
 #import "NSString+Emoji.h"
 #import "NetWorkConnection.h"
-@interface SpeakerDetailViewController ()
+#import "UIImage+Extensions.h"
+#import "MHFacebookImageViewer.h"
+
+@interface SpeakerDetailViewController ()<MHFacebookImageViewerDatasource>
 -(void) getCommentsByMessageID:(long) messageID;
 @end
 
@@ -57,7 +60,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
 	// Do any additional setup after loading the view.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
@@ -78,7 +81,7 @@
     emojiKeyBoardShow = NO;
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
-  //self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 44, 0);
+    //self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 -(void)configureToolBar
 {
@@ -244,9 +247,16 @@
 #pragma mark UITableView delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (0 == section)
-        return [_message.Text sizeWithFont:[UIFont systemFontOfSize:17]
-                         constrainedToSize:CGSizeMake(300, 1000)
-                             lineBreakMode:NSLineBreakByWordWrapping].height + 20;
+    {
+        float textHeight = [_message.Text sizeWithFont:[UIFont systemFontOfSize:17]
+                                     constrainedToSize:CGSizeMake(300, 1000)
+                                         lineBreakMode:NSLineBreakByWordWrapping].height;
+        if ([_message.PhotoThumbnails count] != 0) {
+            return textHeight + 70 + 20; // 70为图像高度
+        }
+        else
+            return textHeight + 20;
+    }
     else if(1 == section)
         return 30;
     else
@@ -266,7 +276,26 @@
         [footerLabel sizeToFitFixedWidth:footerLabel.frame.size.width lines:10];
         [footer addSubview:footerLabel];
         
-        UILabel* timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + textHeight + 5, SCREEN_WIDTH, 10)];
+        for (int i = 0; i < [_message.PhotoThumbnails count]; i++) {
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake( 10*(i+1) + 70*i, 12 + textHeight,
+                                                                                   70, 70)];
+            __weak UIImageView* weakImageView = imageView;
+            NSString* imagePath = [_message.PhotoThumbnails objectAtIndex:i];
+            [imageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [weakImageView setImage:[image imageByScalingAndCroppingForSize:CGSizeMake(70, 70)]];
+            }];
+            [imageView setContentMode:UIViewContentModeScaleToFill];
+            
+            imageView.clipsToBounds = YES;
+            [imageView setupImageViewerWithDatasource:self initialIndex:i onOpen:nil onClose:nil];
+            [footer addSubview:imageView];
+        }
+        
+        UILabel* timeLabel = [[UILabel alloc] init];
+        if ([_message.PhotoThumbnails count] == 0)
+            [timeLabel setFrame:CGRectMake(10, 10 + textHeight + 5, SCREEN_WIDTH, 10)];
+        else
+            [timeLabel setFrame:CGRectMake(10, 10 + textHeight + 5 + 70, SCREEN_WIDTH, 10)];
         timeLabel.text = _message.CreateAt;
         [timeLabel setTextColor:[UIColor grayColor]];
         [timeLabel setFont:[UIFont systemFontOfSize:13]];
@@ -417,9 +446,9 @@
     [commentsArray removeAllObjects];
     
     NSArray* result = [[NetWorkConnection sharedInstance] getCommentsByMessageID:messageID PageSize:5];
-
+    
     [commentsArray addObjectsFromArray:result];
-
+    
     NSLog(@"Comments number is %d.", [commentsArray count]);
 }
 
@@ -439,5 +468,16 @@
                                                                            MaxID:lastComment.CommentID];
     [commentsArray addObjectsFromArray:result];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+}
+#pragma mark - MHFacebookImageViewerDatasource delegate methods
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+    return [_message.PhotoThumbnails count];
+}
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+    return [_message.PhotoThumbnails objectAtIndex:index];
+}
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
+    NSLog(@"INDEX IS %i",index);
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 @end
