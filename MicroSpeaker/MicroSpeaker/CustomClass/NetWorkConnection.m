@@ -75,9 +75,12 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    for (id entry in [jsonArray reverseObjectEnumerator])
-    {
-        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
+//    for (id entry in [jsonArray reverseObjectEnumerator])
+//    {
+//        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
+//    }
+    for (id entry in jsonArray) {
+        [result addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
     }
     return result;
 }
