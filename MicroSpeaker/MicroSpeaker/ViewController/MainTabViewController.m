@@ -21,8 +21,9 @@
 #import "KxMenu.h"
 #import "PublishMessageViewController.h"
 #import "PublishActivityViewController.h"
-
+#import "PublishSaleViewController.h"
 #import "MHFacebookImageViewer.h"
+#import "SaleDetailViewController.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource>
 -(NSString*) dataFilePath; //归档文件的路径
@@ -160,6 +161,7 @@
     
     [cell.headImageView setImageWithURL:[NSURL URLWithString:message.User.HeadPic]
                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
     float heightPos = 55;
     if (message.Type == 2)
     {
@@ -189,27 +191,55 @@
         [locationLabel setTag:4];
         heightPos += ACTIVITY_LABEL_HEIGHT; //40 stand for the height of locationLabel and activityTimeLabel
     }
+    else if(4 == message.Type)
+    {
+        NSString* str = message.Location.LocationDescription;
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,转让", str];
+    }
     else
     {
         NSString* str = message.Location.LocationDescription;
-        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@大声说:", str];
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,大声说:", str];
     }
     
-    [cell.userNameLabel setText:message.User.UserName];
-    NSString* genderPic = (message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
-    [cell.genderImageView setImage:[UIImage imageNamed:genderPic]];
-    
+    if (1 == message.Type || message.Type == 2) {
+        [cell.userNameLabel setText:message.User.UserName];
+        NSString* genderPic = (message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
+        [cell.genderImageView setImage:[UIImage imageNamed:genderPic]];
+    }
+    else
+    {
+        [cell.userNameLabel removeFromSuperview];
+        [cell.genderImageView removeFromSuperview];
+        UILabel* saleTheme = [[UILabel alloc] initWithFrame:CGRectMake(60, 30, 250, 15)];
+        saleTheme.text = message.Theme;
+        [cell.contentView addSubview:saleTheme];
+        [saleTheme setTag:1111];
+    }
     
     //construct a lable show message
     UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, heightPos, SCREEN_WIDTH, 0)];
     [cell.contentView addSubview:messageLabel];
     [messageLabel setTag:5];
-    messageLabel.text = message.Text;
+    if (1 == message.Type || 2 == message.Type) {
+        messageLabel.text = message.Text;
+    }
+    else
+    {
+        messageLabel.text = [NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel];
+        UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(230, 5, 70, 40)];
+        priceLabel.text = [NSString stringWithFormat:@"%@元", message.Price];
+        priceLabel.textAlignment = NSTextAlignmentCenter;
+        priceLabel.textColor = [UIColor redColor];
+        priceLabel.font = [UIFont boldSystemFontOfSize:18];
+        [cell.contentView addSubview:priceLabel];
+        [priceLabel setTag:1112];
+    }
     [messageLabel sizeToFitFixedWidth:310 lines:3];
     
     //construct the photoViews to show images
     int stopFlag = 1;
-    float textHeight = [NSString calculateTextHeight:message.Text];
+    float textHeight = [NSString calculateTextHeight:messageLabel.text];
     for (NSString* imagePath in message.PhotoThumbnails) {
         if (stopFlag == 4)
             break;
@@ -245,7 +275,12 @@
     MessageModel* message = [messagesArray objectAtIndex:[indexPath row]];
     NSString* photoURL = message.PhotoThumbnail;
     
-    float textHeight = [NSString calculateTextHeight:message.Text];
+    float textHeight = 0;
+    if (message.Type == 4) {
+        textHeight = [NSString calculateTextHeight:[NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel]];
+    }
+    else
+        textHeight = [NSString calculateTextHeight:message.Text];
     
     if (message.Type == 2)
     {
@@ -302,8 +337,12 @@
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
-    }else{
+    }else if(1 == selectedMessage.Type){
         SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
+        subViewController.message = selectedMessage;
+        [self.navigationController pushViewController:subViewController animated:YES];
+    }else{
+        SaleDetailViewController* subViewController = [[SaleDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
     }
@@ -420,6 +459,7 @@
     @[
       [KxMenuItem menuItem:@"大声说" image:nil target:self action:@selector(showController:)],
       [KxMenuItem menuItem:@"搞活动" image:nil target:self action:@selector(showController:)],
+      [KxMenuItem menuItem:@"转让物品" image:nil target:self action:@selector(showController:)],
       ];
     
     for (KxMenuItem* item in menuItems){
@@ -436,8 +476,12 @@
         PublishMessageViewController* controller = [[PublishMessageViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    else{
+    else if([menuItem.title isEqualToString:@"搞活动"]){
         PublishActivityViewController* controller = [[PublishActivityViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else{
+        PublishSaleViewController* controller = [[PublishSaleViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
