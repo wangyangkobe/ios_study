@@ -14,7 +14,7 @@
 #import "UserInfoModel.h"
 #import "MessageModel.h"
 #import "CommentModel.h"
-
+#import "CommerceTypeModel.h"
 @interface NetWorkConnection : NSObject
 
 +(id)sharedInstance;
@@ -45,4 +45,7 @@
                   tel:(NSString*)Tel price:(NSString*)Price commerceType:(NSString*)CommerceType text:(NSString*)Text areaID:(long)AreaID lat:(double)Lat
                  long:(double)Long address:(NSString*)Address locationDescription:(NSString*)LocationDescription city:(NSString*)City
              province:(NSString*)Province country:(NSString*)Country url:(NSString*)Url pushNum:(int)PushNum;
+
+//获取商品类别
+-(NSArray*)getCommerceType;
 @end

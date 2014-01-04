@@ -35,7 +35,7 @@
                                                               options:NSJSONReadingMutableContainers
                                                                 error:nil];
     
-    NSLog(@"get area: %@", [request responseString]);
+    //   NSLog(@"get area: %@", [request responseString]);
     for (id area in jsonArray)
     {
         [result addObject:[[AreaModel alloc] initWithDictionary:area error:nil]];
@@ -75,10 +75,10 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-//    for (id entry in [jsonArray reverseObjectEnumerator])
-//    {
-//        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
-//    }
+    //    for (id entry in [jsonArray reverseObjectEnumerator])
+    //    {
+    //        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
+    //    }
     for (id entry in jsonArray) {
         [result addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
     }
@@ -122,7 +122,7 @@
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
-  //  NSLog(@"getMessageByAreaID result = %@", [request responseString]);
+    //  NSLog(@"getMessageByAreaID result = %@", [request responseString]);
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
@@ -282,6 +282,7 @@
         [request setPostValue:FromTime forKey:@"fromTime"];
         [request setPostValue:ToTime   forKey:@"toTime"];
         [request setPostValue:Address  forKey:@"activityAddress"];
+        [request setPostValue:Theme  forKey:@"theme"];
     }
     
     if (MessageType != 1) {
@@ -291,6 +292,7 @@
     if (3 == MessageType || 4 == MessageType) {
         [request setPostValue:Price forKey:@"price"];
         [request setPostValue:CommerceType forKey:@"commerceType"];
+        [request setPostValue:Theme  forKey:@"theme"];
     }
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSString stringWithFormat:@"%ld", AreaID] forKey:@"areaID"];
@@ -315,5 +317,27 @@
     
     [request startSynchronous];
     NSLog(@"publis message result: %@", [request responseString]);
+}
+
+////////////////////////////////////////////////////////
+-(NSArray*)getCommerceType
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/message/commerceType", HOME_PAGE];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    NSLog(@"Type = %@", [request responseString]);
+    NSMutableArray* result = [NSMutableArray array];
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    for (id commerceType in jsonArray)
+    {
+        [result addObject:[[CommerceTypeModel alloc] initWithDictionary:commerceType error:nil]];
+    }
+    return result;
 }
 @end
