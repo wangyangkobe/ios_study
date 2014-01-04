@@ -101,6 +101,11 @@
         cell.delegate = self;
         return cell;
     }
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // Configure the cell...
+    return cell;
 }
 
 #pragma mark - StringInputTableViewCellDelegate
