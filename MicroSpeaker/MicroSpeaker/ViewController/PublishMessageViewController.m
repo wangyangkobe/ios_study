@@ -10,18 +10,11 @@
 #import "MacroDefination.h"
 #import "NetWorkConnection.h"
 
-#define kImagePositionx @"positionX"
-#define kImagePositiony @"positionY"
-
-static NSString *QiniuAccessKey = @"<Please specify your access key>";
-static NSString *QiniuSecretKey = @"<Please specify your secret key>";
-static NSString *QiniuBucketName = @"<Please specify your bucket name>";
-static NSString* QiniuDomian = @"";
 @interface PublishMessageViewController ()
 {
     float latitude;
     float longitude;
-    int   loadedImageNum; //已经上传的图片数目
+    int   upLoadedImageNum; //已经上传的图片数目
     UIActivityIndicatorView *activityIndicator;
     NSMutableArray* localImagesPath;
     NSMutableArray* qiNiuImagesPath;
@@ -104,15 +97,11 @@ static LocationHelper* locationHelper;
     areaID = selfUserInfo.Area.AreaID;
     areaName =  [NSString stringWithFormat:@"%@,%@", selfUserInfo.Area.AreaName, selfUserInfo.Area.City];
     
-    QiniuAccessKey = @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU";
-    QiniuSecretKey = @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23";
-    QiniuBucketName = @"microbroadcast";
-    QiniuDomian = [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName];
     qiNiuImagesPath = [NSMutableArray array];
     
-    self.navigationController.title = @"微喇叭广播";
+    self.title = @"微喇叭广播";
     
-    loadedImageNum = 0;
+    upLoadedImageNum = 0;
     
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
@@ -141,11 +130,11 @@ static LocationHelper* locationHelper;
     latitude = locationHelper.currentLocation.coordinate.latitude;
     longitude = locationHelper.currentLocation.coordinate.longitude;
     
-    if (loadedImageNum < [localImagesPath count])
+    if (upLoadedImageNum < [localImagesPath count])
     {
         [activityIndicator setHidden:NO];
         [activityIndicator startAnimating];
-        [self uploadFile:[localImagesPath objectAtIndex:loadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
     }
     else //没有图片要上传
     {
@@ -456,9 +445,9 @@ static LocationHelper* locationHelper;
     NSLog(@"qi niu image path:%@", path);
     
     [qiNiuImagesPath addObject:path];
-    loadedImageNum++;
-    if(loadedImageNum < [localImagesPath count]){
-        [self uploadFile:[localImagesPath objectAtIndex:loadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+    upLoadedImageNum++;
+    if(upLoadedImageNum < [localImagesPath count]){
+        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
     }
     if ([qiNiuImagesPath count] == [localImagesPath count]) {
         [self sendMessageToServer];
