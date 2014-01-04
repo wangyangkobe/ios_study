@@ -17,7 +17,7 @@ extern NSString* homePageUrl;
 @interface ActivityDetailViewController : JMStaticContentTableViewController <FGalleryViewControllerDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (retain, atomic) MessageModel* message;
+@property (retain, nonatomic) MessageModel* message;
 @property (weak, nonatomic) IBOutlet UILabel *themeLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
