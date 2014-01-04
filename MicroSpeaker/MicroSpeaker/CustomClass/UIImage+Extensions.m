@@ -77,4 +77,25 @@
     return newImage;
 }
 
++(NSString*)saveImage:(UIImage *)image withName:(NSString *)name
+{
+    //grab the data from our image
+    NSData *data;
+    if (UIImagePNGRepresentation(image) == nil) {
+        data = UIImageJPEGRepresentation(image, 1);
+    } else {
+        data = UIImagePNGRepresentation(image);
+    }
+    //get a path to the documents Directory
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,  YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    // Add out name to the end of the path with .PNG
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", name]];
+    //Save the file, over write existing if exists.
+    [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+    return fullPath;
+}
+
 @end

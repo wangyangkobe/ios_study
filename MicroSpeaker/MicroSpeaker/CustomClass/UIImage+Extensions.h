@@ -10,4 +10,6 @@
 
 @interface UIImage (Extensions)
 - (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize;
++(NSString*)saveImage:(UIImage *)image withName:(NSString *)name;
+
 @end
