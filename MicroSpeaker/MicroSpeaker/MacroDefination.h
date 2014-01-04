@@ -29,4 +29,10 @@
 
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
+//-------------------七牛-------------------------
+#define QiniuAccessKey  @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU"
+#define QiniuSecretKey  @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23"
+#define QiniuBucketName @"microbroadcast"
+#define QiniuDomian     [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName]
+
 #endif
