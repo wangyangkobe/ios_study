@@ -21,5 +21,5 @@
 
 @property (nonatomic, strong) NSString *value;
 @property (weak) IBOutlet id <SimplePickerInputTableViewCellDelegate> delegate;
-
+@property (nonatomic, strong) NSArray* values;
 @end

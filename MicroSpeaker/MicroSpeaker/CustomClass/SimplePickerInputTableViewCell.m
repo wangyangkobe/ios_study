@@ -12,11 +12,11 @@
 
 @synthesize delegate;
 @synthesize value;
-
-__strong NSArray *values = nil;
+@synthesize values;
+//__strong NSArray *values = nil;
 
 + (void)initialize {
-	values = [NSArray arrayWithObjects:@"Value 1", @"Value 2", @"Value 3", @"Value 4", @"Value 5", nil];
+//	values = [NSArray arrayWithObjects:@"Value 1", @"Value 2", @"Value 3", @"Value 4", @"Value 5", nil];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -43,7 +43,8 @@ __strong NSArray *values = nil;
 - (void)setValue:(NSString *)v {
 	value = v;
 	self.detailTextLabel.text = value;
-	[self.picker selectRow:[values indexOfObject:value] inComponent:0 animated:YES];
+    if ([values containsObject:v])
+        [self.picker selectRow:[values indexOfObject:value] inComponent:0 animated:YES];
 }
 
 #pragma mark -
