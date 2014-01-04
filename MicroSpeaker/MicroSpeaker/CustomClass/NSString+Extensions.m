@@ -28,4 +28,17 @@
     
     return randomString;
 }
+
+- (BOOL) containsString: (NSString*) substring
+{
+    return [self rangeOfString:substring].location != NSNotFound;
+}
+
++(NSString*) generateQiNiuFileName
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYYMMddHHmmss"];
+    return [NSString stringWithFormat:@"%@%@", [formatter stringFromDate:[NSDate date]],
+            [NSString randomAlphanumericStringWithLength:10]];
+}
 @end

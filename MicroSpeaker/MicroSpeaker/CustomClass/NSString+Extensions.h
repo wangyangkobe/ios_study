@@ -11,5 +11,8 @@
 @interface NSString (Extensions)
 
 +(CGFloat) calculateTextHeight:(NSString*) str;
-+ (NSString *)randomAlphanumericStringWithLength:(NSInteger)length;
++ (NSString *) randomAlphanumericStringWithLength:(NSInteger)length;
+
+-(BOOL) containsString: (NSString*) substring;
++(NSString*) generateQiNiuFileName;
 @end
