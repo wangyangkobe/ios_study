@@ -29,5 +29,7 @@
 @property(nonatomic, strong) NSString* Text;
 @property(nonatomic, assign) int Type;
 @property(nonatomic, strong) UserModel* User;
-
+@property(nonatomic, strong) NSString<Optional>* Theme;
+@property(nonatomic, strong) NSString<Optional>* Tel;
+@property(nonatomic, strong) NSString<Optional>* Price;
 @end

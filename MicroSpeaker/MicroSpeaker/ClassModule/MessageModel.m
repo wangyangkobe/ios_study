@@ -24,7 +24,9 @@
 @synthesize Text = _Text;
 @synthesize Type = _Type;
 @synthesize User = _User;
-
+@synthesize Theme = _Theme;
+@synthesize Tel = _Tel;
+@synthesize Price = _Price;
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeInt:_CommentsCount forKey:@"CommentsCount"];
@@ -42,6 +44,9 @@
     [aCoder encodeObject:_Photos forKey:@"Photos"];
     [aCoder encodeObject:_Text forKey:@"Text"];
     [aCoder encodeObject:_User forKey:@"User"];
+    [aCoder encodeObject:_Theme forKey:@"Theme"];
+    [aCoder encodeObject:_Tel forKey:@"Tel"];
+    [aCoder encodeObject:_Price forKey:@"Price"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -64,6 +69,9 @@
         _Photos = [aDecoder decodeObjectForKey:@"Photos"];
         _Text = [aDecoder decodeObjectForKey:@"Text"];
         _User = [aDecoder decodeObjectForKey:@"User"];
+        _Theme = [aDecoder decodeObjectForKey:@"Theme"];
+        _Tel = [aDecoder decodeObjectForKey:@"Tel"];
+        _Price = [aDecoder decodeObjectForKey:@"Price"];
     }
     return self;
 }
@@ -85,7 +93,9 @@
     copy.PhotoThumbnails = [self.PhotoThumbnails copyWithZone:zone];
     copy.Text = [self.Text copyWithZone:zone];
     copy.User = [self.User copyWithZone:zone];
-    
+    copy.Theme = [self.Theme copyWithZone:zone];
+    copy.Tel = [self.Tel copyWithZone:zone];
+    copy.Price = [self.Price copyWithZone:zone];
     return copy;
 }
 
