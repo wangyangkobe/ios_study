@@ -584,11 +584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/PublishSaleViewController.m"
-            timestampString = "410515982.426279"
+            timestampString = "411144155.017014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "-uploadSucceeded:ret:"
             landmarkType = "5">
          </BreakpointContent>
@@ -600,11 +600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/PublishSaleViewController.m"
-            timestampString = "410514782.766107"
+            timestampString = "410791546.787342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -616,11 +616,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/SaleDetailViewController.m"
-            timestampString = "410531061.245395"
+            timestampString = "411142821.039322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "-tableView:heightForHeaderInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -632,12 +632,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/SaleDetailViewController.m"
-            timestampString = "410531061.81694"
+            timestampString = "411142821.039322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
