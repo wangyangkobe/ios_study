@@ -11,6 +11,8 @@
 #import "UILabel+Extensions.h"
 #import "UIImage+Extensions.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UIButton+Extensions.h"
+
 @interface SaleDetailViewController ()
 
 @end
@@ -38,12 +40,17 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.title = @"转让";
+    UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"group_detail_menu_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareSaleMessage)];
+    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)shareSaleMessage
+{
 }
 #pragma mark UITableView dataSource
 -(int)numberOfSectionsInTableView:(UITableView *)tableView
@@ -71,12 +78,24 @@
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 22, 22)];
+                [imageView setTag:1000];
+                [cell.contentView addSubview:imageView];
+                UILabel* textLabel = [[UILabel alloc] initWithFrame:CGRectMake(42, 0, SCREEN_WIDTH - 42, 44)];
+                [textLabel setTag:1001];
+                [cell.contentView addSubview:textLabel];
+                [textLabel setFont:[UIFont systemFontOfSize:20]];
             }
+            UIImageView* imageView = (UIImageView*)[cell.contentView viewWithTag:1000];
+            UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:1001];
             if (0 == row) {
-                cell.textLabel.text = [NSString stringWithFormat:@"%@元左右", _message.Price];
-                cell.imageView.image = [UIImage imageNamed:@"RMB"];
+                textLabel.text = [NSString stringWithFormat:@"%@元左右", _message.Price];
+                imageView.image = [UIImage imageNamed:@"vad_icon_price"];
+                textLabel.textColor = [UIColor greenColor];
             }else{
-                cell.textLabel.text = _message.Area.AreaName;
+                imageView.image = [UIImage imageNamed:@"vad_icon_location"];
+                textLabel.text = _message.Area.AreaName;
+                textLabel.textColor = [UIColor blackColor];
             }
             return cell;
         }
@@ -111,8 +130,17 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UILabel* textLabel = [[UILabel alloc] init];
+            [textLabel setTag:2003];
+            [cell.contentView addSubview:textLabel];
         }
-        cell.textLabel.text = _message.Text;
+        UILabel* textLabel = (UILabel*)[cell viewWithTag:2003];
+        float textHeight = [_message.Text sizeWithFont:[UIFont boldSystemFontOfSize:17]
+                                     constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
+                                         lineBreakMode:NSLineBreakByWordWrapping].height;
+        [textLabel setFrame:CGRectMake(10, 0, SCREEN_WIDTH, textHeight)];
+        [textLabel setText:_message.Text];
+        [textLabel sizeToFitFixedWidth:SCREEN_WIDTH - 10 lines:10];
         return cell;
     }
     static NSString *CellIdentifier = @"Cell";
@@ -120,19 +148,32 @@
     // Configure the cell...
     return cell;
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2 && indexPath.row == 0) {
+        float textHeight = [_message.Text sizeWithFont:[UIFont boldSystemFontOfSize:17]
+                                     constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
+                                         lineBreakMode:NSLineBreakByWordWrapping].height;
+        return textHeight + 10;
+    }else{
+        return 44;
+    }
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (0 == section) {
-        float textHeight = [_message.Text sizeWithFont:[UIFont systemFontOfSize:20]
-                                     constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
-                                         lineBreakMode:NSLineBreakByWordWrapping].height;
+        float textHeight = [_message.Theme sizeWithFont:[UIFont systemFontOfSize:20]
+                                      constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
+                                          lineBreakMode:NSLineBreakByWordWrapping].height;
         if ([_message.PhotoThumbnails count] != 0)
             return textHeight + 90 + 20; // 70为图像高度
         else
             return textHeight + 10;
     }
     else if(2 == section)
+    {
         return 30;
+    }
     else
         return 0;
     
@@ -149,8 +190,8 @@
 {
     if (0 == section) {
         float textHeight = [_message.Theme sizeWithFont:[UIFont boldSystemFontOfSize:20]
-                                     constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
-                                         lineBreakMode:NSLineBreakByWordWrapping].height;
+                                      constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
+                                          lineBreakMode:NSLineBreakByWordWrapping].height;
         
         UIView* header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, textHeight)];
         
@@ -172,21 +213,21 @@
             [imageView setContentMode:UIViewContentModeScaleToFill];
             
             imageView.clipsToBounds = YES;
-            //   [imageView setupImageViewerWithDatasource:self initialIndex:i onOpen:nil onClose:nil];
+            [imageView setupImageViewerWithDatasource:self initialIndex:i onOpen:nil onClose:nil];
             [header addSubview:imageView];
         }
         return header;
     }
     else if(2 == section)
     {
-//        static NSString *identifier = @"defaultHeader";
-//        UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
-//        if (!headerView) {
-//            headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:identifier];
-//        }
-//        headerView.textLabel.text = @"描述";
-//        headerView.textLabel.backgroundColor = [UIColor clearColor];
-//        return headerView;
+        //        static NSString *identifier = @"defaultHeader";
+        //        UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
+        //        if (!headerView) {
+        //            headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:identifier];
+        //        }
+        //        headerView.textLabel.text = @"描述";
+        //        headerView.textLabel.backgroundColor = [UIColor clearColor];
+        //        return headerView;
         UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
         UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 10, 30)];
         [headerView addSubview:headerLabel];
@@ -205,8 +246,32 @@
         [footerView addSubview:telButton];
         [telButton setBackgroundColor:[UIColor colorWithRed:0.97 green:0.67 blue:0.25 alpha:1.0]];
         [telButton setTitle:[NSString stringWithFormat:@"复制联系方式: %@", _message.Tel] forState:UIControlStateNormal];
+        [telButton addAction:^(UIButton *btn) {
+            UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+            pboard.string = _message.Tel;
+            
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"复制成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }];
+        
+        UIButton* jumpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        jumpButton.frame = CGRectMake(270, 10, 40, 34);
+        [footerView addSubview:jumpButton];
+        [jumpButton setImage:[UIImage imageNamed:@"icon_sms"] forState:UIControlStateNormal];
         return footerView;
     }
     return nil;
+}
+
+#pragma mark - MHFacebookImageViewerDatasource delegate methods
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+    return [_message.PhotoThumbnails count];
+}
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+    return [_message.PhotoThumbnails objectAtIndex:index];
+}
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
+    NSLog(@"INDEX IS %i",index);
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MessageModel.h"
 #import "MacroDefination.h"
-@interface SaleDetailViewController : UITableViewController
+#import "MHFacebookImageViewer.h"
+@interface SaleDetailViewController : UITableViewController<MHFacebookImageViewerDatasource>
 @property (retain, nonatomic) MessageModel* message;
 @end
