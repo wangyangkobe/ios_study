@@ -134,7 +134,9 @@ static LocationHelper* locationHelper;
     {
         [activityIndicator setHidden:NO];
         [activityIndicator startAnimating];
-        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum]
+                  bucket:QiniuBucketName
+                     key:[NSString generateQiNiuFileName]];
     }
     else //没有图片要上传
     {
@@ -340,7 +342,7 @@ static LocationHelper* locationHelper;
     UIImage* originalImage = [mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"];
     
     NSString* imageName = [NSString stringWithFormat:@"wy_%d", [localImagesPath count]];
-    NSString* imagePath = [self saveImage:originalImage withName:imageName];
+    NSString* imagePath = [UIImage saveImage:originalImage withName:imageName];
     [localImagesPath addObject:imagePath];
     
     //  [self uploadFile:imagePath bucket:QiniuBucketName key:imageName];
@@ -415,27 +417,6 @@ static LocationHelper* locationHelper;
     [self.tableView reloadData];
 }
 
-- (NSString*)saveImage:(UIImage *)image withName:(NSString *)name
-{
-    //grab the data from our image
-    NSData *data;
-    if (UIImagePNGRepresentation(image) == nil) {
-        data = UIImageJPEGRepresentation(image, 1);
-    } else {
-        data = UIImagePNGRepresentation(image);
-    }
-    //get a path to the documents Directory
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,  YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    // Add out name to the end of the path with .PNG
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", name]];
-    //Save the file, over write existing if exists.
-    [fileManager createFileAtPath:fullPath contents:data attributes:nil];
-    return fullPath;
-}
-
 #pragma mark - QiniuUploadDelegate
 // Upload completed successfully.
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
@@ -447,7 +428,9 @@ static LocationHelper* locationHelper;
     [qiNiuImagesPath addObject:path];
     upLoadedImageNum++;
     if(upLoadedImageNum < [localImagesPath count]){
-        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum] bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+        [self uploadFile:[localImagesPath objectAtIndex:upLoadedImageNum]
+                  bucket:QiniuBucketName
+                     key:[NSString generateQiNiuFileName]];
     }
     if ([qiNiuImagesPath count] == [localImagesPath count]) {
         [self sendMessageToServer];
@@ -467,7 +450,7 @@ static LocationHelper* locationHelper;
     else {
         message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
         //继续重传
-        [self uploadFile:filePath bucket:QiniuBucketName key:[self generateQiNiuFileName]];
+        [self uploadFile:filePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
     }
 }
 
@@ -482,7 +465,7 @@ static LocationHelper* locationHelper;
 {
     for (NSString* imagePath in imagesPath)
     {
-        [self uploadFile:imagePath bucket:bucket key:[self generateQiNiuFileName]];
+        [self uploadFile:imagePath bucket:bucket key:[NSString generateQiNiuFileName]];
     }
 }
 - (void)uploadFile:(NSString *)filePath bucket:(NSString *)bucket key:(NSString *)key
@@ -495,13 +478,7 @@ static LocationHelper* locationHelper;
         [qiNiuUpLoader uploadFile:filePath key:key extra:nil];
     }
 }
--(NSString*)generateQiNiuFileName
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYYMMddHHmmss"];
-    return [NSString stringWithFormat:@"%@%@", [formatter stringFromDate:[NSDate date]],
-            [NSString randomAlphanumericStringWithLength:10]];
-}
+
 -(void)sendMessageToServer
 {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
