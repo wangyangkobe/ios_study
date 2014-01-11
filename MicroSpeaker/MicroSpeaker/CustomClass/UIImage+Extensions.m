@@ -80,10 +80,8 @@
 +(NSString*)saveImage:(UIImage *)image withName:(NSString *)name
 {
     //grab the data from our image
-    NSData *data;
-    if (UIImagePNGRepresentation(image) == nil) {
-        data = UIImageJPEGRepresentation(image, 1);
-    } else {
+    NSData *data = UIImageJPEGRepresentation(image, 0.5);
+    if (data == nil) {
         data = UIImagePNGRepresentation(image);
     }
     //get a path to the documents Directory
@@ -91,10 +89,17 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,  YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    // Add out name to the end of the path with .PNG
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", name]];
+    // Add out name to the end of the path with .JPG
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", name]];
     //Save the file, over write existing if exists.
     [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+    
+    //计算压缩后的文件大小
+    NSDictionary *sourceAttributes = [fileManager attributesOfItemAtPath:fullPath error:nil];
+    NSNumber *sourceFileSize = [sourceAttributes objectForKey:NSFileSize];
+    long long fileSize = [sourceFileSize longLongValue];
+    NSLog(@"Filesize = %lld", fileSize / 1024);
+    
     return fullPath;
 }
 
