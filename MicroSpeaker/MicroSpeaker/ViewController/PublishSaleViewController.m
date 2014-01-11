@@ -177,6 +177,7 @@
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"标  题:";
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.textField.placeholder = @"建议填写商品品牌和名称...      ";
         cell.textField.textColor = [UIColor blueColor];
         cell.textField.textAlignment = NSTextAlignmentLeft;
@@ -212,6 +213,7 @@
         cell.values = commerceTypesName;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"分  类:";
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         if (selectCommerceType == nil)
             [cell setValue:@"请选择分类"];
         else
@@ -234,10 +236,12 @@
             
             UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(280, 0, 40, 44)];
             [label setText:@"左右"];
+            label.font = [UIFont systemFontOfSize:18];
             [cell.contentView addSubview:label];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"价  格:";
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         priceTextField.placeholder = @"数字填写，不能为0和负数";
         return cell;
     }
@@ -251,6 +255,7 @@
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"联系电话:";
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.textField.placeholder = @"只能填写手机或固话号码";
         cell.textField.keyboardType = UIKeyboardTypePhonePad;
         cell.textField.returnKeyType = UIReturnKeyDone;
@@ -265,6 +270,7 @@
         cell.values = areaNamesArray;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"推送社区:";
+        cell.textLabel.font = [UIFont systemFontOfSize:18];
         if (selectAreaName == nil)
             [cell setValue:@"请选择社区"];
         else
@@ -424,7 +430,25 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    [[NetWorkConnection sharedInstance] publishMessage:4 fromTime:nil toTime:nil theme:themeStr activityAddress:nil tel:telNumber price:[priceTextField text] commerceType:selectCommerceType text:[descriptionTextView text] areaID:selectAreaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
+    [[NetWorkConnection sharedInstance] publishMessage:4
+                                              fromTime:nil
+                                                toTime:nil
+                                                 theme:themeStr
+                                       activityAddress:nil
+                                                   tel:telNumber
+                                                 price:[priceTextField text]
+                                          commerceType:selectCommerceType
+                                                  text:[descriptionTextView text]
+                                                areaID:selectAreaID
+                                                   lat:0
+                                                  long:0
+                                               address:@"淞虹路"
+                                   locationDescription:@"天山西路"
+                                                  city:selfUserInfo.City
+                                              province:selfUserInfo.Province
+                                               country:nil
+                                                   url:jsonString
+                                               pushNum:50];
     
     [activityIndicator stopAnimating];
     //通知父视图获取最新数据
