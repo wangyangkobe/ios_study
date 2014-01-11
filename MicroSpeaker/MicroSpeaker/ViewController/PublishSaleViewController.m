@@ -43,6 +43,8 @@
     NSString* themeStr;
     
     UserInfoModel* selfUserInfo;
+    
+    UIActivityIndicatorView* activityIndicator;
 }
 
 @end
@@ -105,6 +107,13 @@
     oneTap.numberOfTouchesRequired = 1;
     oneTap.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
+    
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+    activityIndicator.center = CGPointMake(SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0);
+    [activityIndicator setHidesWhenStopped:YES];
+    activityIndicator.color = [UIColor blueColor];
+    [self.tableView addSubview: activityIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -333,9 +342,9 @@
     NSLog(@"%@ %@", NSStringFromSelector(_cmd), [mediaInfoArray description]);
     
     UIImage* originalImage = [mediaInfoArray objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    UIImage* scaleImage = [originalImage imageByScalingAndCroppingForSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
     NSString* imageName = [NSString stringWithFormat:@"wy_%d", [localImagesPath count]];
-    NSString* imagePath = [UIImage saveImage:originalImage withName:imageName];
+    NSString* imagePath = [UIImage saveImage:scaleImage withName:imageName];
     [localImagesPath addObject:imagePath];
     
     [self.tableView reloadData];
@@ -357,7 +366,6 @@
 #pragma mark - SimplePickerInputTableViewCellDelegate
 - (void)tableViewCell:(SimplePickerInputTableViewCell *)cell didEndEditingWithValue:(NSString *)value
 {
-    NSLog(@"value = %@", value);
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     int selcetRow = [indexPath row];
     if (3 == selcetRow) {
@@ -376,12 +384,21 @@
 }
 -(void)publishSaleMessage
 {
+    [activityIndicator startAnimating];
     if (telNumber != nil && selectCommerceType != nil && priceTextField.text != nil && descriptionTextView.text != nil)
     {
         if ([localImagesPath count] > 0)
             [self uploadFile:[localImagesPath objectAtIndex:upLoadImageNumber] bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
         else
             [self sendMessageToServer];
+    }
+    else{
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"错误提示!"
+                                                            message:@"请输入完整信息!"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+        [alertView show];
     }
 }
 #pragma mark - QiniuUploadDelegate
@@ -409,6 +426,7 @@
     
     [[NetWorkConnection sharedInstance] publishMessage:4 fromTime:nil toTime:nil theme:themeStr activityAddress:nil tel:telNumber price:[priceTextField text] commerceType:selectCommerceType text:[descriptionTextView text] areaID:selectAreaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
     
+    [activityIndicator stopAnimating];
     //通知父视图获取最新数据
     [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
     [self.navigationController popViewControllerAnimated:YES ];
@@ -438,6 +456,7 @@
 - (void)uploadFile:(NSString *)filePath bucket:(NSString *)bucket key:(NSString *)key
 {
     NSFileManager *manager = [NSFileManager defaultManager];
+    NSLog(@"%@, %@", filePath, key);
     if ([manager fileExistsAtPath:filePath]) {
         if(qiNiuUpLoader == nil)
             qiNiuUpLoader = [QiniuSimpleUploader uploaderWithToken:[self tokenWithScope:bucket]];
