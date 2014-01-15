@@ -26,7 +26,9 @@
 #import "SaleDetailViewController.h"
 #import "PublishBuyViewController.h"
 
-@interface MainTabViewController ()<MHFacebookImageViewerDatasource>
+@interface MainTabViewController ()<MHFacebookImageViewerDatasource>{
+    UserInfoModel* selfUserInfo;
+}
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
 @end
@@ -34,17 +36,17 @@
 @implementation MainTabViewController
 
 @synthesize messagesArray;
-@synthesize messagePaginator;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithStyle:(UITableViewStyle)style
+//{
+//    self = [super initWithStyle:style];
+//    if (self)
+//    {
+//        // Custom initialization
+//    }
+//    return self;
+//}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -60,20 +62,28 @@
 {
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
+   
     BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
     if (checkResut) {
-        UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+        selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
         
         NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:encodedObject forKey:SELF_USERINFO];
         [defaults synchronize];
     }
-    
 }
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    _pullTableView = [[PullTableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
+    _pullTableView.dataSource = self;
+    _pullTableView.delegate = self;
+    _pullTableView.pullDelegate = self;
+    self.view = _pullTableView;
+    
     NSLog(@"call: %@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     
     UIApplication* app = [UIApplication sharedApplication];
@@ -83,35 +93,27 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pullDownRefresh)
                                                  name:@"publishMessageSuccess" object:nil];
     
-    [super viewDidLoad];
     messagesArray = [[NSMutableArray alloc] init];
-    
-    // set up the paginator
-    [self setupTableViewFooter];
-    self.messagePaginator = [[MessagePaginator alloc] initWithPageSize:15 delegate:self];
     
     __block NSMutableArray* storedMessages;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSData* data = [[NSMutableData alloc] initWithContentsOfFile:[self dataFilePath]];
-        if (data != nil)
-        {
+        if (data != nil){
             NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
             storedMessages = [unarchiver decodeObjectForKey:kDataKey];
             [unarchiver finishDecoding];
+            messagesArray = [storedMessages mutableCopy];
             NSLog(@"%d", [storedMessages count]);
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                messagesArray = [storedMessages mutableCopy];
-                [self.tableView reloadData];
-            });
         }
-        else
-        {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.messagePaginator fetchFirstPage];
-            });
+        else{
+            NSArray* fetchNewMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+                                                                                     PageSize:15
+                                                                                         Page:1];
+            messagesArray = [fetchNewMessage mutableCopy];
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_pullTableView reloadData];
+        });
     });
     
     //添加导航栏左边的发布信息按钮
@@ -121,8 +123,7 @@
     self.navigationItem.leftBarButtonItem =  publishButton;
 }
 
--(void)applicationWillResignActive:(NSNotification*) notification
-{
+-(void)applicationWillResignActive:(NSNotification*) notification{
     //当app变成inActive时（进入backgroud），将数据存储起来
     NSMutableData* data = [[NSMutableData alloc] init];
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -136,6 +137,53 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - PullTableViewDelegate
+- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:1.5f];
+}
+
+- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:3.0f];
+}
+
+#pragma mark - Refresh and load more methods
+- (void)refreshTable {
+    if (0 == [messagesArray count])
+        return;
+    self.pullTableView.pullTableIsRefreshing = YES;
+    long sinceId = ((MessageModel*)messagesArray[0]).MessageID;
+    [self getNewMessageBySinceID:[NSNumber numberWithLong:sinceId]];
+}
+
+- (void)loadMoreDataToTable
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        MessageModel* lastMessage = [messagesArray lastObject];
+       NSArray* loadMoreRes =  [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+                                                                               PageSize:15
+                                                                                  maxID:lastMessage.MessageID];
+        __block NSInteger fromIndex = [messagesArray count];
+        [messagesArray addObjectsFromArray:loadMoreRes];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+            
+            for(NSDictionary *result in loadMoreRes){
+                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
+                fromIndex++;
+            }
+            
+            [_pullTableView beginUpdates];
+            [_pullTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
+            [_pullTableView endUpdates];
+       //     [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            self.pullTableView.pullTableIsLoadingMore = NO;
+        });
+    });
+    }
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -295,22 +343,8 @@
     }
 }
 
-//重写PullRefreshTableViewController中的pullDownRefresh方法，实现下拉获取新的消息
-- (void)pullDownRefresh
-{
-    if (0 == [messagesArray count])
-        return;
-    long sinceId = ((MessageModel*)messagesArray[0]).MessageID;
-    [self performSelector:@selector(getNewMessageBySinceID:) withObject:[NSNumber numberWithLong:sinceId] afterDelay:1.5];
-}
-
-- (void)getNewMessageBySinceID:(NSNumber*) sinceId
-{
+- (void)getNewMessageBySinceID:(NSNumber*) sinceId{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
-        UserInfoModel *selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
         
         NSArray* newMessages = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
                                                                               sinceID:[sinceId longValue]];
@@ -319,8 +353,10 @@
             [messagesArray insertObject:message atIndex:0];
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [self stopLoading];
+            if (_pullTableView.pullTableIsRefreshing == YES) {
+                _pullTableView.pullTableIsRefreshing = NO;
+                [_pullTableView reloadData];
+            }
         });
     });
 }
@@ -357,110 +393,6 @@
     }
 }
 
-#pragma mark - for NMPaginator
-- (void)setupTableViewFooter
-{
-    // set up label
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    footerView.backgroundColor = [UIColor clearColor];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    label.font = [UIFont boldSystemFontOfSize:14];
-    label.textColor = [UIColor lightGrayColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    self.footerLabel = label;
-    [footerView addSubview:label];
-    
-    // set up activity indicator
-    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicatorView.center = CGPointMake(160, 22);
-    activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    activityIndicatorView.color = [UIColor blueColor];
-    activityIndicatorView.hidesWhenStopped = YES;
-    
-    self.footerActivityIndicator = activityIndicatorView;
-    [footerView addSubview:activityIndicatorView];
-    
-    self.tableView.tableFooterView = footerView;
-}
-
-- (void)updateTableViewFooter
-{
-    if ([self.messagePaginator.results count] != 0)
-    {
-        [self.footerLabel setFont:[UIFont systemFontOfSize:14]];
-        self.footerLabel.text = [NSString stringWithFormat:@"%d results out of %d",
-                                 [self.messagePaginator.results count], self.messagePaginator.total];
-    } else
-    {
-        self.footerLabel.text = @"";
-    }
-    [self.footerLabel setNeedsDisplay];
-}
-- (void)fetchNextPage
-{
-    if ([messagesArray count] == 0) {
-        self.messagePaginator.lastMessageId = -1; //去从第一页获取
-    }
-    else{ //获取最后一条消息还要早的消息
-        MessageModel* lastMessage = (MessageModel*)[messagesArray lastObject];
-        self.messagePaginator.lastMessageId = lastMessage.MessageID;
-    }
-    [self.messagePaginator fetchNextPage];
-    [self.footerActivityIndicator startAnimating];
-}
-
-#pragma mark - UIScrollViewDelegate Methods
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    // when reaching bottom, load a new page
-    if (scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.bounds.size.height)
-    {
-        // ask next page only if we haven't reached last page
-        if(![self.messagePaginator reachedLastPage])
-        {
-            // fetch next page of results
-            [self fetchNextPage];
-        }
-    }
-}
-
-#pragma mark - Paginator delegate methods
-- (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
-{
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
-    // update tableview footer
-    [self updateTableViewFooter];
-    [self.footerActivityIndicator stopAnimating];
-    
-    // update tableview content
-    // easy way : call [tableView reloadData];
-    // nicer way : use insertRowsAtIndexPaths:withAnimation:
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-    NSInteger i = [self.messagePaginator.results count] - [results count];
-    [messagesArray addObjectsFromArray:results];
-    
-    for(NSDictionary *result in results)
-    {
-        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        i++;
-    }
-    
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
-    [self.tableView endUpdates];
-}
-
-- (void)paginatorDidReset:(id)paginator
-{
-    [self.tableView reloadData];
-    [self updateTableViewFooter];
-}
-
-- (void)paginatorDidFailToRespond:(id)paginator
-{
-    // Todo
-}
 
 -(void)showMenu
 {
@@ -502,13 +434,13 @@
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
 - (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
-    int rowIndex = [[self.tableView indexPathForCell:cell] row];
+    int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
     MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
     return [currentMessage.PhotoThumbnails count];
 }
 - (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
-    int rowIndex = [[self.tableView indexPathForCell:cell] row];
+    int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
     MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
     return [currentMessage.PhotoThumbnails objectAtIndex:index];
 }

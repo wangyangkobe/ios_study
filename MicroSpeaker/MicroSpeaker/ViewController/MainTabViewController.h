@@ -7,22 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PullRefreshTableViewController.h"
-#import "MessagePaginator.h"
 #import "MacroDefination.h"
 #import "NetWorkConnection.h"
+#import "PullTableView.h"
 
 #define kFileName @"MessageData.plist"
 #define kDataKey @"MessageData"
 
-@interface MainTabViewController : PullRefreshTableViewController<NMPaginatorDelegate>
+@interface MainTabViewController : UIViewController<UITableViewDataSource, PullTableViewDelegate, UITableViewDelegate>
 
 @property(nonatomic, copy) NSMutableArray* messagesArray;
 
-// this property for NMPaginator
-@property (nonatomic, strong) MessagePaginator *messagePaginator;
-@property (nonatomic, strong) UILabel *footerLabel;
-@property (nonatomic, strong) UIActivityIndicatorView *footerActivityIndicator;
+@property (nonatomic, retain) IBOutlet PullTableView* pullTableView;
+
 
 @end
-//-------------------获取设备大小-------------------------
