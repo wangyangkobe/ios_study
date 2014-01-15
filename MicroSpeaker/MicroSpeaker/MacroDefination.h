@@ -35,4 +35,13 @@
 #define QiniuBucketName @"microbroadcast"
 #define QiniuDomian     [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName]
 
+//-------------------七牛-------------------------
+typedef enum
+{
+    SpeakerMessage  = 1,
+    ActivityMessage = 2,
+    BuyMessage      = 3,
+    SaleMessage     = 4,
+} MessageType;
+
 #endif
