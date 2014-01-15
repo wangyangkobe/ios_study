@@ -24,6 +24,7 @@
 #import "PublishSaleViewController.h"
 #import "MHFacebookImageViewer.h"
 #import "SaleDetailViewController.h"
+#import "PublishBuyViewController.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource>
 -(NSString*) dataFilePath; //归档文件的路径
@@ -199,7 +200,7 @@
     else
     {
         NSString* str = message.Location.LocationDescription;
-        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,大声说:", str];
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,求购:", str];
     }
     
     if (1 == message.Type || message.Type == 2) {
@@ -276,7 +277,7 @@
     NSString* photoURL = message.PhotoThumbnail;
     
     float textHeight = 0;
-    if (message.Type == 4) {
+    if (message.Type == 4 || message.Type == 3) {
         textHeight = [NSString calculateTextHeight:[NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel]];
     }
     else
@@ -332,16 +333,24 @@
     NSInteger row = [indexPath row];
     
     MessageModel* selectedMessage = [messagesArray objectAtIndex:row];
-    if (selectedMessage.Type == 2)
+    if (ActivityMessage == selectedMessage.Type)
     {
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
-    }else if(1 == selectedMessage.Type){
+    }
+    else if(SpeakerMessage == selectedMessage.Type){
         SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
-    }else{
+    }
+    else if(SaleMessage == selectedMessage.Type){
+        SaleDetailViewController* subViewController = [[SaleDetailViewController alloc] init];
+        subViewController.message = selectedMessage;
+        [self.navigationController pushViewController:subViewController animated:YES];
+    }
+    else{
+        //可以共用同一个类
         SaleDetailViewController* subViewController = [[SaleDetailViewController alloc] init];
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
@@ -457,9 +466,10 @@
 {
     NSArray *menuItems =
     @[
-      [KxMenuItem menuItem:@"大声说" image:nil target:self action:@selector(showController:)],
-      [KxMenuItem menuItem:@"搞活动" image:nil target:self action:@selector(showController:)],
+      [KxMenuItem menuItem:@"大声说"   image:nil target:self action:@selector(showController:)],
+      [KxMenuItem menuItem:@"搞活动"   image:nil target:self action:@selector(showController:)],
       [KxMenuItem menuItem:@"转让物品" image:nil target:self action:@selector(showController:)],
+      [KxMenuItem menuItem:@"求购物品" image:nil target:self action:@selector(showController:)],
       ];
     
     for (KxMenuItem* item in menuItems){
@@ -480,8 +490,12 @@
         PublishActivityViewController* controller = [[PublishActivityViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
-    else{
+    else if([menuItem.title isEqualToString:@"转让物品"]){
         PublishSaleViewController* controller = [[PublishSaleViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else{
+        PublishBuyViewController* controller = [[PublishBuyViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
