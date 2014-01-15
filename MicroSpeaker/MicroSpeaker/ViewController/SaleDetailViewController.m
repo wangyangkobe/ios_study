@@ -39,7 +39,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.title = @"转让";
+    if (SaleMessage == _message.Type)
+        self.title = @"转让";
+    else
+        self.title = @"求购";
+    
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"group_detail_menu_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareSaleMessage)];
     self.navigationItem.rightBarButtonItem = rightButton;
 }
