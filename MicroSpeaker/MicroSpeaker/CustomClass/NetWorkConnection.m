@@ -339,4 +339,31 @@
     }
     return result;
 }
+
+////////////////////////////////////////////////////////
+-(NSArray*) searchMessageByToken:(NSString *)Token type:(int)Type{
+    NSString* requestUrl;
+    if (0 == Type) {
+        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@", HOME_PAGE, Token];
+    }else{
+        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&type=%d", HOME_PAGE, Token, Type];
+    }
+    
+    NSLog(@"%s %@", __FUNCTION__, requestUrl);
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    NSLog(@"%@", [request responseString]);
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    NSMutableArray* result = [NSMutableArray array];
+    for (id message in jsonArray) {
+        [result addObject:[[MessageModel alloc] initWithDictionary:message error:nil]];
+    }
+    return result;
+}
 @end

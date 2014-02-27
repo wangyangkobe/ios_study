@@ -48,4 +48,7 @@
 
 //获取商品类别
 -(NSArray*)getCommerceType;
+
+//搜索消息
+-(NSArray*)searchMessageByToken:(NSString*)Token type:(int)Type;
 @end
