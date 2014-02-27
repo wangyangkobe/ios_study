@@ -85,7 +85,8 @@
 {
     [super viewDidLoad];
     
-    _pullTableView = [[PullTableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) style:UITableViewStylePlain];
+    _pullTableView = [[PullTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+                                                    style:UITableViewStylePlain];
     _pullTableView.dataSource = self;
     _pullTableView.delegate = self;
     _pullTableView.pullDelegate = self;
@@ -556,7 +557,10 @@
     });
 }
 -(void) doSearch{
-    NSLog(@"%s", __FUNCTION__);
-    self.pullTableView.tableHeaderView = _searchBar;
+    if (self.pullTableView.tableHeaderView) {
+        self.pullTableView.tableHeaderView = nil;
+    }else{
+        self.pullTableView.tableHeaderView = _searchBar;
+    }
 }
 @end
