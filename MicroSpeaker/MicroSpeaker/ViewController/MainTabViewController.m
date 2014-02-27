@@ -26,8 +26,15 @@
 #import "SaleDetailViewController.h"
 #import "PublishBuyViewController.h"
 
-@interface MainTabViewController ()<MHFacebookImageViewerDatasource>{
+@interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
     UserInfoModel* selfUserInfo;
+    
+    UISearchBar* _searchBar;
+    UISearchDisplayController* searchDisplayController;
+    NSArray* searchRestults;
+    
+    NSString* searchContent;
+    int searchTypeIndex;
 }
 -(NSString*) dataFilePath; //归档文件的路径
 -(void)applicationWillResignActive:(NSNotification*)notification;
@@ -62,7 +69,7 @@
 {
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
-   
+    
     BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
     if (checkResut) {
         selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
@@ -121,9 +128,31 @@
                                                                                    target:self
                                                                                    action:@selector(showMenu)];
     self.navigationItem.leftBarButtonItem =  publishButton;
+    
+    UIBarButtonItem* searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                                                  target:self
+                                                                                  action:@selector(doSearch)];
+    self.navigationItem.rightBarButtonItem = searchButton;
+    
+//    NSArray* searchTitles = @[@"大声说", @"活动", @"求购", @"转让"];
+//    UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:searchTitles];
+//    [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+//    [segmentedControl addTarget:self action:@selector(searchTypeIndexChanged:) forControlEvents:UIControlEventValueChanged];
+//    //segmentedControl.selectedSegmentIndex = 0;
+//    self.navigationItem.titleView = segmentedControl;
+    
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    _searchBar.showsScopeBar = YES;
+    _searchBar.scopeButtonTitles = @[@"全部", @"大声说", @"活动", @"求购", @"转让"];
+    _searchBar.selectedScopeButtonIndex = 0;
+    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+    _searchBar.delegate = self;
+    searchDisplayController.searchResultsDelegate = self;
+    searchDisplayController.searchResultsDataSource = self;
+    searchDisplayController.delegate = self;
 }
 
--(void)applicationWillResignActive:(NSNotification*) notification{
+-(void) applicationWillResignActive:(NSNotification*) notification {
     //当app变成inActive时（进入backgroud），将数据存储起来
     NSMutableData* data = [[NSMutableData alloc] init];
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -132,6 +161,7 @@
     [archiver finishEncoding];
     [data writeToFile:[self dataFilePath] atomically:YES];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -150,7 +180,8 @@
 }
 
 #pragma mark - Refresh and load more methods
-- (void)refreshTable {
+- (void)refreshTable
+{
     if (0 == [messagesArray count])
         return;
     self.pullTableView.pullTableIsRefreshing = YES;
@@ -162,9 +193,9 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messagesArray lastObject];
-       NSArray* loadMoreRes =  [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
-                                                                               PageSize:15
-                                                                                  maxID:lastMessage.MessageID];
+        NSArray* loadMoreRes =  [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+                                                                              PageSize:15
+                                                                                 maxID:lastMessage.MessageID];
         __block NSInteger fromIndex = [messagesArray count];
         [messagesArray addObjectsFromArray:loadMoreRes];
         
@@ -179,11 +210,11 @@
             [_pullTableView beginUpdates];
             [_pullTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
             [_pullTableView endUpdates];
-       //     [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            //     [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
             self.pullTableView.pullTableIsLoadingMore = NO;
         });
     });
-    }
+}
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -195,12 +226,22 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [messagesArray count];
+    if (tableView == self.pullTableView) {
+        return [messagesArray count];
+    } else {
+        return [searchRestults count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MessageModel* message = [messagesArray objectAtIndex:[indexPath row]];
+    MessageModel* message;
+    if (tableView == self.pullTableView) {
+        message = [messagesArray objectAtIndex:indexPath.row];
+    } else {
+        message = [searchRestults objectAtIndex:indexPath.row];
+    }
+    
     static NSString* cellIdentifier = @"CellIdentifier";
     MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil)
@@ -245,10 +286,13 @@
         NSString* str = message.Location.LocationDescription;
         cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,转让", str];
     }
-    else
+    else if(3 == message.Type)
     {
         NSString* str = message.Location.LocationDescription;
         cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,求购:", str];
+    }else{
+        NSString* str = message.Location.LocationDescription;
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,大声说:", str];
     }
     
     if (1 == message.Type || message.Type == 2) {
@@ -321,24 +365,30 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MessageModel* message = [messagesArray objectAtIndex:[indexPath row]];
+    MessageModel* message;
+    if (tableView == self.pullTableView) {
+        message = [messagesArray objectAtIndex:indexPath.row];
+    } else {
+        message = [searchRestults objectAtIndex:indexPath.row];
+    }
+   
     NSString* photoURL = message.PhotoThumbnail;
     
     float textHeight = 0;
     if (message.Type == 4 || message.Type == 3) {
         textHeight = [NSString calculateTextHeight:[NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel]];
-    }
-    else
+    }else {
         textHeight = [NSString calculateTextHeight:message.Text];
+    }
     
     if (message.Type == 2)
     {
         textHeight += ACTIVITY_LABEL_HEIGHT;
     }
-    if (photoURL == nil)
+    
+    if (photoURL == nil){
         return 60 + textHeight;
-    else
-    {
+    }else{
         return 60 + textHeight + 90 + 5;
     }
 }
@@ -366,9 +416,13 @@
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-    NSInteger row = [indexPath row];
+    MessageModel* selectedMessage;
+    if (tableView == self.pullTableView) {
+        selectedMessage = [messagesArray objectAtIndex:indexPath.row];
+    } else {
+        selectedMessage = [searchRestults objectAtIndex:indexPath.row];
+    }
     
-    MessageModel* selectedMessage = [messagesArray objectAtIndex:row];
     if (ActivityMessage == selectedMessage.Type)
     {
         ActivityDetailViewController* subViewController = [[ActivityDetailViewController alloc] init];
@@ -410,8 +464,11 @@
     
     [KxMenu setTintColor:[UIColor whiteColor]];
     //  [KxMenu showMenuInView:self.view fromRect:CGRectMake(0, -30, 30, 30) menuItems:menuItems];
-    [KxMenu showMenuInView:[[UIApplication sharedApplication].delegate window] fromRect:CGRectMake(0, 30, 30, 30) menuItems:menuItems];
+    [KxMenu showMenuInView:[[UIApplication sharedApplication].delegate window]
+                  fromRect:CGRectMake(0, 30, 30, 30)
+                 menuItems:menuItems];
 }
+
 -(void)showController:(id)sender{
     KxMenuItem* menuItem = (KxMenuItem*)sender;
     if ([menuItem.title isEqualToString:@"大声说"]) {
@@ -431,6 +488,7 @@
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
+
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
 - (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
@@ -447,5 +505,58 @@
 - (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
     NSLog(@"INDEX IS %i",index);
     return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
+}
+
+#pragma mark - UISearchDispalyController delegate
+-(void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView{
+    NSLog(@"%s", __FUNCTION__);
+}
+-(void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
+    NSLog(@"%s", __FUNCTION__);
+}
+-(void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+-(BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
+    NSLog(@"%s, %@", __FUNCTION__, searchString);
+    searchContent = searchString;
+    return YES;
+}
+
+#pragma mark - UISearchBar delegate methods
+-(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
+    searchTypeIndex = selectedScope;
+    [searchBar becomeFirstResponder];
+}
+
+-(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    self.pullTableView.tableHeaderView = nil;
+}
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [_searchBar resignFirstResponder];
+
+    UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    CGPoint center = [searchDisplayController searchResultsTableView].center;
+    
+    activityView.center = CGPointMake(center.x, center.y - 100);
+    activityView.color = [UIColor blueColor];
+    [searchDisplayController.searchResultsTableView addSubview:activityView];
+    [activityView startAnimating];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+         searchRestults = [[NetWorkConnection sharedInstance] searchMessageByToken:searchContent
+                                                                          type:searchTypeIndex];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [activityView stopAnimating];
+            [searchDisplayController.searchResultsTableView reloadData];
+        });
+    });
+}
+-(void) doSearch{
+    NSLog(@"%s", __FUNCTION__);
+    self.pullTableView.tableHeaderView = _searchBar;
 }
 @end
