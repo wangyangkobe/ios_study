@@ -12,7 +12,7 @@
 @interface UserModel : JSONModel<NSCopying, NSCoding>
 
 @property(nonatomic, assign) int Gender;
-@property(nonatomic, strong) NSString* HeadPic;
+@property(nonatomic, strong) NSString<Optional>* HeadPic;
 @property(nonatomic, assign) int UserID;
 @property(nonatomic, strong) NSString<Optional>* HeadPicOriginal;
 @property(nonatomic, strong) NSString* UserName;
