@@ -35,6 +35,7 @@
 		150E351318BF7A5A00DFEA1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E350718BF7A5A00DFEA1C /* whiteArrow@2x.png */; };
 		150E351618BF7B1300DFEA1C /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150E351518BF7B1300DFEA1C /* MainTabViewController.m */; };
 		150E351918BF7B2C00DFEA1C /* NetWorkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 150E351718BF7B2C00DFEA1C /* NetWorkConnection.m */; };
+		150E351F18BF88DA00DFEA1C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E351E18BF88DA00DFEA1C /* Default.png */; };
 		151C945D186596C1003634B1 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C944F186596C1003634B1 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C945F186596C1003634B1 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9454186596C1003634B1 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C9461186596C1003634B1 /* QiniuPutExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9457186596C1003634B1 /* QiniuPutExtra.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -153,7 +154,6 @@
 		522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F2E1827BFBD00AF71F8 /* Foundation.framework */; };
 		522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522D7F301827BFBD00AF71F8 /* CoreGraphics.framework */; };
 		522D7F371827BFBD00AF71F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F351827BFBD00AF71F8 /* InfoPlist.strings */; };
-		522D7F3F1827BFBD00AF71F8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F3E1827BFBD00AF71F8 /* Default.png */; };
 		522D7F411827BFBD00AF71F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F401827BFBD00AF71F8 /* Default@2x.png */; };
 		522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */; };
 		522D7F461827BFBD00AF71F8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */; };
@@ -199,6 +199,7 @@
 		150E351518BF7B1300DFEA1C /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		150E351718BF7B2C00DFEA1C /* NetWorkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkConnection.m; sourceTree = "<group>"; };
 		150E351818BF7B2C00DFEA1C /* NetWorkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkConnection.h; sourceTree = "<group>"; };
+		150E351E18BF88DA00DFEA1C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1518E1E9184E08AA00172A14 /* MacroDefination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefination.h; sourceTree = "<group>"; };
 		151C944E186596C1003634B1 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		151C944F186596C1003634B1 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
@@ -377,7 +378,6 @@
 		522D7F3A1827BFBD00AF71F8 /* MicroSpeaker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MicroSpeaker-Prefix.pch"; sourceTree = "<group>"; };
 		522D7F3B1827BFBD00AF71F8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		522D7F3E1827BFBD00AF71F8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		522D7F401827BFBD00AF71F8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		522D7F451827BFBD00AF71F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -611,6 +611,7 @@
 		15FC29721855F37F00731A50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				150E351E18BF88DA00DFEA1C /* Default.png */,
 				15FA7522185737C800C788A3 /* text.png */,
 				15FA7523185737C800C788A3 /* text@2x.png */,
 				15FA751E185737BE00C788A3 /* face.png */,
@@ -806,7 +807,6 @@
 				522D7F341827BFBD00AF71F8 /* MicroSpeaker-Info.plist */,
 				522D7F351827BFBD00AF71F8 /* InfoPlist.strings */,
 				522D7F3A1827BFBD00AF71F8 /* MicroSpeaker-Prefix.pch */,
-				522D7F3E1827BFBD00AF71F8 /* Default.png */,
 				522D7F401827BFBD00AF71F8 /* Default@2x.png */,
 				522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */,
 			);
@@ -874,10 +874,10 @@
 				15FC29A81855F37F00731A50 /* corner_right@2x.png in Resources */,
 				15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */,
 				154BDB0D1842235C0019E85F /* group_detail_menu_share.png in Resources */,
+				150E351F18BF88DA00DFEA1C /* Default.png in Resources */,
 				522D7F371827BFBD00AF71F8 /* InfoPlist.strings in Resources */,
 				15FC29A51855F37F00731A50 /* corner_left.png in Resources */,
 				15FA7521185737BE00C788A3 /* face@2x.png in Resources */,
-				522D7F3F1827BFBD00AF71F8 /* Default.png in Resources */,
 				15FC29971855F37F00731A50 /* backspace_n.png in Resources */,
 				15FC299B1855F37F00731A50 /* bell_s.png in Resources */,
 				15FA7524185737C800C788A3 /* text.png in Resources */,
