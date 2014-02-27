@@ -390,6 +390,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */,
 				1508D0ED1869BACC0051A9E8 /* MapKit.framework in Frameworks */,
 				1508D0E81869B20A0051A9E8 /* CoreLocation.framework in Frameworks */,
 				15F691BC184C3FA2009986CD /* libz.dylib in Frameworks */,
@@ -401,7 +402,6 @@
 				529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */,
 				522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */,
 				522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */,
-				156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */,
 				40892D520E8A4D1CA5146BC3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1136,7 +1136,7 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
@@ -1154,7 +1154,7 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
