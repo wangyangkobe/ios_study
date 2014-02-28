@@ -57,6 +57,10 @@
 		1556605D18704AA40037146E /* MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1556605918704AA40037146E /* MHFacebookImageViewer.m */; };
 		1556605E18704AA40037146E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556605B18704AA40037146E /* Done.png */; };
 		1556605F18704AA40037146E /* Done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556605C18704AA40037146E /* Done@2x.png */; };
+		155AEBF518C0CEC400256FBF /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AEBF418C0CEC400256FBF /* PersonalInfoViewController.m */; };
+		155AEBF818C0D29C00256FBF /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AEBF718C0D29C00256FBF /* LogInViewController.m */; };
+		155AEBFD18C0D4D500256FBF /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 155AEBFA18C0D4D500256FBF /* libWeiboSDK.a */; };
+		155AEBFE18C0D4D500256FBF /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 155AEBFB18C0D4D500256FBF /* WeiboSDK.bundle */; };
 		156034C91848DC0400C237B0 /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951618464FB2004F3DAD /* ActivityModel.m */; };
 		156034CA1848DC0A00C237B0 /* LocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951A18464FB2004F3DAD /* LocationModel.m */; };
 		156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F0951C18464FB2004F3DAD /* MessageModel.m */; };
@@ -240,6 +244,13 @@
 		1556605918704AA40037146E /* MHFacebookImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFacebookImageViewer.m; sourceTree = "<group>"; };
 		1556605B18704AA40037146E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
 		1556605C18704AA40037146E /* Done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Done@2x.png"; sourceTree = "<group>"; };
+		155AEBF318C0CEC400256FBF /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
+		155AEBF418C0CEC400256FBF /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
+		155AEBF618C0D29C00256FBF /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		155AEBF718C0D29C00256FBF /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		155AEBFA18C0D4D500256FBF /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		155AEBFB18C0D4D500256FBF /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		155AEBFC18C0D4D500256FBF /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		156034DC1848DD5700C237B0 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		15AD563D1841E234007CF595 /* gender_boy_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_boy_big.png; sourceTree = "<group>"; };
 		15AD563E1841E234007CF595 /* gender_girl_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_girl_big.png; sourceTree = "<group>"; };
@@ -393,6 +404,7 @@
 				156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */,
 				1508D0ED1869BACC0051A9E8 /* MapKit.framework in Frameworks */,
 				1508D0E81869B20A0051A9E8 /* CoreLocation.framework in Frameworks */,
+				155AEBFD18C0D4D500256FBF /* libWeiboSDK.a in Frameworks */,
 				15F691BC184C3FA2009986CD /* libz.dylib in Frameworks */,
 				522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */,
 				15F691BA184C3F8D009986CD /* MobileCoreServices.framework in Frameworks */,
@@ -503,6 +515,16 @@
 				1556605C18704AA40037146E /* Done@2x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		155AEBF918C0D4D500256FBF /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				155AEBFA18C0D4D500256FBF /* libWeiboSDK.a */,
+				155AEBFB18C0D4D500256FBF /* WeiboSDK.bundle */,
+				155AEBFC18C0D4D500256FBF /* WeiboSDK.h */,
+			);
+			path = libWeiboSDK;
 			sourceTree = "<group>";
 		};
 		15DE498E185CA15200754EAC /* KxMenu */ = {
@@ -720,6 +742,10 @@
 				1509FEEC18780D0A00F27A3C /* SaleDetailViewController.m */,
 				1544C5891881944400BB9959 /* PublishBuyViewController.h */,
 				1544C58A1881944400BB9959 /* PublishBuyViewController.m */,
+				155AEBF318C0CEC400256FBF /* PersonalInfoViewController.h */,
+				155AEBF418C0CEC400256FBF /* PersonalInfoViewController.m */,
+				155AEBF618C0D29C00256FBF /* LogInViewController.h */,
+				155AEBF718C0D29C00256FBF /* LogInViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -727,6 +753,7 @@
 		522D7F201827BFBD00AF71F8 = {
 			isa = PBXGroup;
 			children = (
+				155AEBF918C0D4D500256FBF /* libWeiboSDK */,
 				151C944C186596C1003634B1 /* QiniuSDK */,
 				522D7F321827BFBD00AF71F8 /* MicroSpeaker */,
 				522D7F2B1827BFBD00AF71F8 /* Frameworks */,
@@ -775,6 +802,7 @@
 				522D7F3B1827BFBD00AF71F8 /* AppDelegate.h */,
 				522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */,
 				522D7F441827BFBD00AF71F8 /* MainStoryboard.storyboard */,
+				522D7F3A1827BFBD00AF71F8 /* MicroSpeaker-Prefix.pch */,
 				522D7F381827BFBD00AF71F8 /* main.m */,
 				522D7F331827BFBD00AF71F8 /* Supporting Files */,
 			);
@@ -806,7 +834,6 @@
 				154B17FD182E1E7A00750C71 /* placeholder@2x.png */,
 				522D7F341827BFBD00AF71F8 /* MicroSpeaker-Info.plist */,
 				522D7F351827BFBD00AF71F8 /* InfoPlist.strings */,
-				522D7F3A1827BFBD00AF71F8 /* MicroSpeaker-Prefix.pch */,
 				522D7F401827BFBD00AF71F8 /* Default@2x.png */,
 				522D7F421827BFBD00AF71F8 /* Default-568h@2x.png */,
 			);
@@ -932,6 +959,7 @@
 				154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */,
 				150E350F18BF7A5A00DFEA1C /* blueArrow@2x.png in Resources */,
 				15FC29AD1855F37F00731A50 /* flower_n.png in Resources */,
+				155AEBFE18C0D4D500256FBF /* WeiboSDK.bundle in Resources */,
 				15FF0F8318649E160086D559 /* photo-gallery-left.png in Resources */,
 				150A3F68187D684B00AA74D6 /* icon_sms.png in Resources */,
 				15FF0F851864C1D40086D559 /* photo-gallery-trashcan.png in Resources */,
@@ -1010,6 +1038,7 @@
 				150E350918BF7A5A00DFEA1C /* LoadMoreTableFooterView.m in Sources */,
 				150E351918BF7B2C00DFEA1C /* NetWorkConnection.m in Sources */,
 				15FF0F7D186490D70086D559 /* PublishMessageViewController.m in Sources */,
+				155AEBF818C0D29C00256FBF /* LogInViewController.m in Sources */,
 				15B220EB1878533400597DA7 /* UIButton+Extensions.m in Sources */,
 				15F691AE184C3F2C009986CD /* ASIDataCompressor.m in Sources */,
 				1531E2C4186EB83600541A0B /* SimplePickerInputTableViewCell.m in Sources */,
@@ -1021,6 +1050,7 @@
 				15F691B3184C3F2C009986CD /* ASIInputStream.m in Sources */,
 				156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */,
 				1544C58B1881944400BB9959 /* PublishBuyViewController.m in Sources */,
+				155AEBF518C0CEC400256FBF /* PersonalInfoViewController.m in Sources */,
 				15FF0F6D186490240086D559 /* NSString+Extensions.m in Sources */,
 				15DE4991185CA15200754EAC /* KxMenu.m in Sources */,
 				15FC29711855EDF900731A50 /* DDPageControl.m in Sources */,
@@ -1101,6 +1131,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1126,6 +1157,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1141,7 +1173,10 @@
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/wy/Code/ios_study/MicroSpeaker/libWeiboSDK,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1159,7 +1194,10 @@
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/wy/Code/ios_study/MicroSpeaker/libWeiboSDK,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
