@@ -436,14 +436,16 @@
         [self.navigationController pushViewController:subViewController animated:YES];
     }
     else if(SaleMessage == selectedMessage.Type){
-        SaleDetailViewController* subViewController = [[SaleDetailViewController alloc] init];
+        SaleDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SaleDetailVC"];
+        subViewController.hidesBottomBarWhenPushed = YES;
         subViewController.message = selectedMessage;
         [self.navigationController pushViewController:subViewController animated:YES];
     }
     else{
         //可以共用同一个类
-        SaleDetailViewController* subViewController = [[SaleDetailViewController alloc] init];
+        SaleDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SaleDetailVC"];
         subViewController.message = selectedMessage;
+        subViewController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:subViewController animated:YES];
     }
 }

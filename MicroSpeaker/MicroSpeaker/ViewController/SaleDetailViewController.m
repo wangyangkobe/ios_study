@@ -10,6 +10,7 @@
 #import "NSString+Extensions.h"
 #import "UILabel+Extensions.h"
 #import "UIImage+Extensions.h"
+#import "MacroDefination.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIButton+Extensions.h"
 
@@ -24,21 +25,30 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.hidesBottomBarWhenPushed = YES; //隐藏TabBar
     }
     return self;
 }
 -(id)init
 {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super init];
     if (!self) return nil;
+    
     self.hidesBottomBarWhenPushed = YES; //隐藏TabBar
     //  self.tableView.scrollEnabled = NO;
-	return self;
+    return self;
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.tableView layoutSubviews];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
     if (SaleMessage == _message.Type)
         self.title = @"转让";
     else
@@ -46,8 +56,10 @@
     
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"group_detail_menu_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareSaleMessage)];
     self.navigationItem.rightBarButtonItem = rightButton;
+    
+    [self.phoneNumberBtn setBackgroundColor:[UIColor colorWithRed:0.97 green:0.67 blue:0.25 alpha:1.0]];
+    [self.phoneNumberBtn setTitle:[NSString stringWithFormat:@"请拨打：%@", _message.Tel] forState:UIControlStateNormal];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -56,6 +68,7 @@
 -(void)shareSaleMessage
 {
 }
+
 #pragma mark UITableView dataSource
 -(int)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -149,7 +162,6 @@
     }
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    // Configure the cell...
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -182,14 +194,7 @@
         return 0;
     
 }
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (2 == section) {
-        return 44;
-    }
-    else
-        return 0;
-}
+
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (0 == section) {
@@ -241,31 +246,6 @@
     else
         return nil;
 }
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (2 == section) {
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-        UIButton *telButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        telButton.frame = CGRectMake(5, 10, 255, 34);
-        [footerView addSubview:telButton];
-        [telButton setBackgroundColor:[UIColor colorWithRed:0.97 green:0.67 blue:0.25 alpha:1.0]];
-        [telButton setTitle:[NSString stringWithFormat:@"复制联系方式: %@", _message.Tel] forState:UIControlStateNormal];
-        [telButton addAction:^(UIButton *btn) {
-            UIPasteboard *pboard = [UIPasteboard generalPasteboard];
-            pboard.string = _message.Tel;
-            
-            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"复制成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
-        }];
-        
-        UIButton* jumpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        jumpButton.frame = CGRectMake(270, 10, 40, 34);
-        [footerView addSubview:jumpButton];
-        [jumpButton setImage:[UIImage imageNamed:@"icon_sms"] forState:UIControlStateNormal];
-        return footerView;
-    }
-    return nil;
-}
 
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
 - (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
@@ -277,5 +257,19 @@
 - (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
     NSLog(@"INDEX IS %i",index);
     return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
+}
+- (IBAction)pressPhoneNumber:(id)sender
+{
+    NSString *phoneNumber = [NSString stringWithFormat:@"telprompt:://%@", _message.Tel];
+    if (phoneNumber)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    }
+
+}
+
+- (IBAction)sendPrivateMessage:(id)sender
+{
+    NSLog(@"%s", __FUNCTION__);
 }
 @end

@@ -44,4 +44,8 @@ typedef enum
     SaleMessage     = 4,
 } MessageType;
 
+//com.sina.weibo.SNWeiboSDKDemo
+#define kAppKey         @"504571936"
+#define kRedirectURI    @"https://api.weibo.com/oauth2/default.html"
+
 #endif
