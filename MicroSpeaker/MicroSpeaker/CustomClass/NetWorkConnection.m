@@ -344,9 +344,9 @@
 -(NSArray*) searchMessageByToken:(NSString *)Token type:(int)Type{
     NSString* requestUrl;
     if (0 == Type) {
-        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@", HOME_PAGE, Token];
+        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&num=%d", HOME_PAGE, Token, 1000];
     }else{
-        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&type=%d", HOME_PAGE, Token, Type];
+        requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&type=%d&num=%d", HOME_PAGE, Token, Type, 1000];
     }
     
     NSLog(@"%s %@", __FUNCTION__, requestUrl);
