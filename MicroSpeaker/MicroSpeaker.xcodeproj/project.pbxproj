@@ -692,8 +692,8 @@
 		15FF0F5A186490240086D559 /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
-				150E351718BF7B2C00DFEA1C /* NetWorkConnection.m */,
 				150E351818BF7B2C00DFEA1C /* NetWorkConnection.h */,
+				150E351718BF7B2C00DFEA1C /* NetWorkConnection.m */,
 				1531E2C2186EB83600541A0B /* SimplePickerInputTableViewCell.h */,
 				1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */,
 				1531E2BF186EB70000541A0B /* PickerInputTableViewCell.h */,
@@ -724,8 +724,8 @@
 		15FF0F70186490D70086D559 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				150E351518BF7B1300DFEA1C /* MainTabViewController.m */,
 				150E351418BF7B0D00DFEA1C /* MainTabViewController.h */,
+				150E351518BF7B1300DFEA1C /* MainTabViewController.m */,
 				15018DDC186E838000DC8A51 /* PublishActivityViewController.h */,
 				15018DDD186E838000DC8A51 /* PublishActivityViewController.m */,
 				15FF0F79186490D70086D559 /* SpeakerDetailViewController.h */,

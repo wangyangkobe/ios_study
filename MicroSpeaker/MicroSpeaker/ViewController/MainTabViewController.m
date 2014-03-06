@@ -284,27 +284,29 @@
     }
     else if(4 == message.Type)
     {
-        NSString* str = message.Location.LocationDescription;
+        NSString* str = message.Area.AreaName;
         cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,转让", str];
     }
     else if(3 == message.Type)
     {
-        NSString* str = message.Location.LocationDescription;
-        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,求购:", str];
+        NSString* str = message.Area.AreaName;
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,求购", str];
     }else{
-        NSString* str = message.Location.LocationDescription;
-        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,大声说:", str];
+        NSString* str = message.Area.AreaName;
+        cell.subjectLabel.text = [NSString stringWithFormat:@"在%@,大声说", str];
     }
     
     if (1 == message.Type || message.Type == 2) {
+        [cell.userNameLabel setHidden:NO];
+        [cell.genderImageView setHidden:NO];
         [cell.userNameLabel setText:message.User.UserName];
         NSString* genderPic = (message.User.Gender == 0) ? @"gender_boy_big.png" : @"gender_girl_big.png";
         [cell.genderImageView setImage:[UIImage imageNamed:genderPic]];
     }
     else
     {
-        [cell.userNameLabel removeFromSuperview];
-        [cell.genderImageView removeFromSuperview];
+        [cell.userNameLabel setHidden:YES];
+        [cell.genderImageView setHidden:YES];
         UILabel* saleTheme = [[UILabel alloc] initWithFrame:CGRectMake(60, 30, 250, 15)];
         saleTheme.text = message.Theme;
         [cell.contentView addSubview:saleTheme];
@@ -321,7 +323,7 @@
     else
     {
         messageLabel.text = [NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel];
-        UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(230, 5, 70, 40)];
+        UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 5, 70, 40)];
         priceLabel.text = [NSString stringWithFormat:@"%@元", message.Price];
         priceLabel.textAlignment = NSTextAlignmentCenter;
         priceLabel.textColor = [UIColor redColor];
