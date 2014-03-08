@@ -356,7 +356,6 @@
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
-    NSLog(@"%@", [request responseString]);
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
