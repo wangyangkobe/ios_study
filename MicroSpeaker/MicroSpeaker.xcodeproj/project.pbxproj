@@ -42,11 +42,13 @@
 		151C9462186596C1003634B1 /* QiniuSimpleUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9459186596C1003634B1 /* QiniuSimpleUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C9463186596C1003634B1 /* QiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C945C186596C1003634B1 /* QiniuUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C94BA18659FE8003634B1 /* QiniuPutPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C94B918659FE8003634B1 /* QiniuPutPolicy.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1527818E18C8BE010042DFA2 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527818D18C8BE010042DFA2 /* login.png */; };
 		152D83221852030400FE7FCE /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152D83211852030400FE7FCE /* CommentModel.m */; };
 		1531E2B8186E8EF100541A0B /* StringInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2B7186E8EF100541A0B /* StringInputTableViewCell.m */; };
 		1531E2BB186E923700541A0B /* DateInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2BA186E923700541A0B /* DateInputTableViewCell.m */; };
 		1531E2C1186EB70000541A0B /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2C0186EB70000541A0B /* PickerInputTableViewCell.m */; };
 		1531E2C4186EB83600541A0B /* SimplePickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */; };
+		15375BA718CAD249004E9898 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 15375BA618CAD249004E9898 /* icon57.png */; };
 		153904281875918300F8FB6D /* PublishSaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153904271875918300F8FB6D /* PublishSaleViewController.m */; };
 		1539042B18759EDF00F8FB6D /* CommerceTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1539042A18759EDF00F8FB6D /* CommerceTypeModel.m */; };
 		1544C58B1881944400BB9959 /* PublishBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1544C58A1881944400BB9959 /* PublishBuyViewController.m */; };
@@ -220,6 +222,7 @@
 		151C94B718659FDE003634B1 /* QiniuConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuConfig.h; sourceTree = "<group>"; };
 		151C94B818659FE8003634B1 /* QiniuPutPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutPolicy.h; sourceTree = "<group>"; };
 		151C94B918659FE8003634B1 /* QiniuPutPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutPolicy.m; sourceTree = "<group>"; };
+		1527818D18C8BE010042DFA2 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login.png; sourceTree = "<group>"; };
 		152D83201852030400FE7FCE /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		152D83211852030400FE7FCE /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		1531E2B6186E8EF100541A0B /* StringInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringInputTableViewCell.h; sourceTree = "<group>"; };
@@ -230,6 +233,7 @@
 		1531E2C0186EB70000541A0B /* PickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerInputTableViewCell.m; sourceTree = "<group>"; };
 		1531E2C2186EB83600541A0B /* SimplePickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePickerInputTableViewCell.h; sourceTree = "<group>"; };
 		1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePickerInputTableViewCell.m; sourceTree = "<group>"; };
+		15375BA618CAD249004E9898 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
 		153904261875918300F8FB6D /* PublishSaleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishSaleViewController.h; sourceTree = "<group>"; };
 		153904271875918300F8FB6D /* PublishSaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishSaleViewController.m; sourceTree = "<group>"; };
 		1539042918759EDF00F8FB6D /* CommerceTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommerceTypeModel.h; sourceTree = "<group>"; };
@@ -812,6 +816,8 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				15375BA618CAD249004E9898 /* icon57.png */,
+				1527818D18C8BE010042DFA2 /* login.png */,
 				15FC29721855F37F00731A50 /* Images */,
 				15FC296D1855EC8A00731A50 /* EmojisList.plist */,
 				150A3F63187D67B200AA74D6 /* vad_icon_location.png */,
@@ -915,6 +921,7 @@
 				15FC299A1855F37F00731A50 /* bell_n@2x.png in Resources */,
 				15FC29A71855F37F00731A50 /* corner_right.png in Resources */,
 				15FC299C1855F37F00731A50 /* bell_s@2x.png in Resources */,
+				1527818E18C8BE010042DFA2 /* login.png in Resources */,
 				522D7F411827BFBD00AF71F8 /* Default@2x.png in Resources */,
 				150A3F66187D67B200AA74D6 /* vad_icon_price.png in Resources */,
 				1556605F18704AA40037146E /* Done@2x.png in Resources */,
@@ -930,6 +937,7 @@
 				15FC29A31855F37F00731A50 /* characters_s.png in Resources */,
 				15FF0F6A186490240086D559 /* MessageCell.xib in Resources */,
 				15FA7525185737C800C788A3 /* text@2x.png in Resources */,
+				15375BA718CAD249004E9898 /* icon57.png in Resources */,
 				15FC29A91855F37F00731A50 /* face_n.png in Resources */,
 				15FC296E1855EC8A00731A50 /* EmojisList.plist in Resources */,
 				150A3F65187D67B200AA74D6 /* vad_icon_location.png in Resources */,
@@ -1115,8 +1123,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1148,8 +1156,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1167,7 +1175,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
@@ -1179,6 +1187,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "56E411FA-4677-489F-8C6D-EF6C88FC662B";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1188,7 +1197,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
@@ -1200,6 +1209,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "56E411FA-4677-489F-8C6D-EF6C88FC662B";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
