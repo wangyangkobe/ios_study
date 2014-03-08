@@ -25,6 +25,7 @@
 #import "MHFacebookImageViewer.h"
 #import "SaleDetailViewController.h"
 #import "PublishBuyViewController.h"
+#import "LogInViewController.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
     UserInfoModel* selfUserInfo;
@@ -43,16 +44,6 @@
 @implementation MainTabViewController
 
 @synthesize messagesArray;
-
-//- (id)initWithStyle:(UITableViewStyle)style
-//{
-//    self = [super initWithStyle:style];
-//    if (self)
-//    {
-//        // Custom initialization
-//    }
-//    return self;
-//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -497,18 +488,38 @@
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
 - (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
-    int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
-    MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
+    
+    UITableView* currentTableView = (UITableView*)[cell superview];
+    
+    int rowIndex = 0;
+    MessageModel* currentMessage;
+    if (currentTableView == _pullTableView) {
+        rowIndex = [[self.pullTableView indexPathForCell:cell] row];
+        currentMessage = [self.messagesArray objectAtIndex:rowIndex];
+    }else{
+        rowIndex = [self.searchDisplayController.searchResultsTableView indexPathForCell:cell].row;
+        currentMessage = [searchRestults objectAtIndex:rowIndex];
+    }
+
     return [currentMessage.PhotoThumbnails count];
 }
 - (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
-    int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
-    MessageModel* currentMessage = [messagesArray objectAtIndex:rowIndex];
+   // int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
+    UITableView* currentTableView = (UITableView*)[cell superview];
+    
+    int rowIndex = 0;
+    MessageModel* currentMessage;
+    if (currentTableView == _pullTableView) {
+        rowIndex = [[self.pullTableView indexPathForCell:cell] row];
+        currentMessage = [self.messagesArray objectAtIndex:rowIndex];
+    }else{
+        rowIndex = [self.searchDisplayController.searchResultsTableView indexPathForCell:cell].row;
+        currentMessage = [searchRestults objectAtIndex:rowIndex];
+    }
     return [currentMessage.PhotoThumbnails objectAtIndex:index];
 }
 - (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
-    NSLog(@"INDEX IS %i",index);
     return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 

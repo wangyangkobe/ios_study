@@ -8,6 +8,7 @@
 
 #import "PersonalInfoViewController.h"
 #include "LogInViewController.h"
+extern BOOL logIn;
 @interface PersonalInfoViewController ()
 
 @end
@@ -28,7 +29,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+    [self presentViewController:loginVC animated:YES completion:nil];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
