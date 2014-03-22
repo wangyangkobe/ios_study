@@ -49,6 +49,7 @@
 		1531E2C1186EB70000541A0B /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2C0186EB70000541A0B /* PickerInputTableViewCell.m */; };
 		1531E2C4186EB83600541A0B /* SimplePickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */; };
 		15375BA718CAD249004E9898 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 15375BA618CAD249004E9898 /* icon57.png */; };
+		15375BAA18CAD97B004E9898 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 15375BA918CAD97B004E9898 /* UserConfig.m */; };
 		153904281875918300F8FB6D /* PublishSaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153904271875918300F8FB6D /* PublishSaleViewController.m */; };
 		1539042B18759EDF00F8FB6D /* CommerceTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1539042A18759EDF00F8FB6D /* CommerceTypeModel.m */; };
 		1544C58B1881944400BB9959 /* PublishBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1544C58A1881944400BB9959 /* PublishBuyViewController.m */; };
@@ -234,6 +235,8 @@
 		1531E2C2186EB83600541A0B /* SimplePickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePickerInputTableViewCell.h; sourceTree = "<group>"; };
 		1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePickerInputTableViewCell.m; sourceTree = "<group>"; };
 		15375BA618CAD249004E9898 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
+		15375BA818CAD97B004E9898 /* UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserConfig.h; sourceTree = "<group>"; };
+		15375BA918CAD97B004E9898 /* UserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserConfig.m; sourceTree = "<group>"; };
 		153904261875918300F8FB6D /* PublishSaleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishSaleViewController.h; sourceTree = "<group>"; };
 		153904271875918300F8FB6D /* PublishSaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishSaleViewController.m; sourceTree = "<group>"; };
 		1539042918759EDF00F8FB6D /* CommerceTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommerceTypeModel.h; sourceTree = "<group>"; };
@@ -721,6 +724,8 @@
 				1508D0EA1869B2C00051A9E8 /* LocationHelper.mm */,
 				15B220E91878533400597DA7 /* UIButton+Extensions.h */,
 				15B220EA1878533400597DA7 /* UIButton+Extensions.m */,
+				15375BA818CAD97B004E9898 /* UserConfig.h */,
+				15375BA918CAD97B004E9898 /* UserConfig.m */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -1068,6 +1073,7 @@
 				150E350A18BF7A5A00DFEA1C /* MessageInterceptor.m in Sources */,
 				15FC296B1855EC6B00731A50 /* EmojiKeyBoardView.m in Sources */,
 				15F691B2184C3F2C009986CD /* ASIHTTPRequest.m in Sources */,
+				15375BAA18CAD97B004E9898 /* UserConfig.m in Sources */,
 				15FC296C1855EC6B00731A50 /* EmojiPageView.m in Sources */,
 				156034CC1848DC1100C237B0 /* UserModel.m in Sources */,
 				151C9463186596C1003634B1 /* QiniuUtils.m in Sources */,

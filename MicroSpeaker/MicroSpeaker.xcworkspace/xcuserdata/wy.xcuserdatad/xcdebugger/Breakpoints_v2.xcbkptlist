@@ -456,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/CustomClass/NetWorkConnection.m"
-            timestampString = "410188440.152207"
+            timestampString = "415953883.458628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-createCommentWithText:messageID:replyCommentID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -472,11 +472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/MainTabViewController.m"
-            timestampString = "415899758.176786"
+            timestampString = "417188829.755615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "435"
-            endingLineNumber = "435"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -504,11 +504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/MainTabViewController.m"
-            timestampString = "415899758.176786"
+            timestampString = "417188829.755615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "-showController:"
             landmarkType = "5">
          </BreakpointContent>
@@ -520,11 +520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/MainTabViewController.m"
-            timestampString = "415899758.176786"
+            timestampString = "417188829.755615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "-dataFilePath"
             landmarkType = "5">
          </BreakpointContent>
@@ -536,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/MainTabViewController.m"
-            timestampString = "415899758.176786"
+            timestampString = "417188829.755615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "-dataFilePath"
             landmarkType = "5">
          </BreakpointContent>
@@ -552,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MicroSpeaker/ViewController/MainTabViewController.m"
-            timestampString = "415900029.00849"
+            timestampString = "417188829.755615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
             landmarkName = "-imageURLAtIndex:imageViewer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -654,6 +654,22 @@
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "-sinaLogIn:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MicroSpeaker/CustomClass/NetWorkConnection.m"
+            timestampString = "415953616.535697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "-checkUser:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

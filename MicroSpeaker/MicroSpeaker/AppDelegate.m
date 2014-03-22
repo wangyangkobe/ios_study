@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -49,24 +48,38 @@
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
-        NSString *title = @"认证结果";
-        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
+        NSString* weiboId = [(WBAuthorizeResponse*)response userID];
         
-        [alert show];
+        NetWorkConnection* connect = [NetWorkConnection sharedInstance];
+        if ([connect checkUser:weiboId])
+        {
+            [UserConfig shareInstance].logIn = YES;
+            NSLog(@"user not exit!");
+        }
+        else
+        {
+            [UserConfig shareInstance].logIn = NO;
+            NSString* showUserInfoUrl = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@", self.wbtoken, weiboId];
+            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:showUserInfoUrl]];
+#if SET_PROXY
+            [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+            [request setProxyPort:8080];
+#endif
+            [request startSynchronous];
+            
+            NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:nil];
+            NSLog(@"userInfo = %@", userWBInfo);
+        }
     }
 }
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

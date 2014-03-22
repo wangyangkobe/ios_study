@@ -14,5 +14,6 @@
 
 #import "WeiboSDK.h"
 #import "MacroDefination.h"
-
+#import "NetWorkConnection.h"
+#import "UserConfig.h"
 #endif
