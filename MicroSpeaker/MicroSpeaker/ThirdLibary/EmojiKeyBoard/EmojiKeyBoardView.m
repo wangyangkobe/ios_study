@@ -412,8 +412,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
         NSMutableArray* result = [NSMutableArray array];
         for(NSArray* value in [[self emojis] allValues])
         {
-            for (NSString* face in value)
-                [result addObjectsFromArray:value];
+            [result addObjectsFromArray:value];
         }
         _allEmojiFaces = [result copy];
     }

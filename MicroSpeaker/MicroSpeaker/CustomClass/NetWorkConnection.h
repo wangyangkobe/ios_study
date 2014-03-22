@@ -31,8 +31,6 @@
 -(BOOL)attendActivity:(long)activityID attendInfo:(NSString*)infoStr; //参加活动
 -(NSString*)checkAttendActivity:(long)activityID; //检查用户是否参加活动
 
--(BOOL)checkUser:(NSString*)weiboID; //检查用户是否存在
-
 //根据messageID获取评论b
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize;
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize MaxID:(long)maxId;
@@ -51,4 +49,8 @@
 
 //搜索消息
 -(NSArray*)searchMessageByToken:(NSString*)Token type:(int)Type;
+
+//检测用户时候存在
+-(BOOL)checkUser:(NSString*)weiboID;
+
 @end

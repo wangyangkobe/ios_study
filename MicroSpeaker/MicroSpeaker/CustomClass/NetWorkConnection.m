@@ -192,22 +192,21 @@
 ////////////////////////////////////////////////////////
 -(BOOL)checkUser:(NSString *)weiboID
 {
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:
-                                   [NSURL URLWithString:@"http://101.78.230.95:8082/microbroadcastDEV/user/checkUser"]];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/user/checkUser", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
     [request setRequestMethod:@"POST"];
-    [request setPostValue:@"1989424925" forKey:@"weiboID"];
+    [request setPostValue:weiboID forKey:@"weiboID"];
     [request startSynchronous];
-    NSLog(@"headers:%@", [request responseHeaders]);
-    NSLog(@"response:%@", [request responseString]);
+    
+    NSLog(@"check user result:%@", [request responseString]);
     
     NSString* result = [request responseString];
-    if ([result isEqualToString:@"true"]) {
+    if ([result isEqualToString:@"true"])
         return YES;
-    }
     else
         return NO;
 }
@@ -348,20 +347,24 @@
     }else{
         requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&type=%d&num=%d", HOME_PAGE, Token, Type, 1000];
     }
-    
-    NSLog(@"%s %@", __FUNCTION__, requestUrl);
+    //对url进行编码，因为url含有汉字
+    requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
+    
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
-                                                           error:nil];
+                                                        error:nil];
     NSMutableArray* result = [NSMutableArray array];
     for (id message in jsonArray) {
-        [result addObject:[[MessageModel alloc] initWithDictionary:message error:nil]];
+        MessageModel* messageModel = [[MessageModel alloc] initWithDictionary:message error:nil];
+        if (messageModel)
+            [result addObject:messageModel];
     }
     return result;
 }

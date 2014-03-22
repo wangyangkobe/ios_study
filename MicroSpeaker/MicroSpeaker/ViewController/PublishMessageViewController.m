@@ -9,7 +9,7 @@
 #import "PublishMessageViewController.h"
 #import "MacroDefination.h"
 #import "NetWorkConnection.h"
-
+#import "NSString+Emoji.h"
 @interface PublishMessageViewController ()
 {
     float latitude;
@@ -483,12 +483,14 @@ static LocationHelper* locationHelper;
 {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:qiNiuImagesPath options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[textView text] areaID:areaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
+    
+    NSLog(@"%@", [[textView text] stringByReplacingEmojiUnicodeWithCheatCodes]);
+    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[[textView text] stringByReplacingEmojiUnicodeWithCheatCodes] areaID:areaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
     
     [activityIndicator stopAnimating];
+    [self.navigationController popViewControllerAnimated:YES];
     //通知父视图获取最新数据
     [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-    [self.navigationController popViewControllerAnimated:YES ];
     
 }
 @end

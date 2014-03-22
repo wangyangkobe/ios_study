@@ -7,8 +7,8 @@
 //
 
 #import "PersonalInfoViewController.h"
-#include "LogInViewController.h"
-extern BOOL logIn;
+#import "LogInViewController.h"
+#import "UserConfig.h"
 @interface PersonalInfoViewController ()
 
 @end
@@ -32,8 +32,13 @@ extern BOOL logIn;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
-    [self presentViewController:loginVC animated:YES completion:nil];
+    
+    UserConfig* userConfig = [UserConfig shareInstance];
+    if (!userConfig.isLogIn) {
+        LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+        [self presentViewController:loginVC animated:YES completion:nil];
+        return;
+    }
 }
 - (void)didReceiveMemoryWarning
 {
