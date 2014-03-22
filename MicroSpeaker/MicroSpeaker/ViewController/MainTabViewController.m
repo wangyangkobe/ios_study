@@ -26,6 +26,7 @@
 #import "SaleDetailViewController.h"
 #import "PublishBuyViewController.h"
 #import "LogInViewController.h"
+#import "NSString+Emoji.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
     UserInfoModel* selfUserInfo;
@@ -86,11 +87,15 @@
     NSLog(@"call: %@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     
     UIApplication* app = [UIApplication sharedApplication];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:)
-                                                 name:UIApplicationWillResignActiveNotification object:app];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:app];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pullDownRefresh)
-                                                 name:@"publishMessageSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable)
+                                                 name:@"publishMessageSuccess"
+                                               object:nil];
     
     messagesArray = [[NSMutableArray alloc] init];
     
@@ -126,12 +131,12 @@
                                                                                   action:@selector(doSearch)];
     self.navigationItem.rightBarButtonItem = searchButton;
     
-//    NSArray* searchTitles = @[@"大声说", @"活动", @"求购", @"转让"];
-//    UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:searchTitles];
-//    [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-//    [segmentedControl addTarget:self action:@selector(searchTypeIndexChanged:) forControlEvents:UIControlEventValueChanged];
-//    //segmentedControl.selectedSegmentIndex = 0;
-//    self.navigationItem.titleView = segmentedControl;
+    //    NSArray* searchTitles = @[@"大声说", @"活动", @"求购", @"转让"];
+    //    UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:searchTitles];
+    //    [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+    //    [segmentedControl addTarget:self action:@selector(searchTypeIndexChanged:) forControlEvents:UIControlEventValueChanged];
+    //    //segmentedControl.selectedSegmentIndex = 0;
+    //    self.navigationItem.titleView = segmentedControl;
     
     _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     _searchBar.showsScopeBar = YES;
@@ -194,7 +199,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
             
-            for(NSDictionary *result in loadMoreRes){
+            for(NSDictionary *result __unused in loadMoreRes){
                 [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
                 fromIndex++;
             }
@@ -309,7 +314,7 @@
     [cell.contentView addSubview:messageLabel];
     [messageLabel setTag:5];
     if (1 == message.Type || 2 == message.Type) {
-        messageLabel.text = message.Text;
+        messageLabel.text = [message.Text stringByReplacingEmojiCheatCodesWithUnicode];
     }
     else
     {
@@ -365,7 +370,7 @@
     } else {
         message = [searchRestults objectAtIndex:indexPath.row];
     }
-   
+    
     NSString* photoURL = message.PhotoThumbnail;
     
     float textHeight = 0;
@@ -500,12 +505,12 @@
         rowIndex = [self.searchDisplayController.searchResultsTableView indexPathForCell:cell].row;
         currentMessage = [searchRestults objectAtIndex:rowIndex];
     }
-
+    
     return [currentMessage.PhotoThumbnails count];
 }
 - (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
-   // int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
+    // int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
     UITableView* currentTableView = (UITableView*)[cell superview];
     
     int rowIndex = 0;
@@ -524,16 +529,6 @@
 }
 
 #pragma mark - UISearchDispalyController delegate
--(void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView{
-    NSLog(@"%s", __FUNCTION__);
-}
--(void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{
-    NSLog(@"%s", __FUNCTION__);
-}
--(void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller{
-    NSLog(@"%s", __FUNCTION__);
-}
-
 -(BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
     NSLog(@"%s, %@", __FUNCTION__, searchString);
     searchContent = searchString;
@@ -552,7 +547,7 @@
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [_searchBar resignFirstResponder];
-
+    
     UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGPoint center = [searchDisplayController searchResultsTableView].center;
     
@@ -562,8 +557,8 @@
     [activityView startAnimating];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-         searchRestults = [[NetWorkConnection sharedInstance] searchMessageByToken:searchContent
-                                                                          type:searchTypeIndex];
+        searchRestults = [[NetWorkConnection sharedInstance] searchMessageByToken:searchContent
+                                                                             type:searchTypeIndex];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityView stopAnimating];
