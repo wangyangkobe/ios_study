@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "RegisterViewController.h"
+#import "MainTabViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -49,18 +51,24 @@
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
-        NSString* weiboId = [(WBAuthorizeResponse*)response userID];
+        NSString* userID = [(WBAuthorizeResponse*)response userID];
         
         NetWorkConnection* connect = [NetWorkConnection sharedInstance];
-        if ([connect checkUser:weiboId])
+        if ([connect checkUser:userID])
         {
-            [UserConfig shareInstance].logIn = YES;
-            NSLog(@"user not exit!");
+            [[UserConfig shareInstance] setLogIn:YES];
+            
+            NSLog(@"user login successfully!");
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+            [self.window setRootViewController:mainTableVC];
         }
         else
         {
-            [UserConfig shareInstance].logIn = NO;
-            NSString* showUserInfoUrl = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@", self.wbtoken, weiboId];
+            [[UserConfig shareInstance] setLogIn:NO];
+            
+            NSString* showUserInfoUrl = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@", self.wbtoken, userID];
+            
             ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:showUserInfoUrl]];
 #if SET_PROXY
             [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -71,7 +79,25 @@
             NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                                  options:NSJSONReadingMutableContainers
                                                                    error:nil];
-            NSLog(@"userInfo = %@", userWBInfo);
+         //   NSLog(@"userInfo = %@", userWBInfo);
+            
+            [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
+            [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
+            [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
+            [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
+            
+            NSString* gender = [userWBInfo objectForKey:@"gender"];
+            if ([gender isEqualToString:@"m"])
+                [UserConfig shareInstance].gender = kBoy; //男
+            else if([gender isEqualToString:@"f"])
+                [UserConfig shareInstance].gender = kGirl; //女
+            else
+                [UserConfig shareInstance].gender = kUnKnown; //未知
+            
+            NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            RegisterViewController* registerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
+            [self.window setRootViewController:registerVC];
         }
     }
 }
