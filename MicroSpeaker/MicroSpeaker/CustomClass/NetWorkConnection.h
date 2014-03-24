@@ -53,4 +53,8 @@
 //检测用户时候存在
 -(BOOL)checkUser:(NSString*)weiboID;
 
+//用户注册
+-(BOOL)registerByWeiBo:(NSString*)Name gender:(int)Gender description:(NSString*)Description areaID:(long)AreaID
+               weiboID:(NSString*)WeiboID province:(NSString*)Province city:(NSString*)City country:(NSString*)Country
+               headPic:(NSString*)HeadPic;
 @end
