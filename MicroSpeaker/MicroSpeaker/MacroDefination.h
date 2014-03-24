@@ -48,4 +48,11 @@ typedef enum
 #define kAppKey         @"504571936"
 #define kRedirectURI    @"https://api.weibo.com/oauth2/default.html"
 
+typedef enum
+{
+    kGirl    = 0,
+    kBoy     = 1,
+    kUnKnown = 2,
+}Gender;
+
 #endif

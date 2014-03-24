@@ -35,7 +35,7 @@
                                                               options:NSJSONReadingMutableContainers
                                                                 error:nil];
     
-    //   NSLog(@"get area: %@", [request responseString]);
+      NSLog(@"get area: %@", [request responseString]);
     for (id area in jsonArray)
     {
         [result addObject:[[AreaModel alloc] initWithDictionary:area error:nil]];
@@ -206,7 +206,7 @@
     
     NSString* result = [request responseString];
     if ([result isEqualToString:@"true"])
-        return YES;
+        return NO; //yes
     else
         return NO;
 }
@@ -349,7 +349,7 @@
     }
     //对url进行编码，因为url含有汉字
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
+    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -359,7 +359,7 @@
     
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
-                                                        error:nil];
+                                                           error:nil];
     NSMutableArray* result = [NSMutableArray array];
     for (id message in jsonArray) {
         MessageModel* messageModel = [[MessageModel alloc] initWithDictionary:message error:nil];
@@ -367,5 +367,40 @@
             [result addObject:messageModel];
     }
     return result;
+}
+
+////////////////////////////////////////////////////////
+-(BOOL) registerByWeiBo:(NSString *)Name gender:(int)Gender description:(NSString *)Description areaID:(long)AreaID weiboID:(NSString *)WeiboID province:(NSString *)Province city:(NSString *)City country:(NSString *)Country headPic:(NSString *)HeadPic
+{
+    NSString* requestURL = [NSString stringWithFormat:@"%@/user/register", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestURL]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request setRequestMethod:@"POST"];
+    
+    [request setPostValue:Name forKey:@"name"];
+    [request setPostValue:Description forKey:@"description"];
+    [request setPostValue:[NSNumber numberWithLong:AreaID] forKey:@"areaID"];
+    [request setPostValue:WeiboID forKey:@"weiboID"];
+    if(Province != nil)
+        [request setPostValue:Province forKey:@"province"];
+    if(City != nil)
+        [request setPostValue:City forKey:@"city"];
+    if(Country != nil)
+        [request setPostValue:Country forKey:@"country"];
+    if(HeadPic != nil)
+        [request setPostValue:HeadPic forKey:@"headPic"];
+    
+    [request startSynchronous];
+    
+    NSString* responseString = [request responseString];
+    NSLog(@"publis message result: %@", [request responseString]);
+    
+    if ([responseString rangeOfString:@"OK"].location == NSNotFound)
+        return NO;
+    else
+        return NO; //yes
 }
 @end
