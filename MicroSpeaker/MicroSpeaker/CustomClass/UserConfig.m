@@ -32,20 +32,25 @@
               
         _gender = [userDefaults integerForKey:@"us_gender"];
         _areaID = [userDefaults integerForKey:@"us_areaId"];
+        _logIn  = [userDefaults boolForKey:@"us_login"];
+        
+        if (_areaID == 0){
+            _areaID = kHuaLi;  //默认社区
+        }
     }
     return self;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super init]) {
-        _headPic   = [aDecoder decodeObjectForKey:@"us_headPic"];
-        _userName  = [aDecoder decodeObjectForKey:@"us_userName"];
-        _signature = [aDecoder decodeObjectForKey:@"us_signature"];
-         _weiboID  = [aDecoder decodeObjectForKey:@"us_weiboID"];
+        _headPic   = [aDecoder decodeObjectForKey:@"headPic"];
+        _userName  = [aDecoder decodeObjectForKey:@"userName"];
+        _signature = [aDecoder decodeObjectForKey:@"signature"];
+        _weiboID   = [aDecoder decodeObjectForKey:@"weiboID"];
          
-        _gender = [[aDecoder decodeObjectForKey:@"us_gender"] intValue];
-        _areaID = [[aDecoder decodeObjectForKey:@"us_areaId"] intValue];
-        
+        _gender = [[aDecoder decodeObjectForKey:@"gender"] intValue];
+        _areaID = [[aDecoder decodeObjectForKey:@"areaId"] intValue];
+        _logIn  = [aDecoder decodeBoolForKey:@"login"];
 
     }
     return self;
@@ -53,13 +58,14 @@
 
 -(void) encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:_headPic forKey:@"us_headPic"];
-    [aCoder encodeObject:_userName forKey:@"us_userName"];
-    [aCoder encodeObject:_signature forKey:@"us_signature"];
-    [aCoder encodeObject:_weiboID forKey:@"us_weiboID"];
+    [aCoder encodeObject:_headPic forKey:@"headPic"];
+    [aCoder encodeObject:_userName forKey:@"userName"];
+    [aCoder encodeObject:_signature forKey:@"signature"];
+    [aCoder encodeObject:_weiboID forKey:@"weiboID"];
     
-    [aCoder encodeObject:[NSNumber numberWithInt:_gender] forKey:@"us_gender"];
-    [aCoder encodeObject:[NSNumber numberWithInt:_areaID] forKey:@"us_areaId"];
+    [aCoder encodeObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
+    [aCoder encodeObject:[NSNumber numberWithInt:_areaID] forKey:@"areaId"];
+    [aCoder encodeBool:_logIn forKey:@"login"];
 }
 
 #pragma mark NSCopying

@@ -55,4 +55,8 @@ typedef enum
     kUnKnown = 2,
 }Gender;
 
+typedef enum {
+    kFuDan = 1,
+    kHuaLi = 2,
+}AreaType;
 #endif

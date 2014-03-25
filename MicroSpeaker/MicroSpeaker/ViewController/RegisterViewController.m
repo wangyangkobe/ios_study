@@ -70,23 +70,44 @@
 }
 - (IBAction)selectAreaBtnPressed:(id)sender
 {
-    UIActionSheet *menu = [[UIActionSheet alloc]
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
                            initWithTitle: @"请选择社区"
                            delegate:self
                            cancelButtonTitle:@"Cancel"
                            destructiveButtonTitle:nil
                            otherButtonTitles:@"复旦大学,上海市", @"华东理工大学,上海市", nil];
-    [menu showInView:self.view];
+    
+//    for (NSString* areaName in areaNamesArray) {
+//        [actionSheet addButtonWithTitle:areaName];
+//    }
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark ActionSheet Delegate Method
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString* areaName = [actionSheet buttonTitleAtIndex:buttonIndex];
+    [self.selectAreaBtn setTitle:areaName forState:UIControlStateNormal];
+    if ([areaName rangeOfString:@"复旦大学"].location != NSNotFound)
+    {
+        [UserConfig shareInstance].areaID = kFuDan;
+    }
+    else if([areaName rangeOfString:@"华东理工大学"].location != NSNotFound)
+    {
+        [UserConfig shareInstance].areaID = kHuaLi;
+    }
 }
 
 - (IBAction)doRegisterBtn:(id)sender
 {
-    NSString* headPic = [UserConfig shareInstance].headPic;
-    NSString* userName = [UserConfig shareInstance].userName;
-    int gender = [UserConfig shareInstance].gender;
+    NSString* headPic     = [UserConfig shareInstance].headPic;
+    NSString* userName    = [UserConfig shareInstance].userName;
     NSString* description = [UserConfig shareInstance].description;
-    long areaID = 2;
-    NSString* weiboID = [UserConfig shareInstance].weiboID;
+    NSString* weiboID     = [UserConfig shareInstance].weiboID;
+    
+    int gender  = [UserConfig shareInstance].gender;
+    long areaID = [UserConfig shareInstance].areaID;
+   
     BOOL registerRes = [[NetWorkConnection sharedInstance] registerByWeiBo:userName gender:gender description:description areaID:areaID weiboID:weiboID province:@"上海市" city:@"上海市" country:@"中国" headPic:headPic];
     
     if (registerRes) {

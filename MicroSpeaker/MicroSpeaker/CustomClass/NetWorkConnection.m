@@ -206,7 +206,7 @@
     
     NSString* result = [request responseString];
     if ([result isEqualToString:@"true"])
-        return NO; //yes
+        return YES; //yes
     else
         return NO;
 }
@@ -401,6 +401,6 @@
     if ([responseString rangeOfString:@"OK"].location == NSNotFound)
         return NO;
     else
-        return NO; //yes
+        return YES; //yes
 }
 @end
