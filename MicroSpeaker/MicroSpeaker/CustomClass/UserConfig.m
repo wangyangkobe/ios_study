@@ -18,7 +18,7 @@
     });
     return sharedInstance;
 }
--（id）init
+-(id)init
 {
     if(self = [super int])
     {
