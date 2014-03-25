@@ -15,7 +15,7 @@
 @property(nonatomic, copy) NSString* signature; //用户签名
 
 @property(nonatomic, assign) int gender;        //性别
-@property(nonatomic, assign) int areaId;        //社区
+@property(nonatomic, assign) int areaID;        //社区
 
 @property(nonatomic, copy) NSString* weiboID;
 @property(nonatomic, assign, getter = isLogIn) BOOL logIn;

@@ -10,6 +10,8 @@
 
 @implementation UserConfig
 
+@synthesize logIn = _logIn;
+
 + (instancetype)shareInstance{
     static dispatch_once_t once;
     static id sharedInstance;
@@ -20,7 +22,7 @@
 }
 -(id)init
 {
-    if(self = [super int])
+    if(self = [super init])
     {
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
         _headPic   = [userDefaults stringForKey:@"us_headPic"];
@@ -29,8 +31,9 @@
         _weiboID   = [userDefaults stringForKey:@"us_weiboID"];
               
         _gender = [userDefaults integerForKey:@"us_gender"];
-        _areaId = [userDefaults integerForKey:@"us_areaId"];
+        _areaID = [userDefaults integerForKey:@"us_areaId"];
     }
+    return self;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -41,7 +44,7 @@
          _weiboID  = [aDecoder decodeObjectForKey:@"us_weiboID"];
          
         _gender = [[aDecoder decodeObjectForKey:@"us_gender"] intValue];
-        _areaId = [[aDecoder decodeObjectForKey:@"us_areaId"] intValue];
+        _areaID = [[aDecoder decodeObjectForKey:@"us_areaId"] intValue];
         
 
     }
@@ -56,7 +59,7 @@
     [aCoder encodeObject:_weiboID forKey:@"us_weiboID"];
     
     [aCoder encodeObject:[NSNumber numberWithInt:_gender] forKey:@"us_gender"];
-    [aCoder encodeObject:[NSNumber numberWithInt:_areaId] forKey:@"us_areaId"];
+    [aCoder encodeObject:[NSNumber numberWithInt:_areaID] forKey:@"us_areaId"];
 }
 
 #pragma mark NSCopying
@@ -65,9 +68,9 @@
     return self;
 }
 
--(void)setAreaId:(int)areaId
+-(void)setAreaID:(int)areaId
 {
-    _areaId = areaId;
+    _areaID = areaId;
     [self save];
 }
 -(void)setLogIn:(BOOL)logIn
@@ -86,18 +89,18 @@
 }
 -(void)save
 {
-    NSLog(@"%s %d", __FUNCTION__, self.aaa);
+    NSLog(@"%s %d", __FUNCTION__, _logIn);
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
    
     [userDefaults setBool:_logIn forKey:@"us_logIn"];
     
     [userDefaults setInteger:_gender forKey:@"us_gender"];
-    [userDefaults setInteger:_areaId forKey:@"us_areaId"];
+    [userDefaults setInteger:_areaID forKey:@"us_areaId"];
     
     [userDefaults setObject:_headPic   forKey:@"us_headPic"];
     [userDefaults setObject:_userName  forKey:@"us_userName"];
     [userDefaults setObject:_signature forKey:@"us_signature"];
-    [userDefaults setObject:_weiboIDe  forKey:@"us_weiboID"];
+    [userDefaults setObject:_weiboID  forKey:@"us_weiboID"];
     
     [userDefaults synchronize];
 }
