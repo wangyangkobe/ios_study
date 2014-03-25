@@ -62,14 +62,8 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:WEIBO_ID];
+    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
     if (checkResut) {
-        selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
-        
-        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:encodedObject forKey:SELF_USERINFO];
-        [defaults synchronize];
     }
 }
 
@@ -110,7 +104,7 @@
             NSLog(@"%d", [storedMessages count]);
         }
         else{
-            NSArray* fetchNewMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+            NSArray* fetchNewMessage = [[NetWorkConnection sharedInstance] getMessageByAreaID:[UserConfig shareInstance].areaID
                                                                                      PageSize:15
                                                                                          Page:1];
             messagesArray = [fetchNewMessage mutableCopy];
@@ -190,7 +184,7 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messagesArray lastObject];
-        NSArray* loadMoreRes =  [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+        NSArray* loadMoreRes =  [[NetWorkConnection sharedInstance] getMessageByAreaID:[UserConfig shareInstance].areaID
                                                                               PageSize:15
                                                                                  maxID:lastMessage.MessageID];
         __block NSInteger fromIndex = [messagesArray count];
@@ -395,7 +389,7 @@
 - (void)getNewMessageBySinceID:(NSNumber*) sinceId{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        NSArray* newMessages = [[NetWorkConnection sharedInstance] getMessageByAreaID:selfUserInfo.Area.AreaID
+        NSArray* newMessages = [[NetWorkConnection sharedInstance] getMessageByAreaID:[UserConfig shareInstance].areaID
                                                                               sinceID:[sinceId longValue]];
         for (MessageModel* message in [newMessages reverseObjectEnumerator])
         {
@@ -414,6 +408,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    
+    if ([UserConfig shareInstance].isLogIn == NO)
+    {
+        LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+        [self presentViewController:loginVC animated:YES completion:nil];
+        return;
+    }
     
     MessageModel* selectedMessage;
     if (tableView == self.pullTableView) {
@@ -566,7 +567,14 @@
         });
     });
 }
--(void) doSearch{
+-(void) doSearch
+{
+    if ([UserConfig shareInstance].isLogIn == NO)
+    {
+        LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+        [self presentViewController:loginVC animated:YES completion:nil];
+        return;
+    }
     if (self.pullTableView.tableHeaderView) {
         self.pullTableView.tableHeaderView = nil;
     }else{
