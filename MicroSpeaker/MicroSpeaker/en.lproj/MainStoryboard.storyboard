@@ -34,7 +34,7 @@
             </objects>
             <point key="canvasLocation" x="1168" y="8"/>
         </scene>
-        <!--Personal Setting View Controller-->
+        <!--Personal Setting View Controller - 设置-->
         <scene sceneID="duS-qM-A9I">
             <objects>
                 <viewController id="9ch-mn-Pck" customClass="PersonalSettingViewController" sceneMemberID="viewController">
@@ -42,10 +42,36 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6Hj-JC-RQe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="6Hj-JC-RQe">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PSettingCellIdentifier" textLabel="xJ8-ch-xw7" detailTextLabel="MzO-3l-H9f" style="IBUITableViewCellStyleValue1" id="xFj-RK-pY3">
+                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xFj-RK-pY3" id="beX-gg-TXv">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xJ8-ch-xw7">
+                                                    <rect key="frame" x="10" y="13" width="30" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MzO-3l-H9f">
+                                                    <rect key="frame" x="235" y="15" width="35" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.2196078431372549" green="0.32941176470588235" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="9ch-mn-Pck" id="2nC-yR-FhG"/>
                                     <outlet property="delegate" destination="9ch-mn-Pck" id="xXw-Cl-3WU"/>
@@ -54,7 +80,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="oUw-jO-Aes"/>
+                    <navigationItem key="navigationItem" title="设置" id="oUw-jO-Aes"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etE-PB-ISk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -229,11 +255,11 @@
             </objects>
             <point key="canvasLocation" x="1610" y="746"/>
         </scene>
-        <!--Navigation Controller - MainTab-->
+        <!--Navigation Controller - 首页-->
         <scene sceneID="zP4-Ox-UzX">
             <objects>
                 <navigationController storyboardIdentifier="MainTableVCIdentifier" id="5aX-80-AFq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="MainTab" id="FpM-Wm-mQV"/>
+                    <tabBarItem key="tabBarItem" title="首页" id="FpM-Wm-mQV"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rlx-lW-gR9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -380,11 +406,11 @@
             </objects>
             <point key="canvasLocation" x="259" y="8"/>
         </scene>
-        <!--Navigation Controller - 个人中心-->
+        <!--Navigation Controller - 设置-->
         <scene sceneID="LnI-5m-9jt">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fxd-zc-m7B" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="个人中心" id="WCW-wU-zSg"/>
+                    <tabBarItem key="tabBarItem" title="设置" id="WCW-wU-zSg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uU2-qc-N6c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
