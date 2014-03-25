@@ -9,6 +9,8 @@
 #import "PersonalSettingViewController.h"
 #import "LogInViewController.h"
 #import "UserConfig.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+
 @interface PersonalSettingViewController ()
 
 @end
@@ -47,27 +49,92 @@
 }
 
 #pragma mark - UITableView dataSource Methods
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (0 == section)
+        return 4;
+    else
+        return 2;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
 }
 
 #pragma mark - UITableView delegate Methods
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString* cellIdentifier = @"CellIdentifier";
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int row     = indexPath.row;
+    int section = indexPath.section;
+    
+    
+    if (0 == row && 0 == section)
+    {
+        static NSString* cellIdentifier = @"ShowHeadPicCellIdentifier";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+    
+        [cell.imageView setImageWithURL:[NSURL URLWithString:[UserConfig shareInstance].headPic]
+                       placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        [cell.textLabel setText:[UserConfig shareInstance].userName];
+        
+        return cell;
+    }
+    
+    static NSString* cellIdentifier = @"PSettingCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.textLabel.text = @"登录";
+    
+    if(1 == row && 0 == section)
+    {
+        [cell.textLabel setText:@"主页"];
+    }
+    else if(2 == row && 0 == section)
+    {
+        [cell.textLabel setText:@"社区"];
+        if ([UserConfig shareInstance].areaID == kFuDan)
+            [cell.detailTextLabel setText:@"复旦大学"];
+        else if([UserConfig shareInstance].areaID == kHuaLi)
+            [cell.detailTextLabel setText:@"华东理工大学"];
+    }
+    else if (3 == row && 0 == section)
+    {
+        [cell.textLabel setText:@"性别"];
+        if ([UserConfig shareInstance].gender == kBoy)
+            [cell.detailTextLabel setText:@"男"];
+        else
+            [cell.detailTextLabel setText:@"女"];
+    }
+    else if(0 == row && 1 == section)
+    {
+        [cell.textLabel setText:@"免打扰模式"];
+        [cell.detailTextLabel setText:@"23:00~6:00不接受消息"];
+    }
+    else
+    {
+        [cell.textLabel setText:@"意见和建议"];
+    }
     return cell;
 }
 
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    int row     = indexPath.row;
+    int section = indexPath.section;
+    
+    if (0 == row && section == 0)
+        return 60;
+    else
+        return 40;
+}
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
-    
-    [self presentViewController:loginVC animated:YES completion:nil];
+
 }
 
 @end
