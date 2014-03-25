@@ -13,10 +13,8 @@
 + (instancetype)shareInstance{
     static dispatch_once_t once;
     static id sharedInstance;
-    static NSUserDefaults* userDefaults;
     dispatch_once(&once, ^{
         sharedInstance = [[self alloc] init];
-        userDefaults = [NSUserDefaults standardUserDefaults];
     });
     return sharedInstance;
 }
