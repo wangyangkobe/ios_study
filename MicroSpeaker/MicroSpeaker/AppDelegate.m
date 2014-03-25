@@ -59,6 +59,15 @@
             [[UserConfig shareInstance] setLogIn:YES];
             
             NSLog(@"user login successfully!");
+            
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+                NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:encodedObject forKey:SELF_USERINFO];
+                [defaults synchronize];
+            });
+            
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
             [self.window setRootViewController:mainTableVC];
@@ -77,9 +86,9 @@
             [request startSynchronous];
             
             NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:nil];
-         //   NSLog(@"userInfo = %@", userWBInfo);
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            //   NSLog(@"userInfo = %@", userWBInfo);
             
             [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
             [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
