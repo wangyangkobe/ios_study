@@ -404,6 +404,24 @@
         return YES; //yes
 }
 
+////////////////////////////////////////////////////////
+-(BOOL)userLogOut
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/user/logout", HOME_PAGE];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    NSString* responseString = [request responseString];
+    
+    NSLog(@"user logout:%@", [request responseString]);
+    if ([responseString rangeOfString:@"OK"].location == NSNotFound)
+        return NO;
+    else
+        return YES; //yes
+}
 
 ////////////////////////////////////////////////////////
 -(void)getUserWeiBoInfo:(NSString *)wbToken UserID:(NSString *)userId

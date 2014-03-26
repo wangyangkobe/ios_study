@@ -61,4 +61,7 @@
 
 //获取用户的微博信息并保存到UserConfig中
 -(void)getUserWeiBoInfo:(NSString*)wbToken UserID:(NSString*)userId;
+
+//用户退出
+-(BOOL)userLogOut;
 @end
