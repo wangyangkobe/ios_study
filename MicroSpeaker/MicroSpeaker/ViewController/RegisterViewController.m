@@ -102,13 +102,14 @@
 {
     NSString* headPic     = [UserConfig shareInstance].headPic;
     NSString* userName    = [UserConfig shareInstance].userName;
-    NSString* description = [UserConfig shareInstance].description;
+    NSString* description = [UserConfig shareInstance].signature;
     NSString* weiboID     = [UserConfig shareInstance].weiboID;
-    
+    NSString* province    = [UserConfig shareInstance].province;
+    NSString* city        = [UserConfig shareInstance].city;
     int gender  = [UserConfig shareInstance].gender;
     long areaID = [UserConfig shareInstance].areaID;
    
-    BOOL registerRes = [[NetWorkConnection sharedInstance] registerByWeiBo:userName gender:gender description:description areaID:areaID weiboID:weiboID province:@"上海市" city:@"上海市" country:@"中国" headPic:headPic];
+    BOOL registerRes = [[NetWorkConnection sharedInstance] registerByWeiBo:userName gender:gender description:description areaID:areaID weiboID:weiboID province:province city:city country:@"中国" headPic:headPic];
     
     if (registerRes) {
         [[UserConfig shareInstance] setLogIn:YES];
