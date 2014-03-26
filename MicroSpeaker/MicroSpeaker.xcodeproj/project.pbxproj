@@ -83,6 +83,7 @@
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
 		15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56431841F8E6007CF595 /* group_list_clock_src.png */; };
 		15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56441841F8E6007CF595 /* group_list_location_src.png */; };
+		15AF622218E3155400E821F3 /* Provinces.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15AF622118E3155400E821F3 /* Provinces.plist */; };
 		15B220EB1878533400597DA7 /* UIButton+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B220EA1878533400597DA7 /* UIButton+Extensions.m */; };
 		15DE498D185C8B6800754EAC /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DE498C185C8B6800754EAC /* UserInfoModel.m */; };
 		15DE4991185CA15200754EAC /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DE4990185CA15200754EAC /* KxMenu.m */; };
@@ -268,6 +269,7 @@
 		15AD56411841F876007CF595 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
 		15AD56431841F8E6007CF595 /* group_list_clock_src.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_list_clock_src.png; sourceTree = "<group>"; };
 		15AD56441841F8E6007CF595 /* group_list_location_src.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = group_list_location_src.png; sourceTree = "<group>"; };
+		15AF622118E3155400E821F3 /* Provinces.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Provinces.plist; sourceTree = "<group>"; };
 		15B220E91878533400597DA7 /* UIButton+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extensions.h"; sourceTree = "<group>"; };
 		15B220EA1878533400597DA7 /* UIButton+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extensions.m"; sourceTree = "<group>"; };
 		15DE498B185C8B6800754EAC /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
@@ -825,6 +827,7 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				15AF622118E3155400E821F3 /* Provinces.plist */,
 				1585EC5018DDD5B900791FC4 /* Default@2x.png */,
 				150E351E18BF88DA00DFEA1C /* Default.png */,
 				15375BA618CAD249004E9898 /* icon57.png */,
@@ -944,6 +947,7 @@
 				15FC29AE1855F37F00731A50 /* flower_n@2x.png in Resources */,
 				522D7F431827BFBD00AF71F8 /* Default-568h@2x.png in Resources */,
 				15FC29A31855F37F00731A50 /* characters_s.png in Resources */,
+				15AF622218E3155400E821F3 /* Provinces.plist in Resources */,
 				15FF0F6A186490240086D559 /* MessageCell.xib in Resources */,
 				15FA7525185737C800C788A3 /* text@2x.png in Resources */,
 				15375BA718CAD249004E9898 /* icon57.png in Resources */,
