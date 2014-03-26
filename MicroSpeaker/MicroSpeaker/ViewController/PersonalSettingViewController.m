@@ -71,15 +71,27 @@
     
     if (0 == row && 0 == section)
     {
-        static NSString* cellIdentifier = @"ShowHeadPicCellIdentifier";
+        static NSString* cellIdentifier = @"HeadPicCellIdentifier";
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
+            [headPicView setBackgroundColor:[UIColor clearColor]];
+            [headPicView setTag:3001];
+            
+            UILabel* userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 10, 150, 40)];
+            [userNameLabel setTag:3002];
+            [userNameLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.contentView addSubview:headPicView];
+            [cell.contentView addSubview:userNameLabel];
         }
-    
-        [cell.imageView setImageWithURL:[NSURL URLWithString:[UserConfig shareInstance].headPic]
-                       placeholderImage:[UIImage imageNamed:@"placeholder"]];
-        [cell.textLabel setText:[UserConfig shareInstance].userName];
+        
+        UIImageView* headPicView = (UIImageView*)[cell viewWithTag:3001];
+        [headPicView setImageWithURL:[NSURL URLWithString:[UserConfig shareInstance].headPic]
+                    placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        
+        UILabel* userNameLabel = (UILabel*)[cell viewWithTag:3002];
+        [userNameLabel setText:[UserConfig shareInstance].userName];
         
         return cell;
     }
@@ -134,7 +146,7 @@
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
 }
 
 @end
