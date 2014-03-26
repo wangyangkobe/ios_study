@@ -438,12 +438,19 @@
     NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                                options:NSJSONReadingMutableContainers
                                                                  error:nil];
-    //   NSLog(@"userInfo = %@", userWBInfo);
+    //NSLog(@"userInfo = %@", userWBInfo);
     
     [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
     [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
     [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
     [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
+    
+    int proviceCode = [[userWBInfo valueForKey:@"province"] integerValue];
+    int cityCode    =  [[userWBInfo valueForKey:@"city"] integerValue];
+    
+    NSDictionary* provinceAndCity = [self decodeProvinceAndCity:proviceCode cityCode:cityCode];
+    [UserConfig shareInstance].province = [provinceAndCity valueForKey:@"provinceName"];
+    [UserConfig shareInstance].city = [provinceAndCity valueForKey:@"cityName"];
     
     NSString* gender = [userWBInfo objectForKey:@"gender"];
     if ([gender isEqualToString:@"m"])
@@ -457,4 +464,36 @@
     NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 }
 
+////////////////////////////////////////////////////////
+-(NSDictionary*)decodeProvinceAndCity:(int)provinceCode cityCode:(int)CityCode
+{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Provinces" ofType:@"plist"];
+    NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    
+    NSArray* provinces = [data objectForKey:@"provinces"];
+    
+    NSString* provinceName;
+    NSString* cityName;
+    for (NSDictionary* element in provinces)
+    {
+        if (provinceCode == [[element valueForKey:@"id"] integerValue] )
+        {
+            provinceName = [element valueForKey:@"name"];
+            
+            if ([provinceName isEqualToString:@"上海市"]) {
+                cityName = @"上海市";
+                break;
+            }
+            NSArray* cities = [element valueForKey:@"citys"];
+            for (NSDictionary* city in cities) {
+                int cityId = [[[city allKeys] objectAtIndex:0] integerValue];
+                if (cityId == CityCode)
+                {
+                    cityName = [city valueForKey:[NSString stringWithFormat:@"%d", CityCode]];
+                }
+            }
+        }
+    }
+    return [NSDictionary dictionaryWithObjectsAndKeys:provinceName, @"provinceName", cityName, @"cityName", nil];
+}
 @end
