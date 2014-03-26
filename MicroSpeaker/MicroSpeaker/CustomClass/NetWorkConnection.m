@@ -35,7 +35,7 @@
                                                               options:NSJSONReadingMutableContainers
                                                                 error:nil];
     
-      NSLog(@"get area: %@", [request responseString]);
+    NSLog(@"get area: %@", [request responseString]);
     for (id area in jsonArray)
     {
         [result addObject:[[AreaModel alloc] initWithDictionary:area error:nil]];
@@ -403,4 +403,40 @@
     else
         return YES; //yes
 }
+
+
+////////////////////////////////////////////////////////
+-(void)getUserWeiBoInfo:(NSString *)wbToken UserID:(NSString *)userId
+{
+    NSString* showUserInfoUrl = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@", wbToken, userId];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:showUserInfoUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    
+    NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                               options:NSJSONReadingMutableContainers
+                                                                 error:nil];
+    //   NSLog(@"userInfo = %@", userWBInfo);
+    
+    [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
+    [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
+    [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
+    [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
+    
+    NSString* gender = [userWBInfo objectForKey:@"gender"];
+    if ([gender isEqualToString:@"m"])
+        [UserConfig shareInstance].gender = kBoy; //男
+    else if([gender isEqualToString:@"f"])
+        [UserConfig shareInstance].gender = kGirl; //女
+    else
+        [UserConfig shareInstance].gender = kUnKnown; //未知
+    
+    [[UserConfig shareInstance] save];
+    NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
+}
+
 @end

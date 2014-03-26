@@ -57,4 +57,8 @@
 -(BOOL)registerByWeiBo:(NSString*)Name gender:(int)Gender description:(NSString*)Description areaID:(long)AreaID
                weiboID:(NSString*)WeiboID province:(NSString*)Province city:(NSString*)City country:(NSString*)Country
                headPic:(NSString*)HeadPic;
+
+
+//获取用户的微博信息并保存到UserConfig中
+-(void)getUserWeiBoInfo:(NSString*)wbToken UserID:(NSString*)userId;
 @end
