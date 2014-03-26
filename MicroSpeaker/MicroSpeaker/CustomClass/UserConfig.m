@@ -91,11 +91,10 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"userName = %@, gender = %d, signature = %@, logIn = %d", _userName, _gender, _signature, self.isLogIn];
+    return [NSString stringWithFormat:@"headPic = %@, userName = %@, gender = %d, signature = %@, logIn = %d", _headPic ,_userName, _gender, _signature, self.isLogIn];
 }
 -(void)save
 {
-    NSLog(@"%s %d", __FUNCTION__, _logIn);
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
    
     [userDefaults setBool:_logIn forKey:@"us_logIn"];

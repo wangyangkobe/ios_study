@@ -22,6 +22,6 @@
 
 + (instancetype)shareInstance;
 
-//- (void)save;
+- (void)save;
 
 @end
