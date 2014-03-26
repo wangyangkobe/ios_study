@@ -76,38 +76,12 @@
         {
             [[UserConfig shareInstance] setLogIn:NO];
             
-            NSString* showUserInfoUrl = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@", self.wbtoken, userID];
-            
-            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:showUserInfoUrl]];
-#if SET_PROXY
-            [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
-            [request setProxyPort:8080];
-#endif
-            [request startSynchronous];
-            
-            NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                                       options:NSJSONReadingMutableContainers
-                                                                         error:nil];
-            //   NSLog(@"userInfo = %@", userWBInfo);
-            
-            [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
-            [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
-            [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
-            [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
-            
-            NSString* gender = [userWBInfo objectForKey:@"gender"];
-            if ([gender isEqualToString:@"m"])
-                [UserConfig shareInstance].gender = kBoy; //男
-            else if([gender isEqualToString:@"f"])
-                [UserConfig shareInstance].gender = kGirl; //女
-            else
-                [UserConfig shareInstance].gender = kUnKnown; //未知
-            
-            NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             RegisterViewController* registerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
             [self.window setRootViewController:registerVC];
         }
+        
+        [[NetWorkConnection sharedInstance] getUserWeiBoInfo:self.wbtoken UserID:userID];
     }
 }
 
