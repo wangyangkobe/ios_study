@@ -12,6 +12,9 @@
 #import "SDWebImage/UIImageView+WebCache.h"
 
 @interface PersonalSettingViewController ()
+{
+    UIView* footerView;
+}
 
 @end
 
@@ -38,7 +41,8 @@
     UserConfig* userConfig = [UserConfig shareInstance];
     if ([userConfig isLogIn] == NO) {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
-        [self presentViewController:loginVC animated:YES completion:nil];
+      //[self presentViewController:loginVC animated:YES completion:nil];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
         return;
     }
 }
@@ -148,5 +152,48 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
-
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (1 == section)
+        return 50;
+    else
+        return 0;
+}
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (1 == section)
+    {
+        if (nil == footerView)
+        {
+            footerView  = [[UIView alloc] init];
+    
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setBackgroundColor:[UIColor redColor]];
+            [button setFrame:CGRectMake(10, 3, 300, 44)];
+            
+            [button setTitle:@"注销登录" forState:UIControlStateNormal];
+            [button.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            [button addTarget:self action:@selector(logOut) forControlEvents:UIControlEventTouchUpInside];
+            
+            [footerView addSubview:button];
+        }
+        return footerView;
+    }
+    else
+        return nil;
+}
+-(void)logOut
+{
+    BOOL result = [[NetWorkConnection sharedInstance] userLogOut];
+    
+    if (result)
+    {
+        [[UserConfig shareInstance] setLogIn:NO];
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+        UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:mainTableVC];
+    }
+}
 @end
