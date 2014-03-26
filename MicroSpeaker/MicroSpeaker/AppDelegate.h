@@ -12,5 +12,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSString *wbtoken;
-@property (nonatomic, assign) BOOL logIn;
+//@property (nonatomic, assign) BOOL logIn;
 @end

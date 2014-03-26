@@ -52,6 +52,7 @@
     {
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userID = [(WBAuthorizeResponse*)response userID];
+        [[NetWorkConnection sharedInstance] getUserWeiBoInfo:self.wbtoken UserID:userID];
         
         NetWorkConnection* connect = [NetWorkConnection sharedInstance];
         if ([connect checkUser:userID])
@@ -80,8 +81,6 @@
             RegisterViewController* registerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
             [self.window setRootViewController:registerVC];
         }
-        
-        [[NetWorkConnection sharedInstance] getUserWeiBoInfo:self.wbtoken UserID:userID];
     }
 }
 
@@ -106,5 +105,4 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
 @end
