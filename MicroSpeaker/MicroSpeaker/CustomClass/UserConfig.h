@@ -13,6 +13,8 @@
 @property(nonatomic, copy) NSString* headPic;
 @property(nonatomic, copy) NSString* userName;
 @property(nonatomic, copy) NSString* signature; //用户签名
+@property(nonatomic, copy) NSString* province;
+@property(nonatomic, copy) NSString* city;
 
 @property(nonatomic, assign) int gender;        //性别
 @property(nonatomic, assign) int areaID;        //社区

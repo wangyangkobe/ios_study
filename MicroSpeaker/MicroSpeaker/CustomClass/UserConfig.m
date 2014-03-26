@@ -29,7 +29,9 @@
         _userName  = [userDefaults stringForKey:@"us_userName"];
         _signature = [userDefaults stringForKey:@"us_signature"];
         _weiboID   = [userDefaults stringForKey:@"us_weiboID"];
-              
+        _province  = [userDefaults stringForKey:@"us_province"];
+        _city      = [userDefaults stringForKey:@"us_city"];
+        
         _gender = [userDefaults integerForKey:@"us_gender"];
         _areaID = [userDefaults integerForKey:@"us_areaId"];
         _logIn  = [userDefaults boolForKey:@"us_login"];
@@ -47,7 +49,9 @@
         _userName  = [aDecoder decodeObjectForKey:@"userName"];
         _signature = [aDecoder decodeObjectForKey:@"signature"];
         _weiboID   = [aDecoder decodeObjectForKey:@"weiboID"];
-         
+        _province = [aDecoder decodeObjectForKey:@"province"];
+        _city   = [aDecoder decodeObjectForKey:@"city"];
+        
         _gender = [[aDecoder decodeObjectForKey:@"gender"] intValue];
         _areaID = [[aDecoder decodeObjectForKey:@"areaId"] intValue];
         _logIn  = [aDecoder decodeBoolForKey:@"login"];
@@ -62,6 +66,8 @@
     [aCoder encodeObject:_userName forKey:@"userName"];
     [aCoder encodeObject:_signature forKey:@"signature"];
     [aCoder encodeObject:_weiboID forKey:@"weiboID"];
+    [aCoder encodeObject:_province forKey:@"province"];
+    [aCoder encodeObject:_city forKey:@"city"];
     
     [aCoder encodeObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
     [aCoder encodeObject:[NSNumber numberWithInt:_areaID] forKey:@"areaId"];
@@ -91,7 +97,7 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"headPic = %@, userName = %@, gender = %d, signature = %@, logIn = %d", _headPic ,_userName, _gender, _signature, self.isLogIn];
+    return [NSString stringWithFormat:@"headPic = %@, userName = %@, gender = %d, signature = %@, logIn = %d, province = %@, city = %@", _headPic ,_userName, _gender, _signature, self.isLogIn, _province, _city];
 }
 -(void)save
 {
@@ -106,7 +112,8 @@
     [userDefaults setObject:_userName  forKey:@"us_userName"];
     [userDefaults setObject:_signature forKey:@"us_signature"];
     [userDefaults setObject:_weiboID  forKey:@"us_weiboID"];
-    
+    [userDefaults setObject:_province forKey:@"us_province"];
+    [userDefaults setObject:_city  forKey:@"us_city"];
     [userDefaults synchronize];
 }
 @end
