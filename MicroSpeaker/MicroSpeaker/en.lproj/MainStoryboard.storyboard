@@ -104,6 +104,17 @@
                                     <action selector="sinaLogIn:" destination="uvM-rY-fVs" eventType="touchUpInside" id="0le-I4-y8G"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Tso-kl-Mlt">
+                                <rect key="frame" x="60" y="323" width="200" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="腾讯QQ">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="qqLogIn:" destination="uvM-rY-fVs" eventType="touchUpInside" id="zAM-t3-fLJ"/>
+                                    <action selector="sinaLogIn:" destination="uvM-rY-fVs" eventType="touchUpInside" id="X9J-rt-FGC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>

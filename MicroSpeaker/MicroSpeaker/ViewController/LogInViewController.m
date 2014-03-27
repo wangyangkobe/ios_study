@@ -9,7 +9,7 @@
 #import "LogInViewController.h"
 
 @interface LogInViewController ()
-
+@property (nonatomic, retain)NSArray* permissions;
 @end
 
 @implementation LogInViewController
@@ -32,6 +32,11 @@
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:image];
+    
+    
+    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"101049592" andDelegate:self];
+    _tencentOAuth.redirectURI = @"www.qq.com";
+    _permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,5 +56,28 @@
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)qqLogIn:(id)sender
+{
+    [_tencentOAuth authorize:_permissions inSafari:NO];
+}
+- (void)tencentDidLogin
+{
+    if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length])
+    {
+        // 记录登录用户的OpenID、Token以及过期时间
+        NSLog(@"accessToken = %@", _tencentOAuth.accessToken);
+    }
+    else
+    {
+        NSLog(@"登录不成功 没有获取accesstoken");
+    }
+}
+-(void)tencentDidNotLogin:(BOOL)cancelled
+{
+}
+-(void)tencentDidNotNetWork
+{
 }
 @end

@@ -22,9 +22,20 @@
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return [WeiboSDK handleOpenURL:url delegate:self];
+    NSLog(@"sourceApplication = %@", sourceApplication);
+    if ([sourceApplication isEqualToString:@"com.sina.weibo"])
+        return [WeiboSDK handleOpenURL:url delegate:self];
+    else  //com.tencent.mqq
+        return [TencentOAuth HandleOpenURL:url];
 }
-
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if (YES == [TencentOAuth CanHandleOpenURL:url])
+    {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+    return YES;
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -83,7 +94,6 @@
         }
     }
 }
-
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {

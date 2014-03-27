@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LogInViewController : UIViewController<WBHttpRequestDelegate>
+@interface LogInViewController : UIViewController<WBHttpRequestDelegate, TencentSessionDelegate>
+
+@property (nonatomic, retain)TencentOAuth *tencentOAuth;
 
 - (IBAction)sinaLogIn:(id)sender;
+- (IBAction)qqLogIn:(id)sender;
+
 @end

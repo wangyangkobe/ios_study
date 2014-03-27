@@ -16,4 +16,5 @@
 #import "MacroDefination.h"
 #import "NetWorkConnection.h"
 #import "UserConfig.h"
+#import <TencentOpenAPI/TencentOAuth.h>
 #endif

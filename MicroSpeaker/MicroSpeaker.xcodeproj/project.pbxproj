@@ -78,6 +78,13 @@
 		156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F3C1827BFBD00AF71F8 /* AppDelegate.m */; };
 		156034E01848DE4300C237B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 522D7F381827BFBD00AF71F8 /* main.m */; };
 		1585EC5118DDD5B900791FC4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1585EC5018DDD5B900791FC4 /* Default@2x.png */; };
+		15925B2918E4580C00D5C057 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B2818E4580C00D5C057 /* TencentOpenAPI.framework */; };
+		15925B2B18E458CF00D5C057 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B2A18E458CF00D5C057 /* Security.framework */; };
+		15925B2D18E458E200D5C057 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B2C18E458E200D5C057 /* libiconv.dylib */; };
+		15925B2F18E458F500D5C057 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B2E18E458F500D5C057 /* libsqlite3.dylib */; };
+		15925B3118E458FE00D5C057 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B3018E458FE00D5C057 /* CoreTelephony.framework */; };
+		15925B3318E4590D00D5C057 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B3218E4590D00D5C057 /* libstdc++.dylib */; };
+		15925B3518E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563D1841E234007CF595 /* gender_boy_big.png */; };
 		15AD56401841E234007CF595 /* gender_girl_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563E1841E234007CF595 /* gender_girl_big.png */; };
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
@@ -264,6 +271,13 @@
 		155AEBFC18C0D4D500256FBF /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		156034DC1848DD5700C237B0 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		1585EC5018DDD5B900791FC4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		15925B2818E4580C00D5C057 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		15925B2A18E458CF00D5C057 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		15925B2C18E458E200D5C057 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		15925B2E18E458F500D5C057 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		15925B3018E458FE00D5C057 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		15925B3218E4590D00D5C057 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		15AD563D1841E234007CF595 /* gender_boy_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_boy_big.png; sourceTree = "<group>"; };
 		15AD563E1841E234007CF595 /* gender_girl_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_girl_big.png; sourceTree = "<group>"; };
 		15AD56411841F876007CF595 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
@@ -413,6 +427,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15925B3318E4590D00D5C057 /* libstdc++.dylib in Frameworks */,
+				15925B3118E458FE00D5C057 /* CoreTelephony.framework in Frameworks */,
+				15925B2F18E458F500D5C057 /* libsqlite3.dylib in Frameworks */,
+				15925B2D18E458E200D5C057 /* libiconv.dylib in Frameworks */,
+				15925B2B18E458CF00D5C057 /* Security.framework in Frameworks */,
+				15F691B8184C3F81009986CD /* SystemConfiguration.framework in Frameworks */,
 				156034DD1848DD5700C237B0 /* SDWebImage.framework in Frameworks */,
 				1508D0ED1869BACC0051A9E8 /* MapKit.framework in Frameworks */,
 				1508D0E81869B20A0051A9E8 /* CoreLocation.framework in Frameworks */,
@@ -420,9 +440,9 @@
 				15F691BC184C3FA2009986CD /* libz.dylib in Frameworks */,
 				522D7F311827BFBD00AF71F8 /* CoreGraphics.framework in Frameworks */,
 				15F691BA184C3F8D009986CD /* MobileCoreServices.framework in Frameworks */,
-				15F691B8184C3F81009986CD /* SystemConfiguration.framework in Frameworks */,
 				15F691B6184C3F61009986CD /* CFNetwork.framework in Frameworks */,
 				156034DE1848DDEC00C237B0 /* ImageIO.framework in Frameworks */,
+				15925B2918E4580C00D5C057 /* TencentOpenAPI.framework in Frameworks */,
 				529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */,
 				522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */,
 				522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */,
@@ -768,6 +788,7 @@
 		522D7F201827BFBD00AF71F8 = {
 			isa = PBXGroup;
 			children = (
+				15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */,
 				155AEBF918C0D4D500256FBF /* libWeiboSDK */,
 				151C944C186596C1003634B1 /* QiniuSDK */,
 				522D7F321827BFBD00AF71F8 /* MicroSpeaker */,
@@ -788,6 +809,12 @@
 		522D7F2B1827BFBD00AF71F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15925B3218E4590D00D5C057 /* libstdc++.dylib */,
+				15925B3018E458FE00D5C057 /* CoreTelephony.framework */,
+				15925B2E18E458F500D5C057 /* libsqlite3.dylib */,
+				15925B2C18E458E200D5C057 /* libiconv.dylib */,
+				15925B2A18E458CF00D5C057 /* Security.framework */,
+				15925B2818E4580C00D5C057 /* TencentOpenAPI.framework */,
 				1508D0EC1869BACC0051A9E8 /* MapKit.framework */,
 				1508D0E71869B20A0051A9E8 /* CoreLocation.framework */,
 				15F691BB184C3FA2009986CD /* libz.dylib */,
@@ -913,6 +940,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15925B3518E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1505C4E91863277F00AB7457 /* checked@2x.png in Resources */,
 				1556605E18704AA40037146E /* Done.png in Resources */,
 				15FC29981855F37F00731A50 /* backspace_n@2x.png in Resources */,
@@ -1155,7 +1183,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-fobjc-arc",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1181,7 +1212,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-fobjc-arc",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1192,7 +1226,10 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/wy/Code/ios_study/MicroSpeaker,
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
@@ -1214,7 +1251,10 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/wy/Code/ios_study/MicroSpeaker;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/wy/Code/ios_study/MicroSpeaker,
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
 				INFOPLIST_FILE = "MicroSpeaker/MicroSpeaker-Info.plist";
