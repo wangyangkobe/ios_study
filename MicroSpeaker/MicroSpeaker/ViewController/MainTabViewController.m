@@ -62,9 +62,9 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
-    if (checkResut) {
-    }
+//    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
+//    if (checkResut) {
+//    }
 }
 
 - (void)viewDidLoad
