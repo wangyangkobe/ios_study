@@ -29,11 +29,12 @@
         _userName  = [userDefaults stringForKey:@"us_userName"];
         _signature = [userDefaults stringForKey:@"us_signature"];
         _weiboID   = [userDefaults stringForKey:@"us_weiboID"];
+        _qqOpenID  = [userDefaults stringForKey:@"us_qqOpenID"];
         _province  = [userDefaults stringForKey:@"us_province"];
         _city      = [userDefaults stringForKey:@"us_city"];
         
-        _gender = [userDefaults integerForKey:@"us_gender"];
-        _areaID = [userDefaults integerForKey:@"us_areaId"];
+        _gender = (int)[userDefaults integerForKey:@"us_gender"];
+        _areaID = (int)[userDefaults integerForKey:@"us_areaId"];
         _logIn  = [userDefaults boolForKey:@"us_login"];
         
         if (_areaID == 0){
@@ -49,8 +50,9 @@
         _userName  = [aDecoder decodeObjectForKey:@"userName"];
         _signature = [aDecoder decodeObjectForKey:@"signature"];
         _weiboID   = [aDecoder decodeObjectForKey:@"weiboID"];
-        _province = [aDecoder decodeObjectForKey:@"province"];
-        _city   = [aDecoder decodeObjectForKey:@"city"];
+        _qqOpenID  = [aDecoder decodeObjectForKey:@"qqOpenID"];
+        _province  = [aDecoder decodeObjectForKey:@"province"];
+        _city      = [aDecoder decodeObjectForKey:@"city"];
         
         _gender = [[aDecoder decodeObjectForKey:@"gender"] intValue];
         _areaID = [[aDecoder decodeObjectForKey:@"areaId"] intValue];
@@ -66,6 +68,7 @@
     [aCoder encodeObject:_userName forKey:@"userName"];
     [aCoder encodeObject:_signature forKey:@"signature"];
     [aCoder encodeObject:_weiboID forKey:@"weiboID"];
+    [aCoder encodeObject:_qqOpenID forKey:@"qqOpenID"];
     [aCoder encodeObject:_province forKey:@"province"];
     [aCoder encodeObject:_city forKey:@"city"];
     
@@ -112,6 +115,7 @@
     [userDefaults setObject:_userName  forKey:@"us_userName"];
     [userDefaults setObject:_signature forKey:@"us_signature"];
     [userDefaults setObject:_weiboID  forKey:@"us_weiboID"];
+    [userDefaults setObject:_qqOpenID  forKey:@"us_qqOpenID"];
     [userDefaults setObject:_province forKey:@"us_province"];
     [userDefaults setObject:_city  forKey:@"us_city"];
     [userDefaults synchronize];

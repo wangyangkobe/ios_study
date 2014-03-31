@@ -20,6 +20,7 @@
 @property(nonatomic, assign) int areaID;        //社区
 
 @property(nonatomic, copy) NSString* weiboID;
+@property(nonatomic, copy) NSString* qqOpenID;
 @property(nonatomic, assign, getter = isLogIn) BOOL logIn;
 
 + (instancetype)shareInstance;
