@@ -70,7 +70,7 @@
         {
             [[UserConfig shareInstance] setLogIn:YES];
             
-            NSLog(@"user login successfully!");
+            NSLog(@"user login successfully from sina weibo!");
             
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
