@@ -7,6 +7,7 @@
 //
 
 #import "LogInViewController.h"
+#import "RegisterViewController.h"
 
 @interface LogInViewController ()
 @property (nonatomic, retain)NSArray* permissions;
@@ -67,7 +68,30 @@
     if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length])
     {
         // 记录登录用户的OpenID、Token以及过期时间
-        NSLog(@"accessToken = %@", _tencentOAuth.accessToken);
+        NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken, _tencentOAuth.openId, _tencentOAuth.expirationDate);
+        [[NetWorkConnection sharedInstance] getUserQQInfo:_tencentOAuth.accessToken OpenID:_tencentOAuth.openId];
+        
+        BOOL checkUser = [[NetWorkConnection sharedInstance] checkUserQQ:_tencentOAuth.openId];
+        if (checkUser)
+        {
+            [[UserConfig shareInstance] setLogIn:YES];
+            NSLog(@"user login successfully from QQ!");
+            
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+                NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:encodedObject forKey:SELF_USERINFO];
+                [defaults synchronize];
+            });
+        }
+        else
+        {
+            [[UserConfig shareInstance] setLogIn:NO];
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            RegisterViewController* registerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
+            [[UIApplication sharedApplication].keyWindow  setRootViewController:registerVC];
+        }
     }
     else
     {
