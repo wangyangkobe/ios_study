@@ -211,10 +211,32 @@
         return NO;
 }
 ////////////////////////////////////////////////////////
+-(BOOL)checkUserQQ:(NSString *)openID
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/user/checkUserQQ", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:openID forKey:@"weiboID"];
+    [request startSynchronous];
+    
+    NSLog(@"check user result:%@", [request responseString]);
+    
+    NSString* result = [request responseString];
+    if ([result isEqualToString:@"true"])
+        return YES; //yes
+    else
+        return NO;
+}
+////////////////////////////////////////////////////////
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize
 {
     return [self getCommentsByMessageID:messsageId PageSize:pageSize MaxID:-1];
 }
+
 ////////////////////////////////////////////////////////
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize MaxID:(long)maxId
 {
@@ -370,9 +392,14 @@
 }
 
 ////////////////////////////////////////////////////////
--(BOOL) registerByWeiBo:(NSString *)Name gender:(int)Gender description:(NSString *)Description areaID:(long)AreaID weiboID:(NSString *)WeiboID province:(NSString *)Province city:(NSString *)City country:(NSString *)Country headPic:(NSString *)HeadPic
+- (BOOL)userRegisterByApp:(NSString*)AppName name:(NSString *)Name gender:(int)Gender description:(NSString *)Description areaID:(long)AreaID registerKeyID:(NSString *)RegKeyID province:(NSString *)Province city:(NSString *)City country:(NSString *)Country headPic:(NSString *)HeadPic
 {
-    NSString* requestURL = [NSString stringWithFormat:@"%@/user/register", HOME_PAGE];
+    NSString* requestURL;
+    if ([AppName isEqual:@"sinaweibo"])
+        requestURL = [NSString stringWithFormat:@"%@/user/register", HOME_PAGE];
+    else
+        requestURL = [NSString stringWithFormat:@"%@/user/registerQQ", HOME_PAGE];
+    
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestURL]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
@@ -383,7 +410,12 @@
     [request setPostValue:Name forKey:@"name"];
     [request setPostValue:Description forKey:@"description"];
     [request setPostValue:[NSNumber numberWithLong:AreaID] forKey:@"areaID"];
-    [request setPostValue:WeiboID forKey:@"weiboID"];
+    if ([AppName isEqual:@"sinaweibo"]) {
+        [request setPostValue:RegKeyID forKey:@"weiboID"];
+    } else {
+        [request setPostValue:RegKeyID forKey:@"openID"];
+    }
+    
     if(Province != nil)
         [request setPostValue:Province forKey:@"province"];
     if(City != nil)
@@ -445,8 +477,8 @@
     [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
     [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
     
-    int proviceCode = [[userWBInfo valueForKey:@"province"] integerValue];
-    int cityCode    =  [[userWBInfo valueForKey:@"city"] integerValue];
+    int proviceCode = (int)[[userWBInfo valueForKey:@"province"] integerValue];
+    int cityCode    = (int)[[userWBInfo valueForKey:@"city"] integerValue];
     
     NSDictionary* provinceAndCity = [self decodeProvinceAndCity:proviceCode cityCode:cityCode];
     [UserConfig shareInstance].province = [provinceAndCity valueForKey:@"provinceName"];
@@ -463,7 +495,41 @@
     [[UserConfig shareInstance] save];
     NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 }
+////////////////////////////////////////////////////////
+-(void)getUserQQInfo:(NSString *)accessToken OpenID:(NSString *)openId
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"https://graph.qq.com/user/get_user_info?access_token=%@&oauth_consumer_key=101049592&openid=%@", accessToken, openId];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    
+    NSDictionary* userQQInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                               options:NSJSONReadingMutableContainers
+                                                                 error:nil];
+    
+    NSLog(@"userQQInfo = %@", userQQInfo);
+    
+    [UserConfig shareInstance].headPic   = [userQQInfo objectForKey:@"figureurl_qq_2"];
+    [UserConfig shareInstance].userName  = [userQQInfo objectForKey:@"nickname"];
+    [UserConfig shareInstance].signature = nil;
+    [UserConfig shareInstance].weiboID   = nil;
+    [UserConfig shareInstance].province  = @"上海市";
+    [UserConfig shareInstance].city      = @"上海市";
+    
+    NSString* gender = [userQQInfo objectForKey:@"gender"];
+    if ([gender isEqualToString:@"女"])
+        [UserConfig shareInstance].gender = kGirl; //女
+    else
+        [UserConfig shareInstance].gender = kBoy; //未知
+    
+    [[UserConfig shareInstance] save];
+    NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 
+}
 ////////////////////////////////////////////////////////
 -(NSDictionary*)decodeProvinceAndCity:(int)provinceCode cityCode:(int)CityCode
 {
@@ -486,7 +552,7 @@
             }
             NSArray* cities = [element valueForKey:@"citys"];
             for (NSDictionary* city in cities) {
-                int cityId = [[[city allKeys] objectAtIndex:0] integerValue];
+                int cityId = (int)[[[city allKeys] objectAtIndex:0] integerValue];
                 if (cityId == CityCode)
                 {
                     cityName = [city valueForKey:[NSString stringWithFormat:@"%d", CityCode]];
