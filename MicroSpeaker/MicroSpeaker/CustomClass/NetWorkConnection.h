@@ -55,7 +55,7 @@
 -(BOOL)checkUserQQ:(NSString*)openID;
 
 //用户注册
--(BOOL)userRegisterByApp:(NSString*)AppName name:(NSString*)Name gender:(int)Gender description:(NSString*)Description areaID:(long)AreaID registerKeyID:(NSString*)RegKeyID province:(NSString*)Province city:(NSString*)City country:(NSString*)Country headPic:(NSString*)HeadPic;
+-(BOOL)userRegister:(LogInMethod)Method name:(NSString*)Name gender:(int)Gender description:(NSString*)Description areaID:(long)AreaID registerKeyID:(NSString*)RegKeyID province:(NSString*)Province city:(NSString*)City country:(NSString*)Country headPic:(NSString*)HeadPic;
 
 
 //获取用户的微博信息并保存到UserConfig中

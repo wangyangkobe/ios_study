@@ -392,10 +392,11 @@
 }
 
 ////////////////////////////////////////////////////////
-- (BOOL)userRegisterByApp:(NSString*)AppName name:(NSString *)Name gender:(int)Gender description:(NSString *)Description areaID:(long)AreaID registerKeyID:(NSString *)RegKeyID province:(NSString *)Province city:(NSString *)City country:(NSString *)Country headPic:(NSString *)HeadPic
+- (BOOL)userRegister:(LogInMethod)Method name:(NSString *)Name gender:(int)Gender description:(NSString *)Description areaID:(long)AreaID registerKeyID:(NSString *)RegKeyID province:(NSString *)Province city:(NSString *)City country:(NSString *)Country headPic:(NSString *)HeadPic
 {
+    NSLog(@"Method = %d", Method);
     NSString* requestURL;
-    if ([AppName isEqual:@"sinaweibo"])
+    if (Method == kSinaWeiBoLogIn)
         requestURL = [NSString stringWithFormat:@"%@/user/register", HOME_PAGE];
     else
         requestURL = [NSString stringWithFormat:@"%@/user/registerQQ", HOME_PAGE];
@@ -410,9 +411,12 @@
     [request setPostValue:Name forKey:@"name"];
     [request setPostValue:Description forKey:@"description"];
     [request setPostValue:[NSNumber numberWithLong:AreaID] forKey:@"areaID"];
-    if ([AppName isEqual:@"sinaweibo"]) {
+    if (Method == kSinaWeiBoLogIn)
+    {
         [request setPostValue:RegKeyID forKey:@"weiboID"];
-    } else {
+    }
+    else
+    {
         [request setPostValue:RegKeyID forKey:@"openID"];
     }
     
@@ -427,13 +431,13 @@
     
     [request startSynchronous];
     
-    NSString* responseString = [request responseString];
-    NSLog(@"publis message result: %@", [request responseString]);
-    
-    if ([responseString rangeOfString:@"OK"].location == NSNotFound)
-        return NO;
-    else
-        return YES; //yes
+    NSError *error = [request error];
+    if (!error)
+    {
+         NSLog(@"publis message result: %@", [request responseString]);
+        return YES;
+    }
+    return NO;
 }
 
 ////////////////////////////////////////////////////////
@@ -475,7 +479,7 @@
     [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
     [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
     [UserConfig shareInstance].signature = [userWBInfo objectForKey:@"description"];
-    [UserConfig shareInstance].weiboID   = [userWBInfo objectForKey:@"id"];
+    [UserConfig shareInstance].registerKey   = [userWBInfo objectForKey:@"id"];
     
     int proviceCode = (int)[[userWBInfo valueForKey:@"province"] integerValue];
     int cityCode    = (int)[[userWBInfo valueForKey:@"city"] integerValue];
@@ -516,9 +520,9 @@
     [UserConfig shareInstance].headPic   = [userQQInfo objectForKey:@"figureurl_qq_2"];
     [UserConfig shareInstance].userName  = [userQQInfo objectForKey:@"nickname"];
     [UserConfig shareInstance].signature = nil;
-    [UserConfig shareInstance].weiboID   = nil;
     [UserConfig shareInstance].province  = @"上海市";
     [UserConfig shareInstance].city      = @"上海市";
+    [UserConfig shareInstance].registerKey = openId;
     
     NSString* gender = [userQQInfo objectForKey:@"gender"];
     if ([gender isEqualToString:@"女"])
