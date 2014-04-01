@@ -16,7 +16,7 @@
 #import "UserInfoModel.h"
 #define textViewDefaultHeight 44*2
 
-@interface PublishSaleViewController ()<StringInputTableViewCellDelegate, SimplePickerInputTableViewCellDelegate, HPGrowingTextViewDelegate, UIGestureRecognizerDelegate>
+@interface PublishSaleViewController ()<StringInputTableViewCellDelegate, SimplePickerInputTableViewCellDelegate, HPGrowingTextViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate>
 {
     NSArray* positonsArray;
     UIButton* loadImageButton;
@@ -70,10 +70,10 @@
 {
     [super viewDidLoad];
     positonsArray = [NSArray arrayWithObjects:
-                          [NSValue valueWithCGRect:CGRectMake(5,   10, 70, 70)],
-                          [NSValue valueWithCGRect:CGRectMake(80,  10, 70, 70)],
-                          [NSValue valueWithCGRect:CGRectMake(155, 10, 70, 70)],
-                          [NSValue valueWithCGRect:CGRectMake(230, 10, 70, 70)], nil];
+                     [NSValue valueWithCGRect:CGRectMake(5,   10, 70, 70)],
+                     [NSValue valueWithCGRect:CGRectMake(80,  10, 70, 70)],
+                     [NSValue valueWithCGRect:CGRectMake(155, 10, 70, 70)],
+                     [NSValue valueWithCGRect:CGRectMake(230, 10, 70, 70)], nil];
     
     self.title = @"转让物品";
     UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain
@@ -220,7 +220,7 @@
             [cell setValue:selectCommerceType];
         
         cell.delegate = self;
-
+        
         return cell;
     }
     else if(4 == row)
@@ -233,6 +233,7 @@
             priceTextField.textAlignment = NSTextAlignmentRight;
             priceTextField.keyboardType = UIKeyboardTypeNumberPad;
             [cell.contentView addSubview:priceTextField];
+            priceTextField.delegate = self;
             
             UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(280, 0, 40, 44)];
             [label setText:@"左右"];
@@ -299,9 +300,19 @@
     else
         return 44;
 }
+
+#pragma mark - UITextFieldDelegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (range.location >= 5)
+        return NO;
+    else
+        return YES;
+}
 -(void)loadPicture
 {
-    UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
+    UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                  delegate:self
                                                          cancelButtonTitle:@"Cancel"
                                                     destructiveButtonTitle:nil
                                                          otherButtonTitles:@"拍照", @"从手机相册选择", nil];
