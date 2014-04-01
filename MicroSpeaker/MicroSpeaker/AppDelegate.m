@@ -16,13 +16,14 @@
     // Override point for customization after application launch.
     
     [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kAppKey];
+    [WeiboSDK registerApp:kSinaAppKey];
     
     return YES;
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSLog(@"sourceApplication = %@", sourceApplication);
+    
     if ([sourceApplication isEqualToString:@"com.sina.weibo"])
         return [WeiboSDK handleOpenURL:url delegate:self];
     else  //com.tencent.mqq
@@ -63,6 +64,7 @@
     {
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userID = [(WBAuthorizeResponse*)response userID];
+        NSLog(@"userID = %@", userID);
         [[NetWorkConnection sharedInstance] getUserWeiBoInfo:self.wbtoken UserID:userID];
         
         NetWorkConnection* connect = [NetWorkConnection sharedInstance];
