@@ -79,8 +79,11 @@
     //    {
     //        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
     //    }
-    for (id entry in jsonArray) {
-        [result addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
+    for (id entry in jsonArray)
+    {
+        MessageModel* message = [[MessageModel alloc] initWithDictionary:entry error:nil];
+        if (message)
+            [result addObject:message];
     }
     return result;
 }
@@ -103,10 +106,11 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    NSLog(@"jsonArray = %@", jsonArray);
     for (id entry in jsonArray)
     {
-        [result addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
+        MessageModel* message = [[MessageModel alloc] initWithDictionary:entry error:nil];
+        if (message)
+            [result addObject:message];
     }
     return result;
 }
@@ -129,7 +133,9 @@
                                                            error:nil];
     for (id entry in [jsonArray reverseObjectEnumerator])
     {
-        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
+        MessageModel* message = [[MessageModel alloc] initWithDictionary:entry error:nil];
+        if (message)
+            [result insertObject:message atIndex:0];
     }
     return result;
 }
@@ -243,10 +249,12 @@
 {
     NSMutableArray* result = [NSMutableArray array];
     NSString* requestStr = nil;
-    if (maxId == -1) {
+    if (maxId == -1)
+    {
         requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld&num=%d", HOME_PAGE, messsageId, pageSize];
     }
-    else{
+    else
+    {
         requestStr = [NSString stringWithFormat:@"%@/comment/show?messageID=%ld&num=%d&maxID=%ld", HOME_PAGE, messsageId, pageSize, maxId];
     }
     
@@ -260,9 +268,11 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    for (id comment in jsonArray)
+    for (id element in jsonArray)
     {
-        [result addObject:[[CommentModel alloc] initWithDictionary:comment error:nil]];
+        CommentModel* comment = [[CommentModel alloc] initWithDictionary:element error:nil];
+        if (comment)
+            [result addObject:comment];
     }
     return result;
 }
@@ -355,9 +365,11 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    for (id commerceType in jsonArray)
+    for (id element in jsonArray)
     {
-        [result addObject:[[CommerceTypeModel alloc] initWithDictionary:commerceType error:nil]];
+        CommerceTypeModel* commerceType = [[CommerceTypeModel alloc] initWithDictionary:element error:nil];
+        if (commerceType)
+            [result addObject:commerceType];
     }
     return result;
 }
@@ -384,7 +396,8 @@
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
     NSMutableArray* result = [NSMutableArray array];
-    for (id message in jsonArray) {
+    for (id message in jsonArray)
+    {
         MessageModel* messageModel = [[MessageModel alloc] initWithDictionary:message error:nil];
         if (messageModel)
             [result addObject:messageModel];
