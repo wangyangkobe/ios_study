@@ -13,8 +13,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *signatureLabel;
-
 @property (weak, nonatomic) IBOutlet UIButton *selectAreaBtn;
+
 - (IBAction)selectAreaBtnPressed:(id)sender;
 
 - (IBAction)doRegisterBtn:(id)sender;

@@ -71,15 +71,15 @@
 - (IBAction)selectAreaBtnPressed:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                           initWithTitle: @"请选择社区"
-                           delegate:self
-                           cancelButtonTitle:@"Cancel"
-                           destructiveButtonTitle:nil
-                           otherButtonTitles:@"复旦大学,上海市", @"华东理工大学,上海市", nil];
+                                  initWithTitle: @"请选择社区"
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"复旦大学,上海市", @"华东理工大学,上海市", nil];
     
-//    for (NSString* areaName in areaNamesArray) {
-//        [actionSheet addButtonWithTitle:areaName];
-//    }
+    //    for (NSString* areaName in areaNamesArray) {
+    //        [actionSheet addButtonWithTitle:areaName];
+    //    }
     [actionSheet showInView:self.view];
 }
 
@@ -103,24 +103,26 @@
     NSString* headPic     = [UserConfig shareInstance].headPic;
     NSString* userName    = [UserConfig shareInstance].userName;
     NSString* description = [UserConfig shareInstance].signature;
-    NSString* regKeyID    = [UserConfig shareInstance].weiboID;
-    NSString* appName;
-    if (regKeyID) {
-        appName = @"sinaweibo";
-    }
-    else{
-        appName = @"tencentqq";
-        regKeyID = [UserConfig shareInstance].qqOpenID;
-    }
-
+    NSString* regKeyID    = [UserConfig shareInstance].registerKey;
+    
     NSString* province    = [UserConfig shareInstance].province;
     NSString* city        = [UserConfig shareInstance].city;
     int gender  = [UserConfig shareInstance].gender;
     long areaID = [UserConfig shareInstance].areaID;
-   
-    BOOL registerRes = [[NetWorkConnection sharedInstance] userRegisterByApp:appName name:userName gender:gender description:description areaID:areaID registerKeyID:regKeyID province:province city:city country:@"中国" headPic:headPic];
     
-    if (registerRes) {
+    BOOL registerRes = [[NetWorkConnection sharedInstance] userRegister:[UserConfig shareInstance].logInMethod
+                                                                   name:userName
+                                                                 gender:gender
+                                                            description:description
+                                                                 areaID:areaID
+                                                          registerKeyID:regKeyID
+                                                               province:province
+                                                                   city:city
+                                                                country:@"中国"
+                                                                headPic:headPic];
+    
+    if (registerRes)
+    {
         [[UserConfig shareInstance] setLogIn:YES];
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
         UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
