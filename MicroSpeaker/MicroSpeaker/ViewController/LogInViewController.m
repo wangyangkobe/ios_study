@@ -34,9 +34,8 @@
     UIGraphicsEndImageContext();
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:image];
     
-    
-    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"101049592" andDelegate:self];
-    _tencentOAuth.redirectURI = @"www.qq.com";
+    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
+    _tencentOAuth.redirectURI = kTencentQQRedirectURI;
     _permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
 }
 
@@ -49,13 +48,16 @@
 - (IBAction)sinaLogIn:(id)sender
 {
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = kRedirectURI;
+    request.redirectURI = kSinaRedirectURI;
     request.scope = @"all";
     request.userInfo = @{@"SSO_From": @"LogInViewController",
                          @"Other_Info_1": [NSNumber numberWithInt:123],
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
+    
+    [UserConfig shareInstance].logInMethod = kSinaWeiBoLogIn;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -65,13 +67,19 @@
 }
 - (void)tencentDidLogin
 {
-    if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length])
+    [UserConfig shareInstance].logInMethod = kTencentQQLogIn;
+    if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length]))
     {
         // 记录登录用户的OpenID、Token以及过期时间
-        NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken, _tencentOAuth.openId, _tencentOAuth.expirationDate);
+        NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken,
+              _tencentOAuth.openId,
+              _tencentOAuth.expirationDate);
+        
         [[NetWorkConnection sharedInstance] getUserQQInfo:_tencentOAuth.accessToken OpenID:_tencentOAuth.openId];
         
         BOOL checkUser = [[NetWorkConnection sharedInstance] checkUserQQ:_tencentOAuth.openId];
+        [UserConfig shareInstance].registerKey = _tencentOAuth.openId;
+        
         if (checkUser)
         {
             [[UserConfig shareInstance] setLogIn:YES];
@@ -95,7 +103,7 @@
     }
     else
     {
-        NSLog(@"登录不成功 没有获取accesstoken");
+        NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }
 }
 -(void)tencentDidNotLogin:(BOOL)cancelled
