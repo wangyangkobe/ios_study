@@ -28,16 +28,17 @@
         _headPic   = [userDefaults stringForKey:@"us_headPic"];
         _userName  = [userDefaults stringForKey:@"us_userName"];
         _signature = [userDefaults stringForKey:@"us_signature"];
-        _weiboID   = [userDefaults stringForKey:@"us_weiboID"];
-        _qqOpenID  = [userDefaults stringForKey:@"us_qqOpenID"];
+        _registerKey   = [userDefaults stringForKey:@"us_registerKey"];
         _province  = [userDefaults stringForKey:@"us_province"];
         _city      = [userDefaults stringForKey:@"us_city"];
         
         _gender = (int)[userDefaults integerForKey:@"us_gender"];
         _areaID = (int)[userDefaults integerForKey:@"us_areaId"];
         _logIn  = [userDefaults boolForKey:@"us_login"];
+        _logInMethod = [userDefaults integerForKey:@"us_logInMethod"];
         
-        if (_areaID == 0){
+        if (_areaID == 0)
+        {
             _areaID = kHuaLi;  //默认社区
         }
     }
@@ -49,15 +50,14 @@
         _headPic   = [aDecoder decodeObjectForKey:@"headPic"];
         _userName  = [aDecoder decodeObjectForKey:@"userName"];
         _signature = [aDecoder decodeObjectForKey:@"signature"];
-        _weiboID   = [aDecoder decodeObjectForKey:@"weiboID"];
-        _qqOpenID  = [aDecoder decodeObjectForKey:@"qqOpenID"];
+        _registerKey   = [aDecoder decodeObjectForKey:@"registerKey"];
         _province  = [aDecoder decodeObjectForKey:@"province"];
         _city      = [aDecoder decodeObjectForKey:@"city"];
         
-        _gender = [[aDecoder decodeObjectForKey:@"gender"] intValue];
-        _areaID = [[aDecoder decodeObjectForKey:@"areaId"] intValue];
+        _gender = [aDecoder decodeIntegerForKey:@"gender"];
+        _areaID = [aDecoder decodeIntegerForKey:@"areaId"] ;
         _logIn  = [aDecoder decodeBoolForKey:@"login"];
-
+        _logInMethod  = [aDecoder decodeIntegerForKey:@"logInMethod"];
     }
     return self;
 }
@@ -67,14 +67,14 @@
     [aCoder encodeObject:_headPic forKey:@"headPic"];
     [aCoder encodeObject:_userName forKey:@"userName"];
     [aCoder encodeObject:_signature forKey:@"signature"];
-    [aCoder encodeObject:_weiboID forKey:@"weiboID"];
-    [aCoder encodeObject:_qqOpenID forKey:@"qqOpenID"];
+    [aCoder encodeObject:_registerKey forKey:@"registerKey"];
     [aCoder encodeObject:_province forKey:@"province"];
     [aCoder encodeObject:_city forKey:@"city"];
     
-    [aCoder encodeObject:[NSNumber numberWithInt:_gender] forKey:@"gender"];
-    [aCoder encodeObject:[NSNumber numberWithInt:_areaID] forKey:@"areaId"];
+    [aCoder encodeInteger:_gender  forKey:@"gender"];
+    [aCoder encodeInteger:_areaID forKey:@"areaId"];
     [aCoder encodeBool:_logIn forKey:@"login"];
+    [aCoder encodeInteger:_logInMethod forKey:@"logInMethod"];
 }
 
 #pragma mark NSCopying
@@ -114,10 +114,11 @@
     [userDefaults setObject:_headPic   forKey:@"us_headPic"];
     [userDefaults setObject:_userName  forKey:@"us_userName"];
     [userDefaults setObject:_signature forKey:@"us_signature"];
-    [userDefaults setObject:_weiboID  forKey:@"us_weiboID"];
-    [userDefaults setObject:_qqOpenID  forKey:@"us_qqOpenID"];
+    [userDefaults setObject:_registerKey  forKey:@"us_registerKey"];
     [userDefaults setObject:_province forKey:@"us_province"];
     [userDefaults setObject:_city  forKey:@"us_city"];
+    
+    [userDefaults setInteger:_logInMethod forKey:@"us_logInMethod"];
     [userDefaults synchronize];
 }
 @end

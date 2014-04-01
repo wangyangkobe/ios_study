@@ -19,12 +19,12 @@
 @property(nonatomic, assign) int gender;        //性别
 @property(nonatomic, assign) int areaID;        //社区
 
-@property(nonatomic, copy) NSString* weiboID;
-@property(nonatomic, copy) NSString* qqOpenID;
+@property(nonatomic, copy) NSString* registerKey; //weiboID  or qqOpenID
+
 @property(nonatomic, assign, getter = isLogIn) BOOL logIn;
+@property(nonatomic, assign) LogInMethod logInMethod;
 
 + (instancetype)shareInstance;
-
 - (void)save;
 
 @end
