@@ -92,13 +92,17 @@
                 [defaults setObject:encodedObject forKey:SELF_USERINFO];
                 [defaults synchronize];
             });
+            
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:mainTableVC];
         }
         else
         {
             [[UserConfig shareInstance] setLogIn:NO];
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             RegisterViewController* registerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
-            [[UIApplication sharedApplication].keyWindow  setRootViewController:registerVC];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:registerVC];
         }
     }
     else
