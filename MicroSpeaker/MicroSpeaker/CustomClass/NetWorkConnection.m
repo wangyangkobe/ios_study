@@ -103,6 +103,7 @@
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
+    NSLog(@"jsonArray = %@", jsonArray);
     for (id entry in jsonArray)
     {
         [result addObject:[[MessageModel alloc] initWithDictionary:entry error:nil]];
@@ -220,7 +221,7 @@
     [request setProxyPort:8080];
 #endif
     [request setRequestMethod:@"POST"];
-    [request setPostValue:openID forKey:@"weiboID"];
+    [request setPostValue:openID forKey:@"openID"];
     [request startSynchronous];
     
     NSLog(@"check user result:%@", [request responseString]);
@@ -434,7 +435,7 @@
     NSError *error = [request error];
     if (!error)
     {
-         NSLog(@"publis message result: %@", [request responseString]);
+        NSLog(@"publish message result: %@", [request responseString]);
         return YES;
     }
     return NO;
@@ -532,7 +533,7 @@
     
     [[UserConfig shareInstance] save];
     NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
-
+    
 }
 ////////////////////////////////////////////////////////
 -(NSDictionary*)decodeProvinceAndCity:(int)provinceCode cityCode:(int)CityCode
