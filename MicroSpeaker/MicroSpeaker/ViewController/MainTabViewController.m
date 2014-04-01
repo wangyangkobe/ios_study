@@ -62,9 +62,9 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-//    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
-//    if (checkResut) {
-//    }
+    //    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
+    //    if (checkResut) {
+    //    }
 }
 
 - (void)viewDidLoad
@@ -314,6 +314,10 @@
     {
         messageLabel.text = [NSString stringWithFormat:@"%@;联系电话:%@", message.Text, message.Tel];
         UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 5, 70, 40)];
+        if ([message.Price length] > 5)
+        {
+            message.Price = [message.Price substringToIndex:5];
+        }
         priceLabel.text = [NSString stringWithFormat:@"%@元", message.Price];
         priceLabel.textAlignment = NSTextAlignmentCenter;
         priceLabel.textColor = [UIColor redColor];
