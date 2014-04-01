@@ -45,8 +45,12 @@ typedef enum
 } MessageType;
 
 //com.sina.weibo.SNWeiboSDKDemo
-#define kAppKey         @"504571936"
-#define kRedirectURI    @"https://api.weibo.com/oauth2/default.html"
+#define kSinaAppKey         @"504571936"
+#define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"
+
+//tencen qq
+#define kTencentQQAppKey        @"101049592"
+#define kTencentQQRedirectURI   @"www.qq.com"
 
 typedef enum
 {
@@ -55,8 +59,16 @@ typedef enum
     kUnKnown = 2,
 }Gender;
 
-typedef enum {
+typedef enum
+{
     kFuDan = 1,
     kHuaLi = 2,
 }AreaType;
+
+typedef enum
+{
+    kSinaWeiBoLogIn = 1,
+    kTencentQQLogIn = 2,
+}LogInMethod;
+
 #endif
