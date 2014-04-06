@@ -29,7 +29,7 @@
 #import "NSString+Emoji.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
-    UserInfoModel* selfUserInfo;
+    //   UserInfoModel* selfUserInfo;
     
     UISearchBar* _searchBar;
     UISearchDisplayController* searchDisplayController;
@@ -62,9 +62,20 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-    //    BOOL checkResut = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].weiboID];
-    //    if (checkResut) {
-    //    }
+//    LogInMethod logInMethod = [[UserConfig shareInstance] logInMethod];
+//    if (kSinaWeiBoLogIn == logInMethod) {
+//        [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].registerKey];
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+//            NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+//            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//            [defaults setObject:encodedObject forKey:SELF_USERINFO];
+//            [defaults synchronize];
+//        });
+//    }else{
+//        [[NetWorkConnection sharedInstance] checkUserQQ:[UserConfig shareInstance].registerKey];
+//    }
+    
 }
 
 - (void)viewDidLoad
@@ -475,7 +486,13 @@
                  menuItems:menuItems];
 }
 
--(void)showController:(id)sender{
+- (void)showController:(id)sender{
+    BOOL isLogIn = [UserConfig shareInstance].logIn;
+    if (isLogIn == NO) {
+        LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
+        return;
+    }
     KxMenuItem* menuItem = (KxMenuItem*)sender;
     if ([menuItem.title isEqualToString:@"大声说"]) {
         PublishMessageViewController* controller = [[PublishMessageViewController alloc] init];
@@ -496,7 +513,7 @@
 }
 
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
-- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSInteger)numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
     
     UITableView* currentTableView = (UITableView*)[cell superview];
@@ -513,7 +530,7 @@
     
     return [currentMessage.PhotoThumbnails count];
 }
-- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSURL*)imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
     // int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
     UITableView* currentTableView = (UITableView*)[cell superview];
@@ -534,23 +551,23 @@
 }
 
 #pragma mark - UISearchDispalyController delegate
--(BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
     NSLog(@"%s, %@", __FUNCTION__, searchString);
     searchContent = searchString;
     return YES;
 }
 
 #pragma mark - UISearchBar delegate methods
--(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
     searchTypeIndex = selectedScope;
     [searchBar becomeFirstResponder];
 }
 
--(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     self.pullTableView.tableHeaderView = nil;
 }
 
--(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [_searchBar resignFirstResponder];
     
     UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -571,7 +588,7 @@
         });
     });
 }
--(void) doSearch
+- (void)doSearch
 {
     if ([UserConfig shareInstance].isLogIn == NO)
     {
