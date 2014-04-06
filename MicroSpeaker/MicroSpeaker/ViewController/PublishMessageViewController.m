@@ -120,7 +120,11 @@ static LocationHelper* locationHelper;
 
 -(void)cancelPublishMessage
 {
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"是否保存消息?" message:nil delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"是否保存消息?"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"否"
+                                              otherButtonTitles:@"是", nil];
     [alertView show];
 }
 -(void)publishMessage
