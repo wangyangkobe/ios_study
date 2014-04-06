@@ -64,7 +64,7 @@
     {
         self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userID = [(WBAuthorizeResponse*)response userID];
-        NSLog(@"userID = %@", userID);
+        NSLog(@"sinaWeibo userID = %@", userID);
         [[NetWorkConnection sharedInstance] getUserWeiBoInfo:self.wbtoken UserID:userID];
         
         NetWorkConnection* connect = [NetWorkConnection sharedInstance];
@@ -77,6 +77,7 @@
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+                NSLog(@"selfUserInfo Data = %@", selfUserInfo);
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:encodedObject forKey:SELF_USERINFO];
                 [defaults synchronize];
