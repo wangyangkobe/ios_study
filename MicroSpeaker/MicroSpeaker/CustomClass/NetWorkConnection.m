@@ -51,12 +51,19 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setUseCookiePersistence: YES];
     [request startSynchronous];
     
-    NSDictionary* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                              options:NSJSONReadingMutableContainers
-                                                                error:nil];
-    return [[UserInfoModel alloc] initWithDictionary:jsonArray error:nil];
+    NSLog(@"requset cookoies = %@, selfUserInfo = %@, cookies = %@", [request requestCookies], [request responseString], [request responseCookies]);
+    
+    NSError* error;
+    UserInfoModel* selfUserInfo = [[UserInfoModel alloc] initWithString:[request responseString] error:&error];
+    if (error != nil) {
+        NSLog(@"showSelfUserInfo Error = %@", [error localizedDescription]);
+    }
+    
+    NSLog(@"selfUserInfo = %@", [selfUserInfo description]);
+    return selfUserInfo;
 }
 ////////////////////////////////////////////////////////
 -(NSArray*)getMessageByAreaID:(long)areaId sinceID:(long)sinceId
@@ -207,6 +214,7 @@
 #endif
     [request setRequestMethod:@"POST"];
     [request setPostValue:weiboID forKey:@"weiboID"];
+    [request setUseCookiePersistence: YES];
     [request startSynchronous];
     
     NSLog(@"check user result:%@", [request responseString]);
@@ -228,6 +236,7 @@
 #endif
     [request setRequestMethod:@"POST"];
     [request setPostValue:openID forKey:@"openID"];
+    [request setUseCookiePersistence: YES];
     [request startSynchronous];
     
     NSLog(@"check user result:%@", [request responseString]);
@@ -423,6 +432,7 @@
     [request setRequestMethod:@"POST"];
     
     [request setPostValue:Name forKey:@"name"];
+    [request setPostValue:[NSNumber numberWithInt:Gender] forKey:@"gender"];
     [request setPostValue:Description forKey:@"description"];
     [request setPostValue:[NSNumber numberWithLong:AreaID] forKey:@"areaID"];
     if (Method == kSinaWeiBoLogIn)
