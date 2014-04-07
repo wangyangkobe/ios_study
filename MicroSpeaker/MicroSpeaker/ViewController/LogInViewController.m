@@ -83,8 +83,7 @@
         if (checkUser)
         {
             [[UserConfig shareInstance] setLogIn:YES];
-            NSLog(@"user login successfully from QQ!");
-            
+            NSLog(@"User login successfully from QQ!, UserConfig = %@", [[UserConfig shareInstance] description]);
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
