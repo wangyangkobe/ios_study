@@ -39,6 +39,7 @@
     [super viewWillAppear:animated];
     
     UserConfig* userConfig = [UserConfig shareInstance];
+    NSLog(@"user = %@", [userConfig description]);
     if ([userConfig isLogIn] == NO) {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
       //[self presentViewController:loginVC animated:YES completion:nil];
