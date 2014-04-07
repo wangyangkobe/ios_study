@@ -24,7 +24,8 @@
 
 @implementation PublishMessageViewController
 
-static LocationHelper* locationHelper;
+//static LocationHelper* locationHelper;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -44,16 +45,16 @@ static LocationHelper* locationHelper;
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    [locationHelper start];
+    //  [locationHelper start];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [locationHelper stop];
+    //   [locationHelper stop];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    locationHelper = [LocationHelper sharedInstance];
+    //   locationHelper = [LocationHelper sharedInstance];
     
     textViewDefaultHeight = SCREEN_HEIGHT / 3;
     localImagesPath = [[NSMutableArray alloc] init];
@@ -131,8 +132,8 @@ static LocationHelper* locationHelper;
 {
     NSLog(@"local images path:%@", [localImagesPath description]);
     [textView resignFirstResponder];
-    latitude = locationHelper.currentLocation.coordinate.latitude;
-    longitude = locationHelper.currentLocation.coordinate.longitude;
+    latitude  = 0.0;//locationHelper.currentLocation.coordinate.latitude;
+    longitude = 0.0;//locationHelper.currentLocation.coordinate.longitude;
     
     if (upLoadedImageNum < [localImagesPath count])
     {
@@ -146,7 +147,7 @@ static LocationHelper* locationHelper;
     {
         [self sendMessageToServer];
     }
-
+    
 }
 
 #pragma mark - UIGestureRecognizerDelegate method
@@ -489,7 +490,24 @@ static LocationHelper* locationHelper;
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     NSLog(@"%@", [[textView text] stringByReplacingEmojiUnicodeWithCheatCodes]);
-    [[NetWorkConnection sharedInstance] publishMessage:1 fromTime:nil toTime:nil theme:nil activityAddress:nil tel:nil price:nil commerceType:nil text:[[textView text] stringByReplacingEmojiUnicodeWithCheatCodes] areaID:areaID lat:0 long:0 address:@"淞虹路" locationDescription:@"天山西路" city:selfUserInfo.City province:selfUserInfo.Province country:nil url:jsonString pushNum:50];
+    [[NetWorkConnection sharedInstance] publishMessage:1
+                                              fromTime:nil
+                                                toTime:nil
+                                                 theme:nil
+                                       activityAddress:nil
+                                                   tel:nil
+                                                 price:nil
+                                          commerceType:nil
+                                                  text:[[textView text] stringByReplacingEmojiUnicodeWithCheatCodes]
+                                                areaID:areaID
+                                                   lat:0 long:0
+                                               address:@"淞虹路"
+                                   locationDescription:@"天山西路"
+                                                  city:selfUserInfo.City
+                                              province:selfUserInfo.Province
+                                               country:nil
+                                                   url:jsonString
+                                               pushNum:50];
     
     [activityIndicator stopAnimating];
     [self.navigationController popViewControllerAnimated:YES];
