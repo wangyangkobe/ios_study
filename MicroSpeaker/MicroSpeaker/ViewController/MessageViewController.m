@@ -8,7 +8,7 @@
 
 #import "MessageViewController.h"
 #import "DAPagesContainer.h"
-
+#import "PrivateMessageViewController.h"
 @interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray* letterContacts;
@@ -28,7 +28,19 @@
     }
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UserConfig* userConfig = [UserConfig shareInstance];
+    NSLog(@"user = %@", [userConfig description]);
+    if ([userConfig isLogIn] == NO)
+    {
+        LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
+        return;
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,7 +63,6 @@
     self.pagesContainer.topBarBackgroundColor = [UIColor lightGrayColor];
     self.pagesContainer.topBarHeight =  30;
     self.pagesContainer.viewControllers = @[privateMessageVC];
-    
     
     letterContacts = [[[NetWorkConnection sharedInstance] getLetterContacts] mutableCopy];
 }
@@ -119,5 +130,18 @@
     UILabel* time = (UILabel*)[cell.contentView viewWithTag:8003];
     [time setText:element.Letter.CreateAt];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+    PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
+    
+    LetterModel* selectedLetter = (LetterModel*)[letterContacts objectAtIndex:indexPath.row];
+    privateMessageVC.selectedLetter = selectedLetter;
+    
+    [privateMessageVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 @end
