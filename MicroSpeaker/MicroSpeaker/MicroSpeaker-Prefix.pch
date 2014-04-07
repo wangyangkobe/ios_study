@@ -17,4 +17,5 @@
 #import "NetWorkConnection.h"
 #import "UserConfig.h"
 #import <TencentOpenAPI/TencentOAuth.h>
+#import "SDWebImage/UIImageView+WebCache.h"
 #endif

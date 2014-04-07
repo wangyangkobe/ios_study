@@ -62,19 +62,23 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
+    BOOL checkRes;
     LogInMethod logInMethod = [[UserConfig shareInstance] logInMethod];
     if (kSinaWeiBoLogIn == logInMethod)
-        [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].registerKey];
+        checkRes = [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].registerKey];
     else
-        [[NetWorkConnection sharedInstance] checkUserQQ:[UserConfig shareInstance].registerKey];
+        checkRes =  [[NetWorkConnection sharedInstance] checkUserQQ:[UserConfig shareInstance].registerKey];
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
-        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:encodedObject forKey:SELF_USERINFO];
-        [defaults synchronize];
-    });
+    if (checkRes)
+    {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+            NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:encodedObject forKey:SELF_USERINFO];
+            [defaults synchronize];
+        });
+    }
 }
 
 - (void)viewDidLoad

@@ -74,14 +74,14 @@
             
             NSLog(@"user login successfully from sina weibo!");
             
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+         //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
-                NSLog(@"selfUserInfo Data = %@", selfUserInfo);
+              //  NSLog(@"selfUserInfo Data = %@", selfUserInfo);
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:encodedObject forKey:SELF_USERINFO];
                 [defaults synchronize];
-            });
+         //   });
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
