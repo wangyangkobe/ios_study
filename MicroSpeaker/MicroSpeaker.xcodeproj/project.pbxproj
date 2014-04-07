@@ -9,6 +9,22 @@
 /* Begin PBXBuildFile section */
 		15018DDE186E838000DC8A51 /* PublishActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15018DDD186E838000DC8A51 /* PublishActivityViewController.m */; };
 		15042C5918F2343A002CA2CA /* LetterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C5818F2343A002CA2CA /* LetterModel.m */; };
+		15042C5C18F26AA9002CA2CA /* PrivateMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C5B18F26AA9002CA2CA /* PrivateMessageViewController.m */; };
+		15042C7518F2923D002CA2CA /* bubbleMine.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C5F18F2923D002CA2CA /* bubbleMine.png */; };
+		15042C7618F2923D002CA2CA /* bubbleMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6018F2923D002CA2CA /* bubbleMine@2x.png */; };
+		15042C7718F2923D002CA2CA /* bubbleSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6118F2923D002CA2CA /* bubbleSomeone.png */; };
+		15042C7818F2923D002CA2CA /* bubbleSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6218F2923D002CA2CA /* bubbleSomeone@2x.png */; };
+		15042C7918F2923D002CA2CA /* missingAvatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6318F2923D002CA2CA /* missingAvatar.png */; };
+		15042C7A18F2923D002CA2CA /* missingAvatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6418F2923D002CA2CA /* missingAvatar@2x.png */; };
+		15042C7B18F2923D002CA2CA /* typingMine.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6518F2923D002CA2CA /* typingMine.png */; };
+		15042C7C18F2923D002CA2CA /* typingMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6618F2923D002CA2CA /* typingMine@2x.png */; };
+		15042C7D18F2923D002CA2CA /* typingSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6718F2923D002CA2CA /* typingSomeone.png */; };
+		15042C7E18F2923D002CA2CA /* typingSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15042C6818F2923D002CA2CA /* typingSomeone@2x.png */; };
+		15042C7F18F2923D002CA2CA /* NSBubbleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C6B18F2923D002CA2CA /* NSBubbleData.m */; };
+		15042C8018F2923D002CA2CA /* UIBubbleHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C6D18F2923D002CA2CA /* UIBubbleHeaderTableViewCell.m */; };
+		15042C8118F2923D002CA2CA /* UIBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C6F18F2923D002CA2CA /* UIBubbleTableView.m */; };
+		15042C8218F2923D002CA2CA /* UIBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C7118F2923D002CA2CA /* UIBubbleTableViewCell.m */; };
+		15042C8318F2923D002CA2CA /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C7418F2923D002CA2CA /* UIBubbleTypingTableViewCell.m */; };
 		1505C4E81863277F00AB7457 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E41863277F00AB7457 /* checked.png */; };
 		1505C4E91863277F00AB7457 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E51863277F00AB7457 /* checked@2x.png */; };
 		1505C4EA1863277F00AB7457 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E61863277F00AB7457 /* unchecked.png */; };
@@ -185,6 +201,29 @@
 		15018DDD186E838000DC8A51 /* PublishActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishActivityViewController.m; sourceTree = "<group>"; };
 		15042C5718F2343A002CA2CA /* LetterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetterModel.h; sourceTree = "<group>"; };
 		15042C5818F2343A002CA2CA /* LetterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetterModel.m; sourceTree = "<group>"; };
+		15042C5A18F26AA9002CA2CA /* PrivateMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageViewController.h; sourceTree = "<group>"; };
+		15042C5B18F26AA9002CA2CA /* PrivateMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageViewController.m; sourceTree = "<group>"; };
+		15042C5F18F2923D002CA2CA /* bubbleMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleMine.png; sourceTree = "<group>"; };
+		15042C6018F2923D002CA2CA /* bubbleMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleMine@2x.png"; sourceTree = "<group>"; };
+		15042C6118F2923D002CA2CA /* bubbleSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSomeone.png; sourceTree = "<group>"; };
+		15042C6218F2923D002CA2CA /* bubbleSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleSomeone@2x.png"; sourceTree = "<group>"; };
+		15042C6318F2923D002CA2CA /* missingAvatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missingAvatar.png; sourceTree = "<group>"; };
+		15042C6418F2923D002CA2CA /* missingAvatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missingAvatar@2x.png"; sourceTree = "<group>"; };
+		15042C6518F2923D002CA2CA /* typingMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingMine.png; sourceTree = "<group>"; };
+		15042C6618F2923D002CA2CA /* typingMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingMine@2x.png"; sourceTree = "<group>"; };
+		15042C6718F2923D002CA2CA /* typingSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingSomeone.png; sourceTree = "<group>"; };
+		15042C6818F2923D002CA2CA /* typingSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingSomeone@2x.png"; sourceTree = "<group>"; };
+		15042C6A18F2923D002CA2CA /* NSBubbleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBubbleData.h; sourceTree = "<group>"; };
+		15042C6B18F2923D002CA2CA /* NSBubbleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBubbleData.m; sourceTree = "<group>"; };
+		15042C6C18F2923D002CA2CA /* UIBubbleHeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleHeaderTableViewCell.h; sourceTree = "<group>"; };
+		15042C6D18F2923D002CA2CA /* UIBubbleHeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleHeaderTableViewCell.m; sourceTree = "<group>"; };
+		15042C6E18F2923D002CA2CA /* UIBubbleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableView.h; sourceTree = "<group>"; };
+		15042C6F18F2923D002CA2CA /* UIBubbleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableView.m; sourceTree = "<group>"; };
+		15042C7018F2923D002CA2CA /* UIBubbleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewCell.h; sourceTree = "<group>"; };
+		15042C7118F2923D002CA2CA /* UIBubbleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableViewCell.m; sourceTree = "<group>"; };
+		15042C7218F2923D002CA2CA /* UIBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewDataSource.h; sourceTree = "<group>"; };
+		15042C7318F2923D002CA2CA /* UIBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
+		15042C7418F2923D002CA2CA /* UIBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
 		1505C4E41863277F00AB7457 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
 		1505C4E51863277F00AB7457 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		1505C4E61863277F00AB7457 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
@@ -461,6 +500,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15042C5D18F2923D002CA2CA /* UIBubbleTableView */ = {
+			isa = PBXGroup;
+			children = (
+				15042C5E18F2923D002CA2CA /* images */,
+				15042C6918F2923D002CA2CA /* src */,
+			);
+			path = UIBubbleTableView;
+			sourceTree = "<group>";
+		};
+		15042C5E18F2923D002CA2CA /* images */ = {
+			isa = PBXGroup;
+			children = (
+				15042C5F18F2923D002CA2CA /* bubbleMine.png */,
+				15042C6018F2923D002CA2CA /* bubbleMine@2x.png */,
+				15042C6118F2923D002CA2CA /* bubbleSomeone.png */,
+				15042C6218F2923D002CA2CA /* bubbleSomeone@2x.png */,
+				15042C6318F2923D002CA2CA /* missingAvatar.png */,
+				15042C6418F2923D002CA2CA /* missingAvatar@2x.png */,
+				15042C6518F2923D002CA2CA /* typingMine.png */,
+				15042C6618F2923D002CA2CA /* typingMine@2x.png */,
+				15042C6718F2923D002CA2CA /* typingSomeone.png */,
+				15042C6818F2923D002CA2CA /* typingSomeone@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		15042C6918F2923D002CA2CA /* src */ = {
+			isa = PBXGroup;
+			children = (
+				15042C6A18F2923D002CA2CA /* NSBubbleData.h */,
+				15042C6B18F2923D002CA2CA /* NSBubbleData.m */,
+				15042C6C18F2923D002CA2CA /* UIBubbleHeaderTableViewCell.h */,
+				15042C6D18F2923D002CA2CA /* UIBubbleHeaderTableViewCell.m */,
+				15042C6E18F2923D002CA2CA /* UIBubbleTableView.h */,
+				15042C6F18F2923D002CA2CA /* UIBubbleTableView.m */,
+				15042C7018F2923D002CA2CA /* UIBubbleTableViewCell.h */,
+				15042C7118F2923D002CA2CA /* UIBubbleTableViewCell.m */,
+				15042C7218F2923D002CA2CA /* UIBubbleTableViewDataSource.h */,
+				15042C7318F2923D002CA2CA /* UIBubbleTypingTableViewCell.h */,
+				15042C7418F2923D002CA2CA /* UIBubbleTypingTableViewCell.m */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		150E34F518BF7A5A00DFEA1C /* EGOTableViewPullRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +678,7 @@
 		15F0950A18464F1A004F3DAD /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				15042C5D18F2923D002CA2CA /* UIBubbleTableView */,
 				150E34F518BF7A5A00DFEA1C /* EGOTableViewPullRefresh */,
 				1556605718704AA40037146E /* MHFBImageViewController */,
 				15FF0F5318648E800086D559 /* HPGrowingTextView */,
@@ -793,6 +877,8 @@
 				155AEBF418C0CEC400256FBF /* PersonalSettingViewController.m */,
 				155AEBF618C0D29C00256FBF /* LogInViewController.h */,
 				155AEBF718C0D29C00256FBF /* LogInViewController.m */,
+				15042C5A18F26AA9002CA2CA /* PrivateMessageViewController.h */,
+				15042C5B18F26AA9002CA2CA /* PrivateMessageViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -966,6 +1052,7 @@
 				15FA7521185737BE00C788A3 /* face@2x.png in Resources */,
 				15FC29971855F37F00731A50 /* backspace_n.png in Resources */,
 				15FC299B1855F37F00731A50 /* bell_s.png in Resources */,
+				15042C7B18F2923D002CA2CA /* typingMine.png in Resources */,
 				15FA7524185737C800C788A3 /* text.png in Resources */,
 				150A3F6A187D6A6200AA74D6 /* copy_phone_num.png in Resources */,
 				150E350D18BF7A5A00DFEA1C /* blackArrow@2x.png in Resources */,
@@ -984,6 +1071,7 @@
 				15FC29AA1855F37F00731A50 /* face_n@2x.png in Resources */,
 				15FC29B41855F37F00731A50 /* recent_n@2x.png in Resources */,
 				1555CF52187C2D18008E2CF9 /* comment.png in Resources */,
+				15042C7518F2923D002CA2CA /* bubbleMine.png in Resources */,
 				1505C4EB1863277F00AB7457 /* unchecked@2x.png in Resources */,
 				150E350E18BF7A5A00DFEA1C /* blueArrow.png in Resources */,
 				15FC29AE1855F37F00731A50 /* flower_n@2x.png in Resources */,
@@ -995,6 +1083,7 @@
 				1545CF3118EAE2B300AC5296 /* icon.png in Resources */,
 				15FC29A91855F37F00731A50 /* face_n.png in Resources */,
 				15FC296E1855EC8A00731A50 /* EmojisList.plist in Resources */,
+				15042C7E18F2923D002CA2CA /* typingSomeone@2x.png in Resources */,
 				150A3F65187D67B200AA74D6 /* vad_icon_location.png in Resources */,
 				15FC29B71855F37F00731A50 /* tab_bg.png in Resources */,
 				15FC29B21855F37F00731A50 /* icons_bg_separator@2x.png in Resources */,
@@ -1004,6 +1093,7 @@
 				150E351018BF7A5A00DFEA1C /* grayArrow.png in Resources */,
 				1505C4EA1863277F00AB7457 /* unchecked.png in Resources */,
 				15FC29A41855F37F00731A50 /* characters_s@2x.png in Resources */,
+				15042C7918F2923D002CA2CA /* missingAvatar.png in Resources */,
 				1545CF3318EAE2C800AC5296 /* icon@2x.png in Resources */,
 				15FC29AB1855F37F00731A50 /* face_s.png in Resources */,
 				15FC29A61855F37F00731A50 /* corner_left@2x.png in Resources */,
@@ -1019,11 +1109,14 @@
 				1508C3A8185F251600AB6AE7 /* loadImage@2x.png in Resources */,
 				15FC299E1855F37F00731A50 /* car_n@2x.png in Resources */,
 				15FC29AC1855F37F00731A50 /* face_s@2x.png in Resources */,
+				15042C7818F2923D002CA2CA /* bubbleSomeone@2x.png in Resources */,
+				15042C7C18F2923D002CA2CA /* typingMine@2x.png in Resources */,
 				15FC29AF1855F37F00731A50 /* flower_s.png in Resources */,
 				154B17FF182E1E7A00750C71 /* placeholder@2x.png in Resources */,
 				150E350F18BF7A5A00DFEA1C /* blueArrow@2x.png in Resources */,
 				15FC29AD1855F37F00731A50 /* flower_n.png in Resources */,
 				155AEBFE18C0D4D500256FBF /* WeiboSDK.bundle in Resources */,
+				15042C7D18F2923D002CA2CA /* typingSomeone.png in Resources */,
 				15FF0F8318649E160086D559 /* photo-gallery-left.png in Resources */,
 				150A3F68187D684B00AA74D6 /* icon_sms.png in Resources */,
 				15FF0F851864C1D40086D559 /* photo-gallery-trashcan.png in Resources */,
@@ -1033,9 +1126,12 @@
 				15AD56461841F8E6007CF595 /* group_list_location_src.png in Resources */,
 				15FC299D1855F37F00731A50 /* car_n.png in Resources */,
 				1505C4E81863277F00AB7457 /* checked.png in Resources */,
+				15042C7718F2923D002CA2CA /* bubbleSomeone.png in Resources */,
+				15042C7618F2923D002CA2CA /* bubbleMine@2x.png in Resources */,
 				15FC29B01855F37F00731A50 /* flower_s@2x.png in Resources */,
 				15FC29BA1855F37F00731A50 /* unselected_center_bg@2x.png in Resources */,
 				15FC29B61855F37F00731A50 /* recent_s@2x.png in Resources */,
+				15042C7A18F2923D002CA2CA /* missingAvatar@2x.png in Resources */,
 				150E351118BF7A5A00DFEA1C /* grayArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1080,6 +1176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15042C8218F2923D002CA2CA /* UIBubbleTableViewCell.m in Sources */,
 				1531E2C1186EB70000541A0B /* PickerInputTableViewCell.m in Sources */,
 				150E351618BF7B1300DFEA1C /* MainTabViewController.m in Sources */,
 				15FF0F5818648E800086D559 /* HPGrowingTextView.m in Sources */,
@@ -1090,11 +1187,14 @@
 				151C94BA18659FE8003634B1 /* QiniuPutPolicy.m in Sources */,
 				156034DF1848DE0100C237B0 /* AppDelegate.m in Sources */,
 				15FF0F5918648E800086D559 /* HPTextViewInternal.m in Sources */,
+				15042C5C18F26AA9002CA2CA /* PrivateMessageViewController.m in Sources */,
 				150E350818BF7A5A00DFEA1C /* EGORefreshTableHeaderView.m in Sources */,
 				1509FEED18780D0A00F27A3C /* SaleDetailViewController.m in Sources */,
 				156034DA1848DC7A00C237B0 /* AreaModel.m in Sources */,
 				15DE498D185C8B6800754EAC /* UserInfoModel.m in Sources */,
+				15042C8318F2923D002CA2CA /* UIBubbleTypingTableViewCell.m in Sources */,
 				15FF0F7B186490D70086D559 /* ActivityDetailViewController.m in Sources */,
+				15042C7F18F2923D002CA2CA /* NSBubbleData.m in Sources */,
 				1539042B18759EDF00F8FB6D /* CommerceTypeModel.m in Sources */,
 				15FF0F7F186490D70086D559 /* SpeakerDetailViewController.m in Sources */,
 				151C945D186596C1003634B1 /* GTMBase64.m in Sources */,
@@ -1127,8 +1227,10 @@
 				15FC296B1855EC6B00731A50 /* EmojiKeyBoardView.m in Sources */,
 				15F691B2184C3F2C009986CD /* ASIHTTPRequest.m in Sources */,
 				15375BAA18CAD97B004E9898 /* UserConfig.m in Sources */,
+				15042C8118F2923D002CA2CA /* UIBubbleTableView.m in Sources */,
 				15FC296C1855EC6B00731A50 /* EmojiPageView.m in Sources */,
 				156034CC1848DC1100C237B0 /* UserModel.m in Sources */,
+				15042C8018F2923D002CA2CA /* UIBubbleHeaderTableViewCell.m in Sources */,
 				151C9463186596C1003634B1 /* QiniuUtils.m in Sources */,
 				15F691AF184C3F2C009986CD /* ASIDataDecompressor.m in Sources */,
 				156034CB1848DC0E00C237B0 /* MessageModel.m in Sources */,
