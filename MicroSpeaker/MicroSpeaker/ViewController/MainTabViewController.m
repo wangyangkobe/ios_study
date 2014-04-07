@@ -51,7 +51,7 @@
     [super viewWillAppear:animated];
 }
 
--(NSString*) dataFilePath
+- (NSString*)dataFilePath
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths lastObject];
@@ -62,20 +62,19 @@
     [super loadView];
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
     
-//    LogInMethod logInMethod = [[UserConfig shareInstance] logInMethod];
-//    if (kSinaWeiBoLogIn == logInMethod) {
-//        [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].registerKey];
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
-//            NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
-//            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//            [defaults setObject:encodedObject forKey:SELF_USERINFO];
-//            [defaults synchronize];
-//        });
-//    }else{
-//        [[NetWorkConnection sharedInstance] checkUserQQ:[UserConfig shareInstance].registerKey];
-//    }
+    LogInMethod logInMethod = [[UserConfig shareInstance] logInMethod];
+    if (kSinaWeiBoLogIn == logInMethod)
+        [[NetWorkConnection sharedInstance] checkUser:[UserConfig shareInstance].registerKey];
+    else
+        [[NetWorkConnection sharedInstance] checkUserQQ:[UserConfig shareInstance].registerKey];
     
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
+        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:encodedObject forKey:SELF_USERINFO];
+        [defaults synchronize];
+    });
 }
 
 - (void)viewDidLoad
