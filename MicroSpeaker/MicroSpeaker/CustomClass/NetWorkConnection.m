@@ -62,7 +62,7 @@
         NSLog(@"showSelfUserInfo Error = %@", [error localizedDescription]);
     }
     
-    NSLog(@"selfUserInfo = %@", [selfUserInfo description]);
+ //  NSLog(@"selfUserInfo = %@", [selfUserInfo description]);
     return selfUserInfo;
 }
 ////////////////////////////////////////////////////////
@@ -615,6 +615,41 @@
             NSLog(@"getLetterContacts error = %@", [error localizedDescription]);
     }
     return result;
-
 }
+////////////////////////////////////////////////////////
+-(NSArray*)getLetterBetweenTwo:(long)userID sinceID:(long)SinceID maxID:(long)MaxID num:(int)Num page:(int)Page
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/letter/betweenTwo?userID=%ld", HOME_PAGE, userID];
+    if (SinceID != -1) {
+        requestUrl = [requestUrl stringByAppendingFormat:@"&sinceID=%ld", SinceID];
+    }
+    if (MaxID != -1) {
+        requestUrl = [requestUrl stringByAppendingFormat:@"&maxID=%ld", MaxID];
+    }
+    requestUrl = [requestUrl stringByAppendingFormat:@"&num=%d&page=%d", Num, Page];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    NSLog(@"%s, url = %@\n result = %@", __FUNCTION__, requestUrl, [request responseString]);
+    
+    NSMutableArray* result = [NSMutableArray array];
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    NSError* error;
+    for (id element in jsonArray)
+    {
+        Letter* letter = [[Letter alloc] initWithDictionary:element error:&error];
+        if (letter)
+            [result addObject:letter];
+        else
+            NSLog(@"getLetterBetweenTwo error = %@", [error localizedDescription]);
+    }
+    return result;
+}
+
 @end

@@ -69,5 +69,8 @@
 
 //获得私信人列表
 -(NSArray*)getLetterContacts;
+//获得两人间的私信列表
+//default value: SinceID = -1 MaxID = -1 Num = 3 Page = 1
+-(NSArray*)getLetterBetweenTwo:(long)userID sinceID:(long)SinceID maxID:(long)MaxID num:(int)Num page:(int)Page;
 
 @end
