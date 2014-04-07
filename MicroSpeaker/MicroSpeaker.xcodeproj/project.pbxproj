@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15018DDE186E838000DC8A51 /* PublishActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15018DDD186E838000DC8A51 /* PublishActivityViewController.m */; };
+		15042C5918F2343A002CA2CA /* LetterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15042C5818F2343A002CA2CA /* LetterModel.m */; };
 		1505C4E81863277F00AB7457 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E41863277F00AB7457 /* checked.png */; };
 		1505C4E91863277F00AB7457 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E51863277F00AB7457 /* checked@2x.png */; };
 		1505C4EA1863277F00AB7457 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505C4E61863277F00AB7457 /* unchecked.png */; };
@@ -44,6 +45,7 @@
 		151E84BA18DED0D8007038DB /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 151E84B918DED0D8007038DB /* RegisterViewController.m */; };
 		1527818E18C8BE010042DFA2 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527818D18C8BE010042DFA2 /* login.png */; };
 		152D83221852030400FE7FCE /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152D83211852030400FE7FCE /* CommentModel.m */; };
+		152F03EC18F1A17B00C68F3F /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152F03EB18F1A17B00C68F3F /* MessageViewController.m */; };
 		1531E2B8186E8EF100541A0B /* StringInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2B7186E8EF100541A0B /* StringInputTableViewCell.m */; };
 		1531E2BB186E923700541A0B /* DateInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2BA186E923700541A0B /* DateInputTableViewCell.m */; };
 		1531E2C1186EB70000541A0B /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1531E2C0186EB70000541A0B /* PickerInputTableViewCell.m */; };
@@ -181,6 +183,8 @@
 		0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		15018DDC186E838000DC8A51 /* PublishActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishActivityViewController.h; sourceTree = "<group>"; };
 		15018DDD186E838000DC8A51 /* PublishActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishActivityViewController.m; sourceTree = "<group>"; };
+		15042C5718F2343A002CA2CA /* LetterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetterModel.h; sourceTree = "<group>"; };
+		15042C5818F2343A002CA2CA /* LetterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetterModel.m; sourceTree = "<group>"; };
 		1505C4E41863277F00AB7457 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
 		1505C4E51863277F00AB7457 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		1505C4E61863277F00AB7457 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 		1527818D18C8BE010042DFA2 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login.png; sourceTree = "<group>"; };
 		152D83201852030400FE7FCE /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		152D83211852030400FE7FCE /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		152F03EA18F1A17B00C68F3F /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		152F03EB18F1A17B00C68F3F /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		1531E2B6186E8EF100541A0B /* StringInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringInputTableViewCell.h; sourceTree = "<group>"; };
 		1531E2B7186E8EF100541A0B /* StringInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringInputTableViewCell.m; sourceTree = "<group>"; };
 		1531E2B9186E923700541A0B /* DateInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateInputTableViewCell.h; sourceTree = "<group>"; };
@@ -618,6 +624,8 @@
 				15DE498C185C8B6800754EAC /* UserInfoModel.m */,
 				1539042918759EDF00F8FB6D /* CommerceTypeModel.h */,
 				1539042A18759EDF00F8FB6D /* CommerceTypeModel.m */,
+				15042C5718F2343A002CA2CA /* LetterModel.h */,
+				15042C5818F2343A002CA2CA /* LetterModel.m */,
 			);
 			path = ClassModule;
 			sourceTree = "<group>";
@@ -759,6 +767,8 @@
 		15FF0F70186490D70086D559 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				152F03EA18F1A17B00C68F3F /* MessageViewController.h */,
+				152F03EB18F1A17B00C68F3F /* MessageViewController.m */,
 				151E84B818DED0D8007038DB /* RegisterViewController.h */,
 				151E84B918DED0D8007038DB /* RegisterViewController.m */,
 				150E351418BF7B0D00DFEA1C /* MainTabViewController.h */,
@@ -1097,6 +1107,7 @@
 				15F691AE184C3F2C009986CD /* ASIDataCompressor.m in Sources */,
 				1531E2C4186EB83600541A0B /* SimplePickerInputTableViewCell.m in Sources */,
 				15FF0F7E186490D70086D559 /* SelectAreaViewController.m in Sources */,
+				15042C5918F2343A002CA2CA /* LetterModel.m in Sources */,
 				156034D21848DC2D00C237B0 /* FGalleryViewController.m in Sources */,
 				151C9462186596C1003634B1 /* QiniuSimpleUploader.m in Sources */,
 				151C945F186596C1003634B1 /* JSONKit.m in Sources */,
@@ -1111,6 +1122,7 @@
 				15F691B0184C3F2C009986CD /* ASIDownloadCache.m in Sources */,
 				1556605D18704AA40037146E /* MHFacebookImageViewer.m in Sources */,
 				156034D01848DC2500C237B0 /* FGalleryPhoto.m in Sources */,
+				152F03EC18F1A17B00C68F3F /* MessageViewController.m in Sources */,
 				150E350A18BF7A5A00DFEA1C /* MessageInterceptor.m in Sources */,
 				15FC296B1855EC6B00731A50 /* EmojiKeyBoardView.m in Sources */,
 				15F691B2184C3F2C009986CD /* ASIHTTPRequest.m in Sources */,
