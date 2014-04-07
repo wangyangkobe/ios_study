@@ -283,7 +283,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zho-A8-hgW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="785" y="8"/>
+            <point key="canvasLocation" x="504" y="52"/>
         </scene>
         <!--Activity Detail View Controller-->
         <scene sceneID="afH-Eo-pHs">
@@ -396,7 +396,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pbu-0A-wYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1554" y="-26"/>
+            <point key="canvasLocation" x="1544" y="8"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kbg-kt-8ex">
@@ -410,12 +410,44 @@
                     </tabBar>
                     <connections>
                         <segue destination="5aX-80-AFq" kind="relationship" relationship="viewControllers" id="FGB-3Q-mtR"/>
+                        <segue destination="BqM-FW-ABA" kind="relationship" relationship="viewControllers" id="LWU-kH-QQ7"/>
                         <segue destination="fxd-zc-m7B" kind="relationship" relationship="viewControllers" id="cFe-Ir-f18"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qkr-oI-yuO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="259" y="8"/>
+            <point key="canvasLocation" x="-65" y="746"/>
+        </scene>
+        <!--Navigation Controller - 消息-->
+        <scene sceneID="s75-JC-uG6">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="BqM-FW-ABA" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="消息" id="Fg5-aH-hkH"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6oA-iU-e22">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8cl-gg-WEV" kind="relationship" relationship="rootViewController" id="j4R-dR-vD9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uhX-1h-Wd6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="504" y="1453"/>
+        </scene>
+        <!--Message View Controller-->
+        <scene sceneID="oba-BD-YfU">
+            <objects>
+                <viewController id="8cl-gg-WEV" customClass="MessageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aVR-bt-gUa">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fwL-ZW-0Q9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hyC-PV-euW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="1458"/>
         </scene>
         <!--Navigation Controller - 设置-->
         <scene sceneID="LnI-5m-9jt">
@@ -482,7 +514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axS-qv-Rrg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="504" y="1402"/>
+            <point key="canvasLocation" x="1914" y="8"/>
         </scene>
     </scenes>
     <resources>
