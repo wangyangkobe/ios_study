@@ -590,4 +590,31 @@
     }
     return [NSDictionary dictionaryWithObjectsAndKeys:provinceName, @"provinceName", cityName, @"cityName", nil];
 }
+////////////////////////////////////////////////////////
+-(NSArray*)getLetterContacts
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/letter/contacts", HOME_PAGE];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request startSynchronous];
+    
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    NSMutableArray* result = [NSMutableArray array];
+    NSError* error;
+    for (id letter in jsonArray)
+    {
+        LetterModel* letterModel = [[LetterModel alloc] initWithDictionary:letter error:&error];
+        if (letterModel)
+            [result addObject:letterModel];
+        else
+            NSLog(@"getLetterContacts error = %@", [error localizedDescription]);
+    }
+    return result;
+
+}
 @end

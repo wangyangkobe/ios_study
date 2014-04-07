@@ -15,6 +15,7 @@
 #import "MessageModel.h"
 #import "CommentModel.h"
 #import "CommerceTypeModel.h"
+#import "LetterModel.h"
 @interface NetWorkConnection : NSObject
 
 +(id)sharedInstance;
@@ -64,4 +65,9 @@
 
 //用户退出
 -(BOOL)userLogOut;
+
+
+//获得私信人列表
+-(NSArray*)getLetterContacts;
+
 @end
