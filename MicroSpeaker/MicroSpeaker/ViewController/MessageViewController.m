@@ -32,9 +32,7 @@
 {
     [super viewWillAppear:animated];
     
-    UserConfig* userConfig = [UserConfig shareInstance];
-    NSLog(@"user = %@", [userConfig description]);
-    if ([userConfig isLogIn] == NO)
+    if ([[UserConfig shareInstance] isLogIn] == NO)
     {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
         [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
@@ -86,7 +84,8 @@
 {
     static NSString* CellIdentifier = @"PrivateMessageCell";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         UIImageView* headPic = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         headPic.layer.masksToBounds = YES; //没这句话它圆不起来
@@ -113,6 +112,7 @@
         [cell.contentView addSubview:timeLabel];
         
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     LetterModel* element = [letterContacts objectAtIndex:indexPath.row];
@@ -139,7 +139,7 @@
     PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
     
     LetterModel* selectedLetter = (LetterModel*)[letterContacts objectAtIndex:indexPath.row];
-    privateMessageVC.selectedLetter = selectedLetter;
+    privateMessageVC.otherUserID = selectedLetter.User.UserID;
     
     [privateMessageVC setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:privateMessageVC animated:YES];
