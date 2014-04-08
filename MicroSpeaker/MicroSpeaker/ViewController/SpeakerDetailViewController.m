@@ -329,6 +329,10 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
             [headPicView setContentMode:UIViewContentModeScaleToFill];
+            headPicView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                                                                        action:@selector(showPrivateMessageVC:)];
+            [headPicView addGestureRecognizer:singleTap];
             headPicView.layer.cornerRadius = 5.0f;
             headPicView.layer.masksToBounds = YES;
             headPicView.tag = 1001;
@@ -458,7 +462,10 @@
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
-
+- (void)showPrivateMessageVC:(UITapGestureRecognizer*)gesture
+{
+    
+}
 //加载更多的comments
 -(void)loadMoreComments
 {
