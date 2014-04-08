@@ -40,9 +40,9 @@
     
     UserConfig* userConfig = [UserConfig shareInstance];
     NSLog(@"user = %@", [userConfig description]);
-    if ([userConfig isLogIn] == NO) {
+    if ([userConfig isLogIn] == NO)
+    {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
-      //[self presentViewController:loginVC animated:YES completion:nil];
         [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
         return;
     }
@@ -72,7 +72,6 @@
 {
     int row     = indexPath.row;
     int section = indexPath.section;
-    
     
     if (0 == row && 0 == section)
     {
