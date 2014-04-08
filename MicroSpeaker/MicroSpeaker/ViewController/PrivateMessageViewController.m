@@ -16,7 +16,6 @@
     UITextField* textField;
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
-    
 }
 
 @end
@@ -43,13 +42,13 @@
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
     UserInfoModel* selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     
-    long userID = _selectedLetter.User.UserID;
-    letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:userID sinceID:-1 maxID:-1 num:5 page:1] mutableCopy];
+    //long userID = _selectedLetter.User.UserID;
+    letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID sinceID:-1 maxID:-1 num:5 page:1] mutableCopy];
     
     bubbleTable.bubbleDataSource = self;
     bubbleTable.snapInterval = 120;
     bubbleTable.showAvatars = YES;
-    bubbleTable.typingBubble = NSBubbleTypingTypeMe;
+    //bubbleTable.typingBubble = NSBubbleTypingTypeMe;
     
     bubbleData = [[NSMutableArray alloc] init];
     
