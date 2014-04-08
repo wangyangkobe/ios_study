@@ -7,8 +7,11 @@
 //
 
 #import "NetWorkConnection.h"
+#import "ASIDownloadCache.h"
 
 @implementation NetWorkConnection
+
+static ASIDownloadCache* myCache;
 
 +(instancetype)sharedInstance
 {
@@ -16,6 +19,14 @@
     static id sharedInstance;
     dispatch_once(&once, ^{
         sharedInstance = [[self alloc] init];
+        myCache = [[ASIDownloadCache alloc] init];
+        
+        //设置缓存路径
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        [myCache setStoragePath:[documentDirectory stringByAppendingPathComponent:@"mycache"]];
+        [myCache setDefaultCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
+        
     });
     return sharedInstance;
 }
@@ -62,7 +73,7 @@
         NSLog(@"showSelfUserInfo Error = %@", [error localizedDescription]);
     }
     
- //  NSLog(@"selfUserInfo = %@", [selfUserInfo description]);
+    //  NSLog(@"selfUserInfo = %@", [selfUserInfo description]);
     return selfUserInfo;
 }
 ////////////////////////////////////////////////////////
@@ -473,6 +484,8 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     NSString* responseString = [request responseString];
     
@@ -493,12 +506,13 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
     NSDictionary* userWBInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                                options:NSJSONReadingMutableContainers
                                                                  error:nil];
-    //NSLog(@"userInfo = %@", userWBInfo);
     
     [UserConfig shareInstance].headPic   = [userWBInfo objectForKey:@"avatar_large"];
     [UserConfig shareInstance].userName  = [userWBInfo objectForKey:@"screen_name"];
@@ -521,7 +535,6 @@
         [UserConfig shareInstance].gender = kUnKnown; //未知
     
     [[UserConfig shareInstance] save];
-    NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 }
 ////////////////////////////////////////////////////////
 -(void)getUserQQInfo:(NSString *)accessToken OpenID:(NSString *)openId
@@ -533,6 +546,8 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
     NSDictionary* userQQInfo = [NSJSONSerialization JSONObjectWithData:[request responseData]
@@ -599,6 +614,8 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
@@ -633,8 +650,11 @@
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
- //   NSLog(@"%s, url = %@\n result = %@", __FUNCTION__, requestUrl, [request responseString]);
+    //   NSLog(@"%s, url = %@\n result = %@", __FUNCTION__, requestUrl, [request responseString]);
     
     NSMutableArray* result = [NSMutableArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
