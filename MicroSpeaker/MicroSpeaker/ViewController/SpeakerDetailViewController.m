@@ -168,7 +168,9 @@
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[NetWorkConnection sharedInstance] createCommentWithText:str messageID:_message.MessageID replyCommentID:replyCommentID];
+        [[NetWorkConnection sharedInstance] createCommentWithText:str
+                                                        messageID:_message.MessageID
+                                                   replyCommentID:replyCommentID];
         
         [self getCommentsByMessageID:_message.MessageID];
         
@@ -449,7 +451,7 @@
     
     [commentsArray addObjectsFromArray:result];
     
-    NSLog(@"Comments number is %d.", [commentsArray count]);
+    NSLog(@"Comments number is %lu.", (unsigned long)[commentsArray count]);
 }
 
 -(IBAction)backGroundTap

@@ -8,7 +8,7 @@
 
 #import "PrivateMessageViewController.h"
 
-@interface PrivateMessageViewController ()<UITextFieldDelegate>
+@interface PrivateMessageViewController ()<UITextFieldDelegate, UIGestureRecognizerDelegate>
 {
     NSMutableArray* letters;
     NSMutableArray *bubbleData;
@@ -16,7 +16,6 @@
     UITextField* textField;
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
-    
 }
 
 @end
@@ -77,6 +76,11 @@
     [bubbleTable reloadData];
     
     [self configureToolBar];
+    
+    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
+    oneTap.delegate = self;
+    oneTap.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -124,6 +128,12 @@
                                                object:nil];
 }
 
+-(IBAction)backGroundTap
+{
+    [textField resignFirstResponder];
+    [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+}
+
 #pragma mark - UIBubbleTableViewDataSource implementation
 - (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView
 {
@@ -133,15 +143,26 @@
 {
     return [bubbleData objectAtIndex:row];
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+#pragma mark 监听键盘的显示与隐藏
+-(void)inputKeyboardWillShow:(NSNotification *)notification
+{
+    NSLog(@"call: %s", __FUNCTION__);
+    //键盘显示，设置toolbar的frame跟随键盘的frame
+    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    [UIView animateWithDuration:animationTime animations:^{
+        CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+    }];
+}
+
+-(void)inputKeyboardWillHide:(NSNotification *)notification
+{
+    NSLog(@"call: %s", __FUNCTION__);
+    CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+    NSLog(@"frame = %@", NSStringFromCGRect(self.toolBar.frame));
+    [self.view addSubview:self.toolBar];
+}
 
 @end
