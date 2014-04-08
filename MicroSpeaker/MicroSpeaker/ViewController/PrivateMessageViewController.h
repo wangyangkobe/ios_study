@@ -17,4 +17,5 @@
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (retain, nonatomic) LetterModel* selectedLetter;
+@property (nonatomic, assign) long  otherUserID;
 @end
