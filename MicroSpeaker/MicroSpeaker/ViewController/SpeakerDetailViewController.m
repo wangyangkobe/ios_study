@@ -331,7 +331,7 @@
             [headPicView setContentMode:UIViewContentModeScaleToFill];
             headPicView.userInteractionEnabled = YES;
             UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self 
-                                                                                        action:@selector(showPrivateMessageVC:)];
+                                                                                        action:@selector(sendPrivateMessage:)];
             [headPicView addGestureRecognizer:singleTap];
             headPicView.layer.cornerRadius = 5.0f;
             headPicView.layer.masksToBounds = YES;
@@ -462,9 +462,12 @@
     [emojiKeyBoard setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, KEYBOARD_HEIGHT)];
     [toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
-- (void)showPrivateMessageVC:(UITapGestureRecognizer*)gesture
+- (void)sendPrivateMessage:(UITapGestureRecognizer*)gesture
 {
-    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+    PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
+    //To do........
+    [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 //加载更多的comments
 -(void)loadMoreComments
