@@ -11,12 +11,12 @@
 #import "MacroDefination.h"
 #import "MHFacebookImageViewer.h"
 @interface SaleDetailViewController : UIViewController<MHFacebookImageViewerDatasource, UITableViewDataSource, UITableViewDelegate>
-@property (retain, nonatomic) MessageModel* message;
 
+@property (retain, nonatomic) MessageModel* message;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *phoneNumberBtn;
-
 @property (weak, nonatomic) IBOutlet UIButton *privateMessageBtn;
+
 - (IBAction)pressPhoneNumber:(id)sender;
 - (IBAction)sendPrivateMessage:(id)sender;
 @end

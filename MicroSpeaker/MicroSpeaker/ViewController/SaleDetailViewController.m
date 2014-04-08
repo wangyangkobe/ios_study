@@ -13,7 +13,7 @@
 #import "MacroDefination.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIButton+Extensions.h"
-
+#import "PrivateMessageViewController.h"
 @interface SaleDetailViewController ()
 
 @end
@@ -197,7 +197,8 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (0 == section) {
+    if (0 == section)
+    {
         float textHeight = [_message.Theme sizeWithFont:[UIFont boldSystemFontOfSize:20]
                                       constrainedToSize:CGSizeMake(SCREEN_WIDTH, 1000)
                                           lineBreakMode:NSLineBreakByWordWrapping].height;
@@ -211,7 +212,8 @@
         [saleThemeLabel sizeToFitFixedWidth:saleThemeLabel.frame.size.width lines:10];
         [header addSubview:saleThemeLabel];
         
-        for (int i = 0; i < [_message.PhotoThumbnails count]; i++) {
+        for (int i = 0; i < [_message.PhotoThumbnails count]; i++)
+        {
             UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake( 5*(i+1) + 90*i, 15 + textHeight,
                                                                                    90, 90)];
             __weak UIImageView* weakImageView = imageView;
@@ -229,14 +231,6 @@
     }
     else if(2 == section)
     {
-        //        static NSString *identifier = @"defaultHeader";
-        //        UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
-        //        if (!headerView) {
-        //            headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:identifier];
-        //        }
-        //        headerView.textLabel.text = @"描述";
-        //        headerView.textLabel.backgroundColor = [UIColor clearColor];
-        //        return headerView;
         UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
         UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH - 10, 30)];
         [headerView addSubview:headerLabel];
@@ -248,14 +242,16 @@
 }
 
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
-- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [_message.PhotoThumbnails count];
 }
-- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [_message.PhotoThumbnails objectAtIndex:index];
 }
-- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
-    NSLog(@"INDEX IS %i",index);
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 - (IBAction)pressPhoneNumber:(id)sender
@@ -273,7 +269,15 @@
     NSLog(@"%s", __FUNCTION__);
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
     PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
-    //To do........
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
+    UserInfoModel* selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    
+    int userID = self.message.User.UserID;
+    if (userID == selfUserInfo.UserID)
+        return;
+    privateMessageVC.otherUserID = userID;
     [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 @end
