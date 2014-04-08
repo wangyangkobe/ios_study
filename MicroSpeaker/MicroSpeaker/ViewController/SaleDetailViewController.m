@@ -271,5 +271,9 @@
 - (IBAction)sendPrivateMessage:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+    PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
+    //To do........
+    [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 @end
