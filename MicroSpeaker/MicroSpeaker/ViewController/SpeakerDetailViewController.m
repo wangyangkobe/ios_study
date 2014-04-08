@@ -16,6 +16,7 @@
 #import "NetWorkConnection.h"
 #import "UIImage+Extensions.h"
 #import "MHFacebookImageViewer.h"
+#import "PrivateMessageViewController.h"
 
 @interface SpeakerDetailViewController ()<MHFacebookImageViewerDatasource>
 -(void) getCommentsByMessageID:(long) messageID;
@@ -332,7 +333,7 @@
             UIImageView* headPicView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
             [headPicView setContentMode:UIViewContentModeScaleToFill];
             headPicView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self 
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                         action:@selector(sendPrivateMessage:)];
             [headPicView addGestureRecognizer:singleTap];
             headPicView.layer.cornerRadius = 5.0f;
@@ -468,7 +469,10 @@
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
     PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
-    //To do........
+    int userID = self.message.User.UserID;
+    if (userID == selfUserInfo.UserID)
+        return;
+    privateMessageVC.otherUserID = userID;
     [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 //加载更多的comments
@@ -482,14 +486,16 @@
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
-- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [_message.PhotoThumbnails count];
 }
-- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [_message.PhotoThumbnails objectAtIndex:index];
 }
-- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer{
-    NSLog(@"INDEX IS %i",index);
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
     return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 @end
