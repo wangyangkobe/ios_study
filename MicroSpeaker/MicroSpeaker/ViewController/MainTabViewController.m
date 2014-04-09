@@ -478,7 +478,8 @@
       [KxMenuItem menuItem:@"求购物品" image:nil target:self action:@selector(showController:)],
       ];
     
-    for (KxMenuItem* item in menuItems){
+    for (KxMenuItem* item in menuItems)
+    {
         item.alignment = NSTextAlignmentCenter;
     }
     
@@ -489,9 +490,11 @@
                  menuItems:menuItems];
 }
 
-- (void)showController:(id)sender{
+- (void)showController:(id)sender
+{
     BOOL isLogIn = [UserConfig shareInstance].logIn;
-    if (isLogIn == NO) {
+    if (isLogIn == NO)
+    {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];
         [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
         return;
@@ -516,7 +519,8 @@
 }
 
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
-- (NSInteger)numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSInteger)numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer
+{
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
     
     UITableView* currentTableView = (UITableView*)[cell superview];
@@ -533,7 +537,8 @@
     
     return [currentMessage.PhotoThumbnails count];
 }
-- (NSURL*)imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer {
+- (NSURL*)imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
     UITableViewCell* cell = (UITableViewCell*)[[imageViewer.senderView superview] superview];
     // int rowIndex = [[self.pullTableView indexPathForCell:cell] row];
     UITableView* currentTableView = (UITableView*)[cell superview];
@@ -561,16 +566,19 @@
 }
 
 #pragma mark - UISearchBar delegate methods
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
     searchTypeIndex = selectedScope;
     [searchBar becomeFirstResponder];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
     self.pullTableView.tableHeaderView = nil;
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
     [_searchBar resignFirstResponder];
     
     UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
