@@ -16,6 +16,7 @@
 #import "CommentModel.h"
 #import "CommerceTypeModel.h"
 #import "LetterModel.h"
+
 @interface NetWorkConnection : NSObject
 
 +(id)sharedInstance;

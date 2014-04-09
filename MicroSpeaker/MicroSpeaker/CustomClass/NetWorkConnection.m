@@ -63,6 +63,8 @@ static ASIDownloadCache* myCache;
     [request setProxyPort:8080];
 #endif
     [request setUseCookiePersistence: YES];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
     NSLog(@"requset cookoies = %@, selfUserInfo = %@, cookies = %@", [request requestCookies], [request responseString], [request responseCookies]);
@@ -287,8 +289,12 @@ static ASIDownloadCache* myCache;
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
+    if ([request responseData] == nil)
+        return result;
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
@@ -384,6 +390,8 @@ static ASIDownloadCache* myCache;
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     NSMutableArray* result = [NSMutableArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
@@ -399,7 +407,8 @@ static ASIDownloadCache* myCache;
 }
 
 ////////////////////////////////////////////////////////
--(NSArray*) searchMessageByToken:(NSString *)Token type:(int)Type{
+-(NSArray*) searchMessageByToken:(NSString *)Token type:(int)Type
+{
     NSString* requestUrl;
     if (0 == Type) {
         requestUrl = [NSString stringWithFormat:@"%@/message/search?token=%@&num=%d", HOME_PAGE, Token, 1000];
@@ -414,7 +423,12 @@ static ASIDownloadCache* myCache;
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
+    
+    if ([request responseData] == nil)
+        return [NSArray array];
     
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
@@ -488,8 +502,6 @@ static ASIDownloadCache* myCache;
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
-    [request setDownloadCache:myCache];
-    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     NSString* responseString = [request responseString];
     
@@ -610,7 +622,7 @@ static ASIDownloadCache* myCache;
     return [NSDictionary dictionaryWithObjectsAndKeys:provinceName, @"provinceName", cityName, @"cityName", nil];
 }
 ////////////////////////////////////////////////////////
--(NSArray*)getLetterContacts
+- (NSArray*)getLetterContacts
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/letter/contacts", HOME_PAGE];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
@@ -622,7 +634,8 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"%@", [request responseString]);
+    if ([request responseData] == nil)
+        return [NSArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
