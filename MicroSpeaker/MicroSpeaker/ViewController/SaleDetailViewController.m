@@ -35,7 +35,6 @@
     if (!self) return nil;
     
     self.hidesBottomBarWhenPushed = YES; //隐藏TabBar
-    //  self.tableView.scrollEnabled = NO;
     return self;
 }
 - (void)viewDidAppear:(BOOL)animated
