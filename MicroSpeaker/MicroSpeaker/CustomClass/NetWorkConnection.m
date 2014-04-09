@@ -25,7 +25,7 @@ static ASIDownloadCache* myCache;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentDirectory = [paths objectAtIndex:0];
         [myCache setStoragePath:[documentDirectory stringByAppendingPathComponent:@"mycache"]];
-        [myCache setDefaultCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
+        [myCache setDefaultCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy | ASIFallbackToCacheIfLoadFailsCachePolicy];
         
     });
     return sharedInstance;
@@ -69,7 +69,8 @@ static ASIDownloadCache* myCache;
     
     NSError* error;
     UserInfoModel* selfUserInfo = [[UserInfoModel alloc] initWithString:[request responseString] error:&error];
-    if (error != nil) {
+    if (error != nil)
+    {
         NSLog(@"showSelfUserInfo Error = %@", [error localizedDescription]);
     }
     
@@ -89,14 +90,13 @@ static ASIDownloadCache* myCache;
     [request setProxyPort:8080];
 #endif
     [request startSynchronous];
-    NSLog(@"getMessageByAreaID result = %@", [request responseString]);
+    
+    if ([request responseData] == nil)
+        return [NSArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    //    for (id entry in [jsonArray reverseObjectEnumerator])
-    //    {
-    //        [result insertObject:[[MessageModel alloc] initWithDictionary:entry error:nil] atIndex:0];
-    //    }
+    
     for (id entry in jsonArray)
     {
         MessageModel* message = [[MessageModel alloc] initWithDictionary:entry error:nil];
@@ -144,8 +144,12 @@ static ASIDownloadCache* myCache;
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
 #endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    //  NSLog(@"getMessageByAreaID result = %@", [request responseString]);
+    
+    if ([request responseData] == nil)
+        return [NSArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
@@ -618,6 +622,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
+    NSLog(@"%@", [request responseString]);
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
@@ -654,8 +659,9 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    //   NSLog(@"%s, url = %@\n result = %@", __FUNCTION__, requestUrl, [request responseString]);
-    
+    NSLog(@"%s, url = %@\n result = %d", __FUNCTION__, requestUrl, [request didUseCachedResponse]);
+    if ([request responseData] == nil)
+        return [NSArray array];
     NSMutableArray* result = [NSMutableArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers

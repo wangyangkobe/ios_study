@@ -32,7 +32,7 @@
 -(BOOL)attendActivity:(long)activityID attendInfo:(NSString*)infoStr; //参加活动
 -(NSString*)checkAttendActivity:(long)activityID; //检查用户是否参加活动
 
-//根据messageID获取评论b
+//根据messageID获取评论
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize;
 -(NSArray*)getCommentsByMessageID:(long)messsageId PageSize:(int)pageSize MaxID:(long)maxId;
 
