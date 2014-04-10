@@ -148,9 +148,9 @@
     else
         return 40;
 }
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];    
 }
 -(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {

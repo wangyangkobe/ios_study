@@ -426,7 +426,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"call: %@", NSStringFromSelector(_cmd));
-    
+    [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
     if ([UserConfig shareInstance].isLogIn == NO)
     {
         LogInViewController* loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVC"];

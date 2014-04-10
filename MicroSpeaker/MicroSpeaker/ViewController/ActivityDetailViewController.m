@@ -187,6 +187,7 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     int rowIndex    = [indexPath row];
     int sectionIdex = [indexPath section];
     if (1 == sectionIdex && 0 == rowIndex && [_message.Photos count] > 0)
