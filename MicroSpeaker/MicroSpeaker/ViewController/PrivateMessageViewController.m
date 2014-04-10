@@ -91,7 +91,7 @@
 }
 - (void)configureToolBar
 {
-    textField = [[UITextField alloc] initWithFrame:CGRectMake(30, 5, 250, 30)];
+    textField = [[UITextField alloc] initWithFrame:CGRectMake(30, 7, 250, 30)];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.delegate = self;
@@ -101,16 +101,14 @@
     [self.toolBar addSubview:textField];
     
     faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [faceButton setFrame:CGRectMake(0, 5, 30, 30)];
-    faceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [faceButton setFrame:CGRectMake(0, 7, 30, 30)];
     [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
     [faceButton addTarget:self action:@selector(showFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
     [self.toolBar addSubview:faceButton];
     
     sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendButton setFrame:CGRectMake(280, 5, 40, 30)];
+    [sendButton setFrame:CGRectMake(280, 7, 40, 30)];
     [sendButton setTitle:@"发送" forState:UIControlStateNormal];
-    sendButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [sendButton addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.toolBar addSubview:sendButton];
     
@@ -128,7 +126,6 @@
 - (IBAction)backGroundTap
 {
     [textField resignFirstResponder];
-    [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
 - (void)sendPrivateMessage
 {
@@ -137,14 +134,30 @@
         BOOL result = [[NetWorkConnection sharedInstance] sendLetter:self.otherUserID text:textField.text];
         if (result)
         {
-            NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text
-                                                               date:[NSDate date]
-                                                               type:BubbleTypeMine];
+            NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text date:[NSDate date] type:BubbleTypeMine];
             data.imageURL = selfUserInfo.HeadPic;
             [bubbleData addObject:data];
+            [textField resignFirstResponder];
             [self.bubbleTable reloadData];
         }
+        [self scrollToBottomAnimated:YES];
     }
+}
+- (void)scrollToBottomAnimated:(BOOL)animated
+{
+    NSInteger rows = [self.bubbleTable numberOfRowsInSection:0];
+    
+    if(rows > 0) {
+        [self.bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:animated];
+    }
+}
+#pragma mark - UITextFieldDelegate method
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self sendPrivateMessage];
+    return YES;
 }
 #pragma mark - UIBubbleTableViewDataSource implementation
 - (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView
@@ -171,9 +184,12 @@
 - (void)inputKeyboardWillHide:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
-    CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-    [self.view addSubview:self.toolBar];
-}
+    textField.text = @"";
+    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"KeyboardWillHide" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
+    [UIView commitAnimations];
+ }
 
 @end
