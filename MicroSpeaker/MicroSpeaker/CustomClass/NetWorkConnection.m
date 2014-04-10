@@ -694,7 +694,7 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 -(BOOL)sendLetter:(long)UserID text:(NSString*)Text
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/letter/create", HOME_PAGE];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestURL]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
     [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
     [request setProxyPort:8080];
