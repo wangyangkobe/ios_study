@@ -16,6 +16,7 @@
     UITextField* textField;
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
+    UserInfoModel* selfUserInfo;
 }
 
 @end
@@ -40,15 +41,13 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
-    UserInfoModel* selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     
-    //long userID = _selectedLetter.User.UserID;
     letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID sinceID:-1 maxID:-1 num:5 page:1] mutableCopy];
     
     bubbleTable.bubbleDataSource = self;
     bubbleTable.snapInterval = 120;
     bubbleTable.showAvatars = YES;
-    //bubbleTable.typingBubble = NSBubbleTypingTypeMe;
     
     bubbleData = [[NSMutableArray alloc] init];
     
@@ -62,37 +61,35 @@
         if (element.FromUser.UserID != selfUserInfo.UserID)
         {
             messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
-            messageData.avatar = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:element.FromUser.HeadPic]]];
         }
         else
         {
             messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeMine];
-            messageData.avatar = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:element.FromUser.HeadPic]]];
         }
-        
+        messageData.imageURL = element.FromUser.HeadPic;
         [bubbleData addObject:messageData];
     }
     
-    [bubbleTable reloadData];
-    
     [self configureToolBar];
     
-    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backGroundTap)];
+    [self.bubbleTable reloadData];
+    
+    UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                             action:@selector(backGroundTap)];
     oneTap.delegate = self;
     oneTap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
 }
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    [self.bubbleTable layoutSubviews];
+    [super viewWillAppear:animated];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)configureToolBar
+- (void)configureToolBar
 {
     textField = [[UITextField alloc] initWithFrame:CGRectMake(30, 5, 250, 30)];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -114,7 +111,7 @@
     [sendButton setFrame:CGRectMake(280, 5, 40, 30)];
     [sendButton setTitle:@"发送" forState:UIControlStateNormal];
     sendButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-    [sendButton addTarget:self action:@selector(sendTextAction) forControlEvents:UIControlEventTouchUpInside];
+    [sendButton addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.toolBar addSubview:sendButton];
     
     //给键盘注册通知
@@ -128,12 +125,27 @@
                                                object:nil];
 }
 
--(IBAction)backGroundTap
+- (IBAction)backGroundTap
 {
     [textField resignFirstResponder];
     [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
-
+- (void)sendPrivateMessage
+{
+    if (textField.text != nil)
+    {
+        BOOL result = [[NetWorkConnection sharedInstance] sendLetter:self.otherUserID text:textField.text];
+        if (result)
+        {
+            NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text
+                                                               date:[NSDate date]
+                                                               type:BubbleTypeMine];
+            data.imageURL = selfUserInfo.HeadPic;
+            [bubbleData addObject:data];
+            [self.bubbleTable reloadData];
+        }
+    }
+}
 #pragma mark - UIBubbleTableViewDataSource implementation
 - (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView
 {
@@ -145,7 +157,7 @@
 }
 
 #pragma mark 监听键盘的显示与隐藏
--(void)inputKeyboardWillShow:(NSNotification *)notification
+- (void)inputKeyboardWillShow:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
     //键盘显示，设置toolbar的frame跟随键盘的frame
@@ -156,12 +168,11 @@
     }];
 }
 
--(void)inputKeyboardWillHide:(NSNotification *)notification
+- (void)inputKeyboardWillHide:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
     CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-    NSLog(@"frame = %@", NSStringFromCGRect(self.toolBar.frame));
     [self.view addSubview:self.toolBar];
 }
 
