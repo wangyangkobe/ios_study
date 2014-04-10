@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIBubbleTableViewCell.h"
 #import "NSBubbleData.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 
 @interface UIBubbleTableViewCell ()
 
@@ -79,6 +80,7 @@
     if (self.showAvatar)
     {
         [self.avatarImage removeFromSuperview];
+        
 #if !__has_feature(objc_arc)
         self.avatarImage = [[[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])] autorelease];
 #else
@@ -93,6 +95,12 @@
         CGFloat avatarY = self.frame.size.height - 50;
         
         self.avatarImage.frame = CGRectMake(avatarX, avatarY, 50, 50);
+        
+        if (self.data.imageURL)
+        {
+            [self.avatarImage setImageWithURL:[NSURL URLWithString:self.data.imageURL]
+                             placeholderImage:[UIImage imageNamed:@"missingAvatar.png"]];
+        }
         [self addSubview:self.avatarImage];
         
         CGFloat delta = self.frame.size.height - (self.data.insets.top + self.data.insets.bottom + self.data.view.frame.size.height);
