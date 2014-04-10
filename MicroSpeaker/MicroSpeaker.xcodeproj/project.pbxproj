@@ -819,7 +819,6 @@
 			children = (
 				150E351818BF7B2C00DFEA1C /* NetWorkConnection.h */,
 				150E351718BF7B2C00DFEA1C /* NetWorkConnection.m */,
-				1531E2C2186EB83600541A0B /* SimplePickerInputTableViewCell.h */,
 				1531E2C3186EB83600541A0B /* SimplePickerInputTableViewCell.m */,
 				1531E2BF186EB70000541A0B /* PickerInputTableViewCell.h */,
 				1531E2C0186EB70000541A0B /* PickerInputTableViewCell.m */,
@@ -833,6 +832,7 @@
 				15FF0F60186490240086D559 /* NSString+Emoji.h */,
 				15FF0F61186490240086D559 /* NSString+Emoji.m */,
 				15FF0F62186490240086D559 /* NSString+Extensions.h */,
+				1531E2C2186EB83600541A0B /* SimplePickerInputTableViewCell.h */,
 				15FF0F63186490240086D559 /* NSString+Extensions.m */,
 				15FF0F64186490240086D559 /* UIImage+Extensions.h */,
 				15FF0F65186490240086D559 /* UIImage+Extensions.m */,
