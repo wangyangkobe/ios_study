@@ -38,7 +38,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(loadMoreData:) forControlEvents:UIControlEventValueChanged];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
+    refreshControl.tintColor = [UIColor lightGrayColor];
+    self.bubbleTable.refreshControl = refreshControl;
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
     selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
@@ -75,7 +80,7 @@
     [self.bubbleTable reloadData];
     
     UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-     action:@selector(backGroundTap)];
+       action:@selector(backGroundTap)];
     oneTap.delegate = self;
     oneTap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
@@ -114,15 +119,34 @@
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(inputKeyboardWillShow:)
-     name:UIKeyboardWillShowNotification
-     object:nil];
+       selector:@selector(inputKeyboardWillShow:)
+       name:UIKeyboardWillShowNotification
+       object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(inputKeyboardWillHide:)
-     name:UIKeyboardWillHideNotification
-     object:nil];
+       selector:@selector(inputKeyboardWillHide:)
+       name:UIKeyboardWillHideNotification
+       object:nil];
 }
+- (void)loadMoreData:(UIRefreshControl*)sender
+{
+    if (sender.refreshing)
+    {
+        _bubbleTable.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading data..."];
+        [self performSelector:@selector(handleLoadData) withObject:nil afterDelay:2.0f];
+    }
+}
+- (void)handleLoadData
+{
+    [self.bubbleTable.refreshControl endRefreshing];
+    _bubbleTable.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+    }
 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bubbleTable reloadData];
+    });
+}
 - (IBAction)backGroundTap
 {
     [textField resignFirstResponder];
