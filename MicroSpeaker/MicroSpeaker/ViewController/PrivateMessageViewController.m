@@ -17,6 +17,7 @@
     UIButton*    faceButton;  //表情按钮
     UIButton*    sendButton;  //表情按钮
     UserInfoModel* selfUserInfo;
+    UIRefreshControl* refreshControl;
 }
 
 @end
@@ -38,17 +39,17 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [self configureToolBar];
+    
+    refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(loadMoreData:) forControlEvents:UIControlEventValueChanged];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
     refreshControl.tintColor = [UIColor lightGrayColor];
-    self.bubbleTable.refreshControl = refreshControl;
-
+    [self.bubbleTable addSubview:refreshControl];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:SELF_USERINFO];
     selfUserInfo = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-    
-    letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID sinceID:-1 maxID:-1 num:5 page:1] mutableCopy];
     
     bubbleTable.bubbleDataSource = self;
     bubbleTable.snapInterval = 120;
@@ -56,31 +57,40 @@
     
     bubbleData = [[NSMutableArray alloc] init];
     
-    NSBubbleData* messageData;
+    __block NSBubbleData* messageData;
     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    for (Letter* element in letters)
-    {
-        NSDate* createDate = [dateFormat dateFromString:element.CreateAt];
-        if (element.FromUser.UserID != selfUserInfo.UserID)
-        {
-            messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
-        }
-        else
-        {
-            messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeMine];
-        }
-        messageData.imageURL = element.FromUser.HeadPic;
-        [bubbleData addObject:messageData];
-    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
+                                                                   sinceID:-1
+                                                                     maxID:-1
+                                                                       num:5
+                                                                      page:1] mutableCopy];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (Letter* element in letters)
+            {
+                NSDate* createDate = [dateFormat dateFromString:element.CreateAt];
+                if (element.FromUser.UserID != selfUserInfo.UserID)
+                {
+                    messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
+                }
+                else
+                {
+                    messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeMine];
+                }
+                messageData.imageURL = element.FromUser.HeadPic;
+                [bubbleData addObject:messageData];
+            }
+            
+            [self.bubbleTable reloadData];
+        });
+    });
     
-    [self configureToolBar];
-    
-    [self.bubbleTable reloadData];
     
     UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-       action:@selector(backGroundTap)];
+                                                                             action:@selector(backGroundTap)];
     oneTap.delegate = self;
     oneTap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
@@ -88,6 +98,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if ([bubbleData count] > 4)
+    {
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 100, 0.0);
+        self.bubbleTable.contentInset = contentInsets;
+        self.bubbleTable.scrollIndicatorInsets = contentInsets;
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -119,32 +136,28 @@
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-       selector:@selector(inputKeyboardWillShow:)
-       name:UIKeyboardWillShowNotification
-       object:nil];
+                                             selector:@selector(inputKeyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-       selector:@selector(inputKeyboardWillHide:)
-       name:UIKeyboardWillHideNotification
-       object:nil];
+                                             selector:@selector(inputKeyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 - (void)loadMoreData:(UIRefreshControl*)sender
 {
     if (sender.refreshing)
     {
-        _bubbleTable.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading data..."];
+        refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading data..."];
         [self performSelector:@selector(handleLoadData) withObject:nil afterDelay:2.0f];
     }
 }
 - (void)handleLoadData
 {
-    [self.bubbleTable.refreshControl endRefreshing];
-    _bubbleTable.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
+    [refreshControl endRefreshing];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.bubbleTable reloadData];
     });
 }
 - (IBAction)backGroundTap
@@ -161,22 +174,13 @@
             NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text date:[NSDate date] type:BubbleTypeMine];
             data.imageURL = selfUserInfo.HeadPic;
             [bubbleData addObject:data];
-         // [textField resignFirstResponder];
+            textField.text = @"";
             [self.bubbleTable reloadData];
         }
-        [self scrollToBottomAnimated:YES];
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
     }
 }
-- (void)scrollToBottomAnimated:(BOOL)animated
-{
-    NSInteger rows = [self.bubbleTable numberOfRowsInSection:0];
-    
-    if(rows > 0) {
-        [self.bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-          atScrollPosition:UITableViewScrollPositionBottom
-          animated:animated];
-    }
-}
+
 #pragma mark - UITextFieldDelegate method
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -197,17 +201,17 @@
 - (void)inputKeyboardWillShow:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
-    CGRect keyBoardFrame = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-
+    CGRect keyBoardFrame = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
     //键盘显示，设置toolbar的frame跟随键盘的frame
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     [UIView animateWithDuration:animationTime animations:^{
         // set the content insets
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyBoardFrame.size.height, 0.0);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyBoardFrame.size.height + 130, 0.0);
         self.bubbleTable.contentInset = contentInsets;
         self.bubbleTable.scrollIndicatorInsets = contentInsets;
-        [self scrollToBottomAnimated:YES];
-
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+        
         [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     }];
 }
@@ -223,9 +227,9 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
     self.bubbleTable.contentInset = contentInsets;
     self.bubbleTable.scrollIndicatorInsets = contentInsets;
-
+    [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+    
     [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [UIView commitAnimations];
 }
-
 @end
