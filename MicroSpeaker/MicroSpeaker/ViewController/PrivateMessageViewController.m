@@ -75,7 +75,7 @@
     [self.bubbleTable reloadData];
     
     UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                             action:@selector(backGroundTap)];
+     action:@selector(backGroundTap)];
     oneTap.delegate = self;
     oneTap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:oneTap];  //通过鼠标手势来实现键盘的隐藏
@@ -95,7 +95,7 @@
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.delegate = self;
-	textField.font = [UIFont systemFontOfSize:13.0f];
+    textField.font = [UIFont systemFontOfSize:13.0f];
     textField.backgroundColor = [UIColor whiteColor];
     textField.returnKeyType = UIReturnKeySend;
     [self.toolBar addSubview:textField];
@@ -114,13 +114,13 @@
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
+     selector:@selector(inputKeyboardWillShow:)
+     name:UIKeyboardWillShowNotification
+     object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+     selector:@selector(inputKeyboardWillHide:)
+     name:UIKeyboardWillHideNotification
+     object:nil];
 }
 
 - (IBAction)backGroundTap
@@ -137,7 +137,7 @@
             NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text date:[NSDate date] type:BubbleTypeMine];
             data.imageURL = selfUserInfo.HeadPic;
             [bubbleData addObject:data];
-            [textField resignFirstResponder];
+         // [textField resignFirstResponder];
             [self.bubbleTable reloadData];
         }
         [self scrollToBottomAnimated:YES];
@@ -149,8 +149,8 @@
     
     if(rows > 0) {
         [self.bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:animated];
+          atScrollPosition:UITableViewScrollPositionBottom
+          animated:animated];
     }
 }
 #pragma mark - UITextFieldDelegate method
@@ -173,10 +173,17 @@
 - (void)inputKeyboardWillShow:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
+    CGRect keyBoardFrame = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+
     //键盘显示，设置toolbar的frame跟随键盘的frame
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     [UIView animateWithDuration:animationTime animations:^{
-        CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        // set the content insets
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyBoardFrame.size.height, 0.0);
+        self.bubbleTable.contentInset = contentInsets;
+        self.bubbleTable.scrollIndicatorInsets = contentInsets;
+        [self scrollToBottomAnimated:YES];
+
         [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     }];
 }
@@ -185,11 +192,16 @@
 {
     NSLog(@"call: %s", __FUNCTION__);
     textField.text = @"";
-    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     [UIView beginAnimations:@"KeyboardWillHide" context:nil];
-    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationDuration:animationTime];
+    // set the content insets
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+    self.bubbleTable.contentInset = contentInsets;
+    self.bubbleTable.scrollIndicatorInsets = contentInsets;
+
     [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [UIView commitAnimations];
- }
+}
 
 @end
