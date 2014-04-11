@@ -62,7 +62,13 @@
     self.pagesContainer.topBarHeight =  30;
     self.pagesContainer.viewControllers = @[privateMessageVC];
     
-    letterContacts = [[[NetWorkConnection sharedInstance] getLetterContacts] mutableCopy];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        letterContacts = [[[NetWorkConnection sharedInstance] getLetterContacts] mutableCopy];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [privateMessageVC.tableView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
