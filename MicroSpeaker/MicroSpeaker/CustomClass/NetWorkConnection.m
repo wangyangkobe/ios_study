@@ -675,10 +675,11 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
     NSLog(@"%s, url = %@\n result = %d", __FUNCTION__, requestUrl, [request didUseCachedResponse]);
     if ([request responseData] == nil)
         return [NSArray array];
+    
     NSMutableArray* result = [NSMutableArray array];
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-       options:NSJSONReadingMutableContainers
-       error:nil];
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
     NSError* error;
     for (id element in jsonArray)
     {
