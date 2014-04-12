@@ -156,8 +156,38 @@
 {
     [refreshControl endRefreshing];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
+    if ([bubbleData count] <= 3)
+        return;
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        int firstLetterID = ((Letter*)[letters objectAtIndex:0]).LetterID;
+        NSArray* result = [[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
+                                                                          sinceID:-1
+                                                                            maxID:firstLetterID
+                                                                              num:5
+                                                                             page:1];
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSBubbleData* messageData;
+            for (Letter* element in [result reverseObjectEnumerator])
+            {
+                NSDate* createDate = [dateFormat dateFromString:element.CreateAt];
+                if (element.FromUser.UserID != selfUserInfo.UserID)
+                {
+                    messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
+                }
+                else
+                {
+                    messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeMine];
+                }
+                messageData.imageURL = element.FromUser.HeadPic;
+                [bubbleData addObject:messageData];
+            }
+            
+            [self.bubbleTable reloadData];
+        });
     });
 }
 - (IBAction)backGroundTap
