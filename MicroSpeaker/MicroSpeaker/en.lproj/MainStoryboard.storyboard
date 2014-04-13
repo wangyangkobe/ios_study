@@ -470,10 +470,31 @@
                 <viewController id="8cl-gg-WEV" customClass="MessageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aVR-bt-gUa">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="t4i-9z-naV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="评论"/>
+                                    <segment title="私信"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeTableView:" destination="8cl-gg-WEV" eventType="valueChanged" id="zcd-QY-v4B"/>
+                                </connections>
+                            </segmentedControl>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ztJ-Uh-dGx">
+                                <rect key="frame" x="0.0" y="42" width="320" height="413"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fwL-ZW-0Q9"/>
+                    <connections>
+                        <outlet property="scrollView" destination="ztJ-Uh-dGx" id="oJn-jd-Na9"/>
+                        <outlet property="segmentControl" destination="t4i-9z-naV" id="23C-ri-Se2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyC-PV-euW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
