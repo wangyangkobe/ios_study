@@ -12,10 +12,18 @@
 
 #define kPrivateMessageVCTag 9000
 #define kCommentMessageVCTag 9001
-@interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 {
     NSMutableArray* letterContacts;
     NSMutableArray* commentContacts;
+    
+    UITableView* privateMessgaeTBV;
+    UITableView* commentMessageTBV;
+    
+    //左右滑动部分
+	UIPageControl *pageControl;
+    int currentPage;
+    BOOL pageControlUsed;
 }
 
 @property (strong, nonatomic) DAPagesContainer *pagesContainer;
@@ -50,34 +58,28 @@
     
     self.title = @"消息中心";
     
-    self.pagesContainer = [[DAPagesContainer alloc] init];
-    [self.pagesContainer willMoveToParentViewController:self];
-    self.pagesContainer.view.frame = self.view.bounds;
-    self.pagesContainer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.pagesContainer.view];
-    [self.pagesContainer didMoveToParentViewController:self];
+    commentMessageTBV = [[UITableView alloc]init];
+    commentMessageTBV.frame = CGRectMake(0, 0, 320, _scrollView.frame.size.height);
+    commentMessageTBV.dataSource = self;
+    commentMessageTBV.delegate = self;
+    commentMessageTBV.tag = kCommentMessageVCTag;
+    [_scrollView addSubview:commentMessageTBV];
     
-    UITableViewController* privateMessageVC = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
-    privateMessageVC.tableView.delegate = self;
-    privateMessageVC.tableView.dataSource = self;
-    privateMessageVC.tableView.tag = kPrivateMessageVCTag;
-    privateMessageVC.title = @"私信";
-    
-    UITableViewController* commentMessageVC = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
-    commentMessageVC.tableView.delegate = self;
-    commentMessageVC.tableView.dataSource = self;
-    commentMessageVC.tag = kCommentMessageVCTag;
-    commentMessageVC.title = @"评论";
+    privateMessgaeTBV = [[UITableView alloc] init];
+    privateMessgaeTBV.frame = CGRectMake(320, 0, 320, _scrollView.frame.size.height);
+    privateMessgaeTBV.dataSource = self;
+    privateMessgaeTBV.delegate = self;
+    privateMessgaeTBV.tag = kPrivateMessageVCTag;
+    [_scrollView addSubview:privateMessgaeTBV];
 
-    self.pagesContainer.topBarBackgroundColor = [UIColor lightGrayColor];
-    self.pagesContainer.topBarHeight =  30;
-    self.pagesContainer.viewControllers = @[commentMessageVC, privateMessageVC];
-    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        letterContacts = [[[NetWorkConnection sharedInstance] getLetterContacts] mutableCopy];
-        
+        letterContacts  = [[[NetWorkConnection sharedInstance] getLetterContacts] mutableCopy];
+        commentContacts = [[[NetWorkConnection sharedInstance] getCommentToMe:-1 maxID:66666 num:3 page:1] mutableCopy];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [privateMessageVC.tableView reloadData];
+            if (0 == _segmentControl.selectedSegmentIndex)
+                [commentMessageTBV reloadData];
+            else
+                [privateMessgaeTBV reloadData];
         });
     });
 }
@@ -88,24 +90,45 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)initScrollView {
+    
+    //设置 tableScrollView
+    // a page is the width of the scroll view
+    _scrollView.pagingEnabled = YES;
+    _scrollView.clipsToBounds = NO;
+    _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.scrollsToTop = NO;
+    _scrollView.delegate = self;
+    
+    [_scrollView setContentOffset:CGPointMake(0, 0)];
+    
+    //公用
+    currentPage = 0;
+    pageControl.numberOfPages = 2;
+    pageControl.currentPage = 0;
+    pageControl.backgroundColor = [UIColor whiteColor];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(kPrivateMessageVCTag == tableView.tag)
+    if(1 == _segmentControl.selectedSegmentIndex)
         return [letterContacts count];
     else
         return [commentContacts count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (kPrivateMessageVCTag == tableView.tag)
+    if (_segmentControl.selectedSegmentIndex == 1)
         return 60;
     else
         return 50;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag = kPrivateMessageVCTag)
+    NSLog(@"%s", __FUNCTION__);
+    if (_segmentControl.selectedSegmentIndex == 1)
     {
         static NSString* CellIdentifier = @"PrivateMessageCell";
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -154,13 +177,20 @@
 
         UILabel* time = (UILabel*)[cell.contentView viewWithTag:8003];
         [time setText:element.Letter.CreateAt];
+        return cell;
     }
     else
     {
-
+        static NSString* CellIdentifier = @"CommentMessageCell";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        CommentModel* comment = [commentContacts objectAtIndex:indexPath.row];
+        cell.textLabel.text = comment.Text;
+        return cell;
     }
-
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -168,7 +198,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
 
-    if (kPrivateMessageVCTag == tableView.tag)
+    if (_segmentControl.selectedSegmentIndex == 1)
     {
         PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
         LetterModel* selectedLetter = (LetterModel*)[letterContacts objectAtIndex:indexPath.row];
@@ -178,5 +208,36 @@
         [self.navigationController pushViewController:privateMessageVC animated:YES];
     }
 
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat pageWidth = _scrollView.frame.size.width;
+    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    
+    pageControl.currentPage = page;
+    currentPage = page;
+    pageControlUsed = NO;
+}
+- (IBAction)changeTableView:(id)sender
+{
+    NSLog(@"%s, selected = %d", __FUNCTION__, _segmentControl.selectedSegmentIndex);
+    if (1 == _segmentControl.selectedSegmentIndex)
+    {
+        [UIView beginAnimations:nil context:nil];//动画开始
+        [UIView setAnimationDuration:0.3];
+        [_scrollView setContentOffset:CGPointMake(320, 0)];
+        [UIView commitAnimations];
+        
+        [privateMessgaeTBV reloadData];
+    }
+    else
+    {
+        [UIView beginAnimations:nil context:nil];//动画开始
+        [UIView setAnimationDuration:0.3];
+        [_scrollView setContentOffset:CGPointMake(0, 0)];
+        [UIView commitAnimations];
+        
+        [commentMessageTBV reloadData];
+    }
 }
 @end
