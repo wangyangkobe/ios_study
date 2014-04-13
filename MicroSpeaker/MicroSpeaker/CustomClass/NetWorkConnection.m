@@ -717,13 +717,12 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
 ////////////////////////////////////////////////////////
 -(NSArray*)getCommentToMe:(long)SinceID maxID:(long)MaxID num:(int)Num page:(int)Page
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/comment/toMe", HOME_PAGE];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/comment/toMe?num=%d&page=%d", HOME_PAGE, Num, Page];
     if (-1 != SinceID)
-        requestUrl = [requestUrl stringByAppendingFormat:@"?sinceID=%ld", sinceID];
-    if (-1 != maxID)
-        requestUrl = [requestUrl stringByAppendingFormat@"&maxID=%ld", MaxID];
-    requestUrl = [requestUrl stringByAppendingFormat@"&num=%d&page=%d", Num, Page];
-    NSLog("call %s, url = %@", __FUNCTION__, requestUrl);
+        requestUrl = [requestUrl stringByAppendingFormat:@"&sinceID=%ld", SinceID];
+    if (-1 != MaxID)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&maxID=%ld", MaxID];
+    NSLog(@"call %s, url = %@", __FUNCTION__, requestUrl);
 
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
 #if SET_PROXY
@@ -733,7 +732,7 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ([request responseData] == nil)
         return [NSArray array];
     
@@ -741,10 +740,15 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
     NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-
-
+    NSError* error;
+    for (id element in jsonArray)
+    {
+        CommentModel* comment = [[CommentModel alloc] initWithDictionary:element error:&error];
+        if (comment)
+            [result addObject:comment];
+        else
+            NSLog(@"getLetterBetweenTwo error = %@", [error localizedDescription]);
+    }
     return result;
 }
 @end
-
-\
