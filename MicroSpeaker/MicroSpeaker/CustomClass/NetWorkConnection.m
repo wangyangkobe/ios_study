@@ -714,5 +714,37 @@ NSLog(@"UserConfig: %@", [[UserConfig shareInstance] description]);
     else
         return YES; 
 }
+////////////////////////////////////////////////////////
+-(NSArray*)getCommentToMe:(long)SinceID maxID:(long)MaxID num:(int)Num page:(int)Page
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/comment/toMe", HOME_PAGE];
+    if (-1 != SinceID)
+        requestUrl = [requestUrl stringByAppendingFormat:@"?sinceID=%ld", sinceID];
+    if (-1 != maxID)
+        requestUrl = [requestUrl stringByAppendingFormat@"&maxID=%ld", MaxID];
+    requestUrl = [requestUrl stringByAppendingFormat@"&num=%d&page=%d", Num, Page];
+    NSLog("call %s, url = %@", __FUNCTION__, requestUrl);
 
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+#if SET_PROXY
+    [request setProxyHost:@"jpyoip01.mgmt.ericsson.se"];
+    [request setProxyPort:8080];
+#endif
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+
+    if ([request responseData] == nil)
+        return [NSArray array];
+    
+    NSMutableArray* result = [NSMutableArray array];
+    NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+
+
+    return result;
+}
 @end
+
+\

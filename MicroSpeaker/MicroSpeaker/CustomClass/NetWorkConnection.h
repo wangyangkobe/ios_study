@@ -39,6 +39,9 @@
 
 //评论一条消息
 -(void)createCommentWithText:(NSString*)text messageID:(int)messageId replyCommentID:(int)replyCommentId;
+//获取我收到的评论
+-(NSArray*)getCommentToMe:(long)SinceID maxID:(long)MaxID num:(int)Num page:(int)Page;
+
 
 //发布各种消息
 -(void)publishMessage:(int)MessageType fromTime:(NSString*)FromTime toTime:(NSString*)ToTime theme:(NSString*)Theme activityAddress:(NSString*)ActivityAddress
