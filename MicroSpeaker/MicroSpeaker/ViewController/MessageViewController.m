@@ -9,6 +9,7 @@
 #import "MessageViewController.h"
 #import "DAPagesContainer.h"
 #import "PrivateMessageViewController.h"
+#import "SpeakerDetailViewController.h"
 
 #define kPrivateMessageVCTag 9000
 #define kCommentMessageVCTag 9001
@@ -206,6 +207,13 @@
         
         [privateMessageVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:privateMessageVC animated:YES];
+    }
+    else
+    {
+        SpeakerDetailViewController* speakerDetailViewController = [[SpeakerDetailViewController alloc] init];
+        CommentModel* selectedComment= (CommentModel*)[commentContacts objectAtIndex:indexPath.row];
+        speakerDetailViewController.message = selectedComment.Message;
+        [[UIApplication sharedApplication].keyWindow setRootViewController:speakerDetailViewController];
     }
 
 }
