@@ -63,10 +63,10 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
-                                                                   sinceID:-1
-                                                                     maxID:-1
-                                                                       num:5
-                                                                      page:1] mutableCopy];
+           sinceID:-1
+           maxID:-1
+           num:5
+           page:1] mutableCopy];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             for (Letter* element in letters)
@@ -75,6 +75,7 @@
                 if (element.FromUser.UserID != selfUserInfo.UserID)
                 {
                     messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
+                    self.title = element.FromUser.UserName;
                 }
                 else
                 {
@@ -87,8 +88,8 @@
             [self.bubbleTable reloadData];
         });
     });
-    
-    
+
+
     UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                              action:@selector(backGroundTap)];
     oneTap.delegate = self;
@@ -136,13 +137,13 @@
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
+     selector:@selector(inputKeyboardWillShow:)
+     name:UIKeyboardWillShowNotification
+     object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+     selector:@selector(inputKeyboardWillHide:)
+     name:UIKeyboardWillHideNotification
+     object:nil];
 }
 - (void)loadMoreData:(UIRefreshControl*)sender
 {
@@ -162,10 +163,10 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         int firstLetterID = ((Letter*)[letters objectAtIndex:0]).LetterID;
         NSArray* result = [[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
-                                                                          sinceID:-1
-                                                                            maxID:firstLetterID
-                                                                              num:5
-                                                                             page:1];
+          sinceID:-1
+          maxID:firstLetterID
+          num:5
+          page:1];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
@@ -196,19 +197,19 @@
 }
 - (void)sendPrivateMessage
 {
-    if (textField.text != nil)
+    if([textField.text isEqualToString:@""])
+    	return;
+
+    BOOL result = [[NetWorkConnection sharedInstance] sendLetter:self.otherUserID text:textField.text];
+    if (result)
     {
-        BOOL result = [[NetWorkConnection sharedInstance] sendLetter:self.otherUserID text:textField.text];
-        if (result)
-        {
-            NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text date:[NSDate date] type:BubbleTypeMine];
-            data.imageURL = selfUserInfo.HeadPic;
-            [bubbleData addObject:data];
-            textField.text = @"";
-            [self.bubbleTable reloadData];
-        }
-        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+        NSBubbleData* data = [[NSBubbleData alloc] initWithText:textField.text date:[NSDate date] type:BubbleTypeMine];
+        data.imageURL = selfUserInfo.HeadPic;
+        [bubbleData addObject:data];
+        textField.text = @"";
+        [self.bubbleTable reloadData];
     }
+    [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
 }
 
 #pragma mark - UITextFieldDelegate method
