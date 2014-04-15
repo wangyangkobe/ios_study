@@ -53,15 +53,25 @@
         [[UIApplication sharedApplication].keyWindow setRootViewController:loginVC];
         return;
     }
-    [self configureScrollView];
     _segmentControl.segmentedControlStyle = 7;
+    if (0 == _segmentControl.selectedSegmentIndex)
+    {
+        [_scrollView setContentOffset:CGPointMake(0, 0)];
+        [commentMessageTBV reloadData];
+    }
+    else
+    {
+        [_scrollView setContentOffset:CGPointMake(320, 0)];
+        [privateMessgaeTBV reloadData];
+    }
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.title = @"消息中心";
+    [self configureScrollView];
     
     commentMessageTBV = [[UITableView alloc]init];
     commentMessageTBV.frame = CGRectMake(0, 0, 320, _scrollView.frame.size.height);
@@ -102,11 +112,11 @@
     // a page is the width of the scroll view
     _scrollView.pagingEnabled = YES;
     _scrollView.clipsToBounds = NO;
-    _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
+ //   _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.scrollsToTop = NO;
-    _scrollView.delegate = self;
+ //   _scrollView.delegate = self;
     
     [_scrollView setContentOffset:CGPointMake(0, 0)];
     
@@ -274,6 +284,7 @@
         PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
         LetterModel* selectedLetter = (LetterModel*)[letterContacts objectAtIndex:indexPath.row];
         privateMessageVC.otherUserID = selectedLetter.User.UserID;
+        privateMessageVC.otherUserName = selectedLetter.User.UserName;
         
         [privateMessageVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:privateMessageVC animated:YES];
@@ -288,15 +299,15 @@
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat pageWidth = _scrollView.frame.size.width;
-    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    
-    pageControl.currentPage = page;
-    currentPage = page;
-    pageControlUsed = NO;
-    
-    _segmentControl.selectedSegmentIndex = page;
-    [self changeTableView:nil];
+//    NSLog(@"%s", __FUNCTION__);
+//    CGFloat pageWidth = _scrollView.frame.size.width;
+//    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+//    
+//    pageControl.currentPage = page;
+//    currentPage = page;
+//    pageControlUsed = NO;
+//   _segmentControl.selectedSegmentIndex = page;
+//   [self changeTableView:nil];
 }
 - (IBAction)changeTableView:(id)sender
 {
