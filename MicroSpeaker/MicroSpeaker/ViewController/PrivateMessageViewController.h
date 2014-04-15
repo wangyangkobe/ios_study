@@ -17,5 +17,5 @@
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic, assign) long  otherUserID;
-
+@property (nonatomic, copy) NSString* otherUserName;
 @end

@@ -39,6 +39,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = _otherUserName;
     [self configureToolBar];
     
     refreshControl = [[UIRefreshControl alloc] init];
@@ -63,10 +64,10 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         letters = [[[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
-           sinceID:-1
-           maxID:-1
-           num:5
-           page:1] mutableCopy];
+                                                                   sinceID:-1
+                                                                     maxID:-1
+                                                                       num:5
+                                                                      page:1] mutableCopy];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             for (Letter* element in letters)
@@ -75,7 +76,6 @@
                 if (element.FromUser.UserID != selfUserInfo.UserID)
                 {
                     messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
-                    self.title = element.FromUser.UserName;
                 }
                 else
                 {
@@ -88,8 +88,8 @@
             [self.bubbleTable reloadData];
         });
     });
-
-
+    
+    
     UITapGestureRecognizer *oneTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                              action:@selector(backGroundTap)];
     oneTap.delegate = self;
@@ -101,7 +101,7 @@
     [super viewWillAppear:animated];
     if ([bubbleData count] > 4)
     {
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 100, 0.0);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 230, 0.0);
         self.bubbleTable.contentInset = contentInsets;
         self.bubbleTable.scrollIndicatorInsets = contentInsets;
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
@@ -126,7 +126,7 @@
     faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [faceButton setFrame:CGRectMake(0, 7, 30, 30)];
     [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
-    [faceButton addTarget:self action:@selector(showFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
+   // [faceButton addTarget:self action:@selector(showFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
     [self.toolBar addSubview:faceButton];
     
     sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -137,13 +137,13 @@
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(inputKeyboardWillShow:)
-     name:UIKeyboardWillShowNotification
-     object:nil];
+                                             selector:@selector(inputKeyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(inputKeyboardWillHide:)
-     name:UIKeyboardWillHideNotification
-     object:nil];
+                                             selector:@selector(inputKeyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 - (void)loadMoreData:(UIRefreshControl*)sender
 {
@@ -163,10 +163,10 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         int firstLetterID = ((Letter*)[letters objectAtIndex:0]).LetterID;
         NSArray* result = [[NetWorkConnection sharedInstance] getLetterBetweenTwo:self.otherUserID
-          sinceID:-1
-          maxID:firstLetterID
-          num:5
-          page:1];
+                                                                          sinceID:-1
+                                                                            maxID:firstLetterID
+                                                                              num:5
+                                                                             page:1];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
@@ -178,6 +178,7 @@
                 if (element.FromUser.UserID != selfUserInfo.UserID)
                 {
                     messageData = [[NSBubbleData alloc] initWithText:element.Text date:createDate type:BubbleTypeSomeoneElse];
+                    self.title = element.FromUser.UserName;
                 }
                 else
                 {
@@ -199,7 +200,7 @@
 {
     if([textField.text isEqualToString:@""])
     	return;
-
+    
     BOOL result = [[NetWorkConnection sharedInstance] sendLetter:self.otherUserID text:textField.text];
     if (result)
     {
