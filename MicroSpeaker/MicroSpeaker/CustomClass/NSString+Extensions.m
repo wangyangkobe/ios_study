@@ -22,19 +22,20 @@
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     NSMutableString *randomString = [NSMutableString stringWithCapacity:length];
     
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
+    {
         [randomString appendFormat:@"%C", [letters characterAtIndex:arc4random() % [letters length]]];
     }
     
     return randomString;
 }
 
-- (BOOL) containsString: (NSString*) substring
+- (BOOL)containsString:(NSString*)substring
 {
     return [self rangeOfString:substring].location != NSNotFound;
 }
 
-+(NSString*) generateQiNiuFileName
++ (NSString*)generateQiNiuFileName
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYYMMddHHmmss"];
