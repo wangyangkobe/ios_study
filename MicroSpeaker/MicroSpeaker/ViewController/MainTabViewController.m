@@ -27,6 +27,7 @@
 #import "PublishBuyViewController.h"
 #import "LogInViewController.h"
 #import "NSString+Emoji.h"
+#import "SpeakerViewController.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
     //   UserInfoModel* selfUserInfo;
@@ -448,9 +449,11 @@
         [self.navigationController pushViewController:subViewController animated:YES];
     }
     else if(SpeakerMessage == selectedMessage.Type){
-        SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
-        subViewController.message = selectedMessage;
-        [self.navigationController pushViewController:subViewController animated:YES];
+    //    SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
+        SpeakerViewController* speakerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SpeakerViewController"];
+        speakerVC.hidesBottomBarWhenPushed = YES;
+        speakerVC.message = selectedMessage;
+        [self.navigationController pushViewController:speakerVC animated:YES];
     }
     else if(SaleMessage == selectedMessage.Type){
         SaleDetailViewController* subViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SaleDetailVC"];
