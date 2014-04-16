@@ -34,9 +34,9 @@
 }
 -(id)init
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (!self) return nil;
-    self.hidesBottomBarWhenPushed = YES; //隐藏TabBar
+  //  self.hidesBottomBarWhenPushed = YES; //隐藏TabBar
 	return self;
 }
 -(void)viewDidAppear:(BOOL)animated

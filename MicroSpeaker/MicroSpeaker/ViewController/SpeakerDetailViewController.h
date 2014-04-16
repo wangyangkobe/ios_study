@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JMStaticContentTableViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MessageModel.h"
 #import "UserInfoModel.h"
