@@ -104,6 +104,7 @@
 		15925B3118E458FE00D5C057 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B3018E458FE00D5C057 /* CoreTelephony.framework */; };
 		15925B3318E4590D00D5C057 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15925B3218E4590D00D5C057 /* libstdc++.dylib */; };
 		15925B3518E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		15A8F10718FEAFF4000FE3EA /* SpeakerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A8F10618FEAFF4000FE3EA /* SpeakerViewController.m */; };
 		15AD563F1841E234007CF595 /* gender_boy_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563D1841E234007CF595 /* gender_boy_big.png */; };
 		15AD56401841E234007CF595 /* gender_girl_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD563E1841E234007CF595 /* gender_girl_big.png */; };
 		15AD56421841F876007CF595 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD56411841F876007CF595 /* time.png */; };
@@ -325,6 +326,8 @@
 		15925B3018E458FE00D5C057 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		15925B3218E4590D00D5C057 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		15A8F10518FEAFF4000FE3EA /* SpeakerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerViewController.h; sourceTree = "<group>"; };
+		15A8F10618FEAFF4000FE3EA /* SpeakerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerViewController.m; sourceTree = "<group>"; };
 		15AD563D1841E234007CF595 /* gender_boy_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_boy_big.png; sourceTree = "<group>"; };
 		15AD563E1841E234007CF595 /* gender_girl_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gender_girl_big.png; sourceTree = "<group>"; };
 		15AD56411841F876007CF595 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
@@ -879,6 +882,8 @@
 				155AEBF718C0D29C00256FBF /* LogInViewController.m */,
 				15042C5A18F26AA9002CA2CA /* PrivateMessageViewController.h */,
 				15042C5B18F26AA9002CA2CA /* PrivateMessageViewController.m */,
+				15A8F10518FEAFF4000FE3EA /* SpeakerViewController.h */,
+				15A8F10618FEAFF4000FE3EA /* SpeakerViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1216,6 +1221,7 @@
 				156034D11848DC2900C237B0 /* FGalleryPhotoView.m in Sources */,
 				1544C58B1881944400BB9959 /* PublishBuyViewController.m in Sources */,
 				155AEBF518C0CEC400256FBF /* PersonalSettingViewController.m in Sources */,
+				15A8F10718FEAFF4000FE3EA /* SpeakerViewController.m in Sources */,
 				15FF0F6D186490240086D559 /* NSString+Extensions.m in Sources */,
 				15DE4991185CA15200754EAC /* KxMenu.m in Sources */,
 				15FC29711855EDF900731A50 /* DDPageControl.m in Sources */,
