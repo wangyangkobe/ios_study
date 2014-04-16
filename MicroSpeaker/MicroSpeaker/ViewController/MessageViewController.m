@@ -216,12 +216,12 @@
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil)
         {
-            for (UIView* view in [cell.contentView subviews])
-            {
-                if ([view isKindOfClass:[UILabel class]]) {
-                    [view removeFromSuperview];
-                }
-            }
+//            for (UIView* view in [cell.contentView subviews])
+//            {
+//                if ([view isKindOfClass:[UILabel class]]) {
+//                    [view removeFromSuperview];
+//                }
+//            }
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             UIImageView* headPic = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 50, 50)];
             [headPic setTag:8005];
