@@ -79,12 +79,12 @@
         [self.headerView addSubview:imageView];
     }
     
-    CGRect headViewFrame = self.headerView.frame;
+    CGRect headerViewFrame = self.headerView.frame;
     if ([_message.PhotoThumbnails count] > 0)
-        headViewFrame.size.height = textHeight + 60 + 70;
+        headerViewFrame.size.height = textHeight + 60 + 70;
     else
-        headViewFrame.size.height = textHeight + 60;
-    [self.headerView setFrame:headViewFrame];
+        headerViewFrame.size.height = textHeight + 60;
+    [self.headerView setFrame:headerViewFrame];
     
    // [self.tableView setTableHeaderView:self.headerView];
     self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height + 66, 0, 0, 0);
