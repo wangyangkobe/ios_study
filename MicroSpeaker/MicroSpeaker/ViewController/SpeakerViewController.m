@@ -11,7 +11,9 @@
 #import "UserInfoModel.h"
 #import "NSString+Emoji.h"
 #import "UILabel+Extensions.h"
-@interface SpeakerViewController ()<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+#import "MHFacebookImageViewer.h"
+#import "PrivateMessageViewController.h"
+@interface SpeakerViewController ()<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, MHFacebookImageViewerDatasource>
 {
     UserInfoModel* selfUserInfo;
     NSMutableArray* commentsArray;
@@ -39,6 +41,10 @@
     [super viewWillAppear:animated];
     
     [self.headPic setImageWithURL:[NSURL URLWithString:_message.User.HeadPic]];
+    headPic.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(sendPrivateMessage:)];
+    [headPic addGestureRecognizer:singleTap];
     self.headPic.layer.cornerRadius = 5.0f;
     self.headPic.layer.masksToBounds = YES;
     
@@ -115,7 +121,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidShowNotification
+                                                  object:nil];
+}
+#pragma mark UITableView DataSource Method
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [commentsArray count];
@@ -137,6 +152,7 @@
     UIButton* replyButton = (UIButton*)[cell.contentView viewWithTag:2004];
     
     [headImageView setImageWithURL:[NSURL URLWithString:comment.UserBasic.HeadPic]];
+
     [nameLabel setText:comment.UserBasic.UserName];
     [timeLabel setText:comment.CreateAt];
     [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
@@ -217,6 +233,12 @@
     [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [UIView commitAnimations];
 }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"call: %@", NSStringFromSelector(_cmd));
+    [self sendCommentMessage];
+    return TRUE;
+}
 - (void)backGroundTap
 {
     [textField resignFirstResponder];
@@ -250,5 +272,28 @@
         [textField setText:[NSString stringWithFormat:@"回复%@:", comment.UserBasic.UserName]];
     else
         [textField setText:@""];
+}
+- (void)sendPrivateMessage:(UITapGestureRecognizer*)gesture
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+    PrivateMessageViewController* privateMessageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
+    int userID = self.message.User.UserID;
+    if (userID == selfUserInfo.UserID)
+        return;
+    privateMessageVC.otherUserID = userID;
+    [self.navigationController pushViewController:privateMessageVC animated:YES];
+}
+#pragma mark - MHFacebookImageViewerDatasource delegate methods
+- (NSInteger) numberImagesForImageViewer:(MHFacebookImageViewer *)imageViewer
+{
+    return [_message.PhotoThumbnails count];
+}
+- (NSURL*) imageURLAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
+    return [_message.PhotoThumbnails objectAtIndex:index];
+}
+- (UIImage*) imageDefaultAtIndex:(NSInteger)index imageViewer:(MHFacebookImageViewer *)imageViewer
+{
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%i_iphone",index]];
 }
 @end
