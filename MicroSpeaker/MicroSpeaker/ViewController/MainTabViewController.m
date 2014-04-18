@@ -13,7 +13,6 @@
 #import "NSString+Extensions.h"
 #import "MessageCell.h"
 #import "ActivityDetailViewController.h"
-#import "SpeakerDetailViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
@@ -449,7 +448,6 @@
         [self.navigationController pushViewController:subViewController animated:YES];
     }
     else if(SpeakerMessage == selectedMessage.Type){
-    //    SpeakerDetailViewController* subViewController = [[SpeakerDetailViewController alloc] init];
         SpeakerViewController* speakerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SpeakerViewController"];
         speakerVC.hidesBottomBarWhenPushed = YES;
         speakerVC.message = selectedMessage;
