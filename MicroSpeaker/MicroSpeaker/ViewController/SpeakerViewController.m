@@ -22,6 +22,7 @@
     UIButton*    sendButton;  //表情按钮
     
     int replyCommentID;
+    NSString* peerUserName;
 }
 
 @end
@@ -41,10 +42,11 @@
     [super viewWillAppear:animated];
     
     [self.headPic setImageWithURL:[NSURL URLWithString:_message.User.HeadPic]];
-    headPic.userInteractionEnabled = YES;
+    peerUserName = _message.User.UserName;
+    self.headPic.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                 action:@selector(sendPrivateMessage:)];
-    [headPic addGestureRecognizer:singleTap];
+    [self.headPic addGestureRecognizer:singleTap];
     self.headPic.layer.cornerRadius = 5.0f;
     self.headPic.layer.masksToBounds = YES;
     
@@ -75,7 +77,7 @@
         [imageView setContentMode:UIViewContentModeScaleToFill];
         
         imageView.clipsToBounds = YES;
-        //        [imageView setupImageViewerWithDatasource:self initialIndex:i onOpen:nil onClose:nil];
+        [imageView setupImageViewerWithDatasource:self initialIndex:i onOpen:nil onClose:nil];
         [self.headerView addSubview:imageView];
     }
     
@@ -86,9 +88,8 @@
         headerViewFrame.size.height = textHeight + 60;
     [self.headerView setFrame:headerViewFrame];
     
-   // [self.tableView setTableHeaderView:self.headerView];
-    self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height + 66, 0, 0, 0);
-   // [self.tableView reloadData];
+    //[self.tableView setTableHeaderView:self.headerView];
+    self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height + 60, 0, 0, 0);
 }
 - (void)viewDidLoad
 {
@@ -152,7 +153,7 @@
     UIButton* replyButton = (UIButton*)[cell.contentView viewWithTag:2004];
     
     [headImageView setImageWithURL:[NSURL URLWithString:comment.UserBasic.HeadPic]];
-
+    
     [nameLabel setText:comment.UserBasic.UserName];
     [timeLabel setText:comment.CreateAt];
     [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
@@ -226,10 +227,10 @@
 - (void)inputKeyboardWillHide:(NSNotification *)notification
 {
     NSLog(@"call: %s", __FUNCTION__);
-    textField.text = @"";
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     [UIView beginAnimations:@"KeyboardWillHide" context:nil];
     [UIView setAnimationDuration:animationTime];
+    [self.tableView reloadData];
     [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
     [UIView commitAnimations];
 }
@@ -261,7 +262,6 @@
     });
     [textField resignFirstResponder];
     textField.text = @"";
-    [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - TOOLBAR_HEIGHT, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
 }
 - (IBAction)pressReplyButton:(id)sender
 {
@@ -281,6 +281,7 @@
     if (userID == selfUserInfo.UserID)
         return;
     privateMessageVC.otherUserID = userID;
+    privateMessageVC.otherUserName = peerUserName;
     [self.navigationController pushViewController:privateMessageVC animated:YES];
 }
 #pragma mark - MHFacebookImageViewerDatasource delegate methods
