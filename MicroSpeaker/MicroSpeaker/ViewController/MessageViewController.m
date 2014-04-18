@@ -11,7 +11,7 @@
 #import "PrivateMessageViewController.h"
 #import "UILabel+Extensions.h"
 #import "NSString+Extensions.h"
-#import "SpeakerDetailViewController.h"
+#import "SpeakerViewController.h"
 
 #define kPrivateMessageVCTag 9000
 #define kCommentMessageVCTag 9001
@@ -291,10 +291,10 @@
     }
     else
     {
-        SpeakerDetailViewController* speakerDetailViewController = [[SpeakerDetailViewController alloc] init];
+        SpeakerViewController* speakerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SpeakerViewController"];
         CommentModel* selectedComment= (CommentModel*)[commentContacts objectAtIndex:indexPath.row];
-        speakerDetailViewController.message = selectedComment.Message;
-        [self.navigationController pushViewController:speakerDetailViewController animated:YES];
+        speakerVC.message = selectedComment.Message;
+        [self.navigationController pushViewController:speakerVC animated:YES];
     }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
