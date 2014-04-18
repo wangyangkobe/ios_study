@@ -182,7 +182,6 @@
 		15FF0F7B186490D70086D559 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F72186490D70086D559 /* ActivityDetailViewController.m */; };
 		15FF0F7D186490D70086D559 /* PublishMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F76186490D70086D559 /* PublishMessageViewController.m */; };
 		15FF0F7E186490D70086D559 /* SelectAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F78186490D70086D559 /* SelectAreaViewController.m */; };
-		15FF0F7F186490D70086D559 /* SpeakerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FF0F7A186490D70086D559 /* SpeakerDetailViewController.m */; };
 		15FF0F8218649E160086D559 /* photo-gallery-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F8018649E160086D559 /* photo-gallery-right.png */; };
 		15FF0F8318649E160086D559 /* photo-gallery-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F8118649E160086D559 /* photo-gallery-left.png */; };
 		15FF0F851864C1D40086D559 /* photo-gallery-trashcan.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FF0F841864C1D40086D559 /* photo-gallery-trashcan.png */; };
@@ -450,8 +449,6 @@
 		15FF0F76186490D70086D559 /* PublishMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishMessageViewController.m; sourceTree = "<group>"; };
 		15FF0F77186490D70086D559 /* SelectAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAreaViewController.h; sourceTree = "<group>"; };
 		15FF0F78186490D70086D559 /* SelectAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAreaViewController.m; sourceTree = "<group>"; };
-		15FF0F79186490D70086D559 /* SpeakerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeakerDetailViewController.h; sourceTree = "<group>"; };
-		15FF0F7A186490D70086D559 /* SpeakerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeakerDetailViewController.m; sourceTree = "<group>"; };
 		15FF0F8018649E160086D559 /* photo-gallery-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-right.png"; sourceTree = "<group>"; };
 		15FF0F8118649E160086D559 /* photo-gallery-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-left.png"; sourceTree = "<group>"; };
 		15FF0F841864C1D40086D559 /* photo-gallery-trashcan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-gallery-trashcan.png"; sourceTree = "<group>"; };
@@ -862,8 +859,6 @@
 				150E351518BF7B1300DFEA1C /* MainTabViewController.m */,
 				15018DDC186E838000DC8A51 /* PublishActivityViewController.h */,
 				15018DDD186E838000DC8A51 /* PublishActivityViewController.m */,
-				15FF0F79186490D70086D559 /* SpeakerDetailViewController.h */,
-				15FF0F7A186490D70086D559 /* SpeakerDetailViewController.m */,
 				15FF0F71186490D70086D559 /* ActivityDetailViewController.h */,
 				15FF0F72186490D70086D559 /* ActivityDetailViewController.m */,
 				15FF0F75186490D70086D559 /* PublishMessageViewController.h */,
@@ -1201,7 +1196,6 @@
 				15FF0F7B186490D70086D559 /* ActivityDetailViewController.m in Sources */,
 				15042C7F18F2923D002CA2CA /* NSBubbleData.m in Sources */,
 				1539042B18759EDF00F8FB6D /* CommerceTypeModel.m in Sources */,
-				15FF0F7F186490D70086D559 /* SpeakerDetailViewController.m in Sources */,
 				151C945D186596C1003634B1 /* GTMBase64.m in Sources */,
 				15018DDE186E838000DC8A51 /* PublishActivityViewController.m in Sources */,
 				150E350918BF7A5A00DFEA1C /* LoadMoreTableFooterView.m in Sources */,
