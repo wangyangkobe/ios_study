@@ -29,8 +29,6 @@
 #import "SpeakerViewController.h"
 
 @interface MainTabViewController ()<MHFacebookImageViewerDatasource, UISearchBarDelegate, UISearchDisplayDelegate>{
-    //   UserInfoModel* selfUserInfo;
-    
     UISearchBar* _searchBar;
     UISearchDisplayController* searchDisplayController;
     NSArray* searchRestults;
