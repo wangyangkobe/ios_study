@@ -294,6 +294,7 @@
         SpeakerViewController* speakerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SpeakerViewController"];
         CommentModel* selectedComment= (CommentModel*)[commentContacts objectAtIndex:indexPath.row];
         speakerVC.message = selectedComment.Message;
+        [speakerVC setHidesBottomBarWhenPushed:YES];
         [self.navigationController pushViewController:speakerVC animated:YES];
     }
 }
