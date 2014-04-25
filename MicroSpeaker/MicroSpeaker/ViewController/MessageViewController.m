@@ -7,7 +7,6 @@
 //
 
 #import "MessageViewController.h"
-#import "DAPagesContainer.h"
 #import "PrivateMessageViewController.h"
 #import "UILabel+Extensions.h"
 #import "NSString+Extensions.h"
@@ -28,9 +27,6 @@
     int currentPage;
     BOOL pageControlUsed;
 }
-
-@property (strong, nonatomic) DAPagesContainer *pagesContainer;
-
 @end
 
 @implementation MessageViewController
