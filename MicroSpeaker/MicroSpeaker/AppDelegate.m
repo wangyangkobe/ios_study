@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "RegisterViewController.h"
 #import "MainTabViewController.h"
+#import "APService.h"
 
 @implementation AppDelegate
 
@@ -18,6 +19,13 @@
     
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
+   // [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+    // Required
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)];
+    // Required
+    [APService setupWithOption:launchOptions];
     
     return YES;
 }
@@ -78,7 +86,7 @@
          //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UserInfoModel* selfUserInfo = [[NetWorkConnection sharedInstance] showSelfUserInfo];
                 NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:selfUserInfo];
-              //  NSLog(@"selfUserInfo Data = %@", selfUserInfo);
+            //  NSLog(@"selfUserInfo Data = %@", selfUserInfo);
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:encodedObject forKey:SELF_USERINFO];
                 [defaults synchronize];
@@ -97,6 +105,32 @@
             [self.window setRootViewController:registerVC];
         }
     }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // Required
+    [APService registerDeviceToken:deviceToken];
+    NSLog(@"%s", __FUNCTION__);
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error
+{
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    // 取得 APNs 标准信息内容
+    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+    NSString *content = [aps valueForKey:@"alert"]; //推送显示的内容
+    NSInteger badge = [[aps valueForKey:@"badge"] integerValue]; //badge数量
+    NSString *sound = [aps valueForKey:@"sound"]; //播放的声音
+    
+    // 取得自定义字段内容
+    NSString *customizeField1 = [userInfo valueForKey:@"customizeField1"]; //自定义参数，key是自己定义的
+    NSLog(@"content =[%@], badge=[%d], sound=[%@], customize field =[%@]",content,badge,sound,customizeField1);
+    
+    // Required
+    [APService handleRemoteNotification:userInfo];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
