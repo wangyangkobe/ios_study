@@ -108,11 +108,11 @@
     // a page is the width of the scroll view
     _scrollView.pagingEnabled = YES;
     _scrollView.clipsToBounds = NO;
- //   _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
+    //   _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.scrollsToTop = NO;
- //   _scrollView.delegate = self;
+    //   _scrollView.delegate = self;
     
     [_scrollView setContentOffset:CGPointMake(0, 0)];
     
@@ -212,12 +212,12 @@
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil)
         {
-//            for (UIView* view in [cell.contentView subviews])
-//            {
-//                if ([view isKindOfClass:[UILabel class]]) {
-//                    [view removeFromSuperview];
-//                }
-//            }
+            //            for (UIView* view in [cell.contentView subviews])
+            //            {
+            //                if ([view isKindOfClass:[UILabel class]]) {
+            //                    [view removeFromSuperview];
+            //                }
+            //            }
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             UIImageView* headPic = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 50, 50)];
             [headPic setTag:8005];
@@ -296,15 +296,15 @@
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-//    NSLog(@"%s", __FUNCTION__);
-//    CGFloat pageWidth = _scrollView.frame.size.width;
-//    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-//    
-//    pageControl.currentPage = page;
-//    currentPage = page;
-//    pageControlUsed = NO;
-//   _segmentControl.selectedSegmentIndex = page;
-//   [self changeTableView:nil];
+    //    NSLog(@"%s", __FUNCTION__);
+    //    CGFloat pageWidth = _scrollView.frame.size.width;
+    //    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    //
+    //    pageControl.currentPage = page;
+    //    currentPage = page;
+    //    pageControlUsed = NO;
+    //   _segmentControl.selectedSegmentIndex = page;
+    //   [self changeTableView:nil];
 }
 - (IBAction)changeTableView:(id)sender
 {
