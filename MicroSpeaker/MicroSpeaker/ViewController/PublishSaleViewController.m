@@ -427,12 +427,14 @@
     
     [qiNiuImagesPath addObject:path];
     upLoadImageNumber++;
-    if(upLoadImageNumber < [localImagesPath count]){
+    if(upLoadImageNumber < [localImagesPath count])
+    {
         [self uploadFile:[localImagesPath objectAtIndex:upLoadImageNumber]
                   bucket:QiniuBucketName
                      key:[NSString generateQiNiuFileName]];
     }
-    if ([qiNiuImagesPath count] == [localImagesPath count]) {
+    if ([qiNiuImagesPath count] == [localImagesPath count])
+    {
         [self sendMessageToServer];
     }
 }
@@ -473,9 +475,12 @@
     if ([QiniuAccessKey hasPrefix:@"<Please"])
     {
         message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values.";
+        NSLog(@"%@", message);
     }
-    else {
+    else
+    {
         message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
+        NSLog(@"%@", message);
         //继续重传
         [self uploadFile:filePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
     }
