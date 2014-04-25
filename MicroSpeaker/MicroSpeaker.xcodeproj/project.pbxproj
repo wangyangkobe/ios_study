@@ -58,6 +58,9 @@
 		151C9462186596C1003634B1 /* QiniuSimpleUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9459186596C1003634B1 /* QiniuSimpleUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C9463186596C1003634B1 /* QiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C945C186596C1003634B1 /* QiniuUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		151C94BA18659FE8003634B1 /* QiniuPutPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C94B918659FE8003634B1 /* QiniuPutPolicy.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		151D0E341902574D00AA9109 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 151D0E311902574D00AA9109 /* libPushSDK.a */; };
+		151D0E371902578A00AA9109 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151D0E361902578A00AA9109 /* CoreFoundation.framework */; };
+		151D0E39190258C400AA9109 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 151D0E38190258C400AA9109 /* PushConfig.plist */; };
 		151E84BA18DED0D8007038DB /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 151E84B918DED0D8007038DB /* RegisterViewController.m */; };
 		1527818E18C8BE010042DFA2 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527818D18C8BE010042DFA2 /* login.png */; };
 		152D83221852030400FE7FCE /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152D83211852030400FE7FCE /* CommentModel.m */; };
@@ -275,6 +278,10 @@
 		151C94B718659FDE003634B1 /* QiniuConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuConfig.h; sourceTree = "<group>"; };
 		151C94B818659FE8003634B1 /* QiniuPutPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutPolicy.h; sourceTree = "<group>"; };
 		151C94B918659FE8003634B1 /* QiniuPutPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutPolicy.m; sourceTree = "<group>"; };
+		151D0E301902574D00AA9109 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		151D0E311902574D00AA9109 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
+		151D0E361902578A00AA9109 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		151D0E38190258C400AA9109 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		151E84B818DED0D8007038DB /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		151E84B918DED0D8007038DB /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1527818D18C8BE010042DFA2 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login.png; sourceTree = "<group>"; };
@@ -474,8 +481,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15925B3318E4590D00D5C057 /* libstdc++.dylib in Frameworks */,
+				522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */,
 				15925B3118E458FE00D5C057 /* CoreTelephony.framework in Frameworks */,
+				151D0E371902578A00AA9109 /* CoreFoundation.framework in Frameworks */,
+				15925B3318E4590D00D5C057 /* libstdc++.dylib in Frameworks */,
 				15925B2F18E458F500D5C057 /* libsqlite3.dylib in Frameworks */,
 				15925B2D18E458E200D5C057 /* libiconv.dylib in Frameworks */,
 				15925B2B18E458CF00D5C057 /* Security.framework in Frameworks */,
@@ -491,8 +500,8 @@
 				156034DE1848DDEC00C237B0 /* ImageIO.framework in Frameworks */,
 				15925B2918E4580C00D5C057 /* TencentOpenAPI.framework in Frameworks */,
 				529710C51827E1EB007DD4A5 /* QuartzCore.framework in Frameworks */,
-				522D7F2D1827BFBD00AF71F8 /* UIKit.framework in Frameworks */,
 				522D7F2F1827BFBD00AF71F8 /* Foundation.framework in Frameworks */,
+				151D0E341902574D00AA9109 /* libPushSDK.a in Frameworks */,
 				40892D520E8A4D1CA5146BC3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,6 +628,15 @@
 				151C9454186596C1003634B1 /* JSONKit.m */,
 			);
 			path = JSONKit;
+			sourceTree = "<group>";
+		};
+		151D0E2F1902574D00AA9109 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				151D0E301902574D00AA9109 /* APService.h */,
+				151D0E311902574D00AA9109 /* libPushSDK.a */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		1556605718704AA40037146E /* MHFBImageViewController */ = {
@@ -886,6 +904,7 @@
 		522D7F201827BFBD00AF71F8 = {
 			isa = PBXGroup;
 			children = (
+				151D0E2F1902574D00AA9109 /* lib */,
 				15925B3418E4594100D5C057 /* TencentOpenApi_IOS_Bundle.bundle */,
 				155AEBF918C0D4D500256FBF /* libWeiboSDK */,
 				151C944C186596C1003634B1 /* QiniuSDK */,
@@ -907,6 +926,7 @@
 		522D7F2B1827BFBD00AF71F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				151D0E361902578A00AA9109 /* CoreFoundation.framework */,
 				15925B3218E4590D00D5C057 /* libstdc++.dylib */,
 				15925B3018E458FE00D5C057 /* CoreTelephony.framework */,
 				15925B2E18E458F500D5C057 /* libsqlite3.dylib */,
@@ -952,6 +972,7 @@
 		522D7F331827BFBD00AF71F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				151D0E38190258C400AA9109 /* PushConfig.plist */,
 				1545CF3418EAE2DC00AC5296 /* Default.png */,
 				1545CF3518EAE2DC00AC5296 /* Default~iphone.png */,
 				1545CF3218EAE2C800AC5296 /* icon@2x.png */,
@@ -1088,6 +1109,7 @@
 				15FC29B71855F37F00731A50 /* tab_bg.png in Resources */,
 				15FC29B21855F37F00731A50 /* icons_bg_separator@2x.png in Resources */,
 				15AD56451841F8E6007CF595 /* group_list_clock_src.png in Resources */,
+				151D0E39190258C400AA9109 /* PushConfig.plist in Resources */,
 				15FF0F8218649E160086D559 /* photo-gallery-right.png in Resources */,
 				15FC29A21855F37F00731A50 /* characters_n@2x.png in Resources */,
 				150E351018BF7A5A00DFEA1C /* grayArrow.png in Resources */,
@@ -1285,8 +1307,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.microspeaker.MicroSpeaker";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Apple Development IOS Push Services: com.microspeaker.MicroSpeaker";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1321,8 +1343,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.microspeaker.MicroSpeaker";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.microspeaker.MicroSpeaker";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1344,9 +1366,11 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/wy/Code/ios_study/MicroSpeaker,
 					"$(PROJECT_DIR)",
+					"$(SRCROOT)/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
@@ -1355,10 +1379,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/wy/Code/ios_study/MicroSpeaker/libWeiboSDK,
+					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56E411FA-4677-489F-8C6D-EF6C88FC662B";
+				PROVISIONING_PROFILE = "20E63835-39A7-4EDE-929B-8ACB20282A73";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1369,9 +1396,11 @@
 			baseConfigurationReference = 0ABFDA3C96D742A8AB2E0856 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: owen xu (RR6N637B89)";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/wy/Code/ios_study/MicroSpeaker,
 					"$(PROJECT_DIR)",
+					"$(SRCROOT)/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MicroSpeaker/MicroSpeaker-Prefix.pch";
@@ -1380,10 +1409,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/wy/Code/ios_study/MicroSpeaker/libWeiboSDK,
+					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56E411FA-4677-489F-8C6D-EF6C88FC662B";
+				PROVISIONING_PROFILE = "20E63835-39A7-4EDE-929B-8ACB20282A73";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};

@@ -1,16 +1,13 @@
 PODS:
-  - DAPagesContainer (1.0.1)
   - JMStaticContentTableViewController (0.1.1)
   - JSONModel (0.10.0)
 
 DEPENDENCIES:
-  - DAPagesContainer
   - JMStaticContentTableViewController
   - JSONModel
 
 SPEC CHECKSUMS:
-  DAPagesContainer: c2fc85a244ef7024cf89385709af7951963451dd
   JMStaticContentTableViewController: ec2ae8be90eafabe63e75e49160a2b828ae28731
   JSONModel: cecca3c3a9ee1a248b56f7139e2d64b85ce536ec
 
-COCOAPODS: 0.31.1
+COCOAPODS: 0.32.1

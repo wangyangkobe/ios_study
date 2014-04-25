@@ -1,5 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/DAPagesContainer" "${PODS_ROOT}/Headers/JMStaticContentTableViewController" "${PODS_ROOT}/Headers/JSONModel"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/DAPagesContainer" -isystem "${PODS_ROOT}/Headers/JMStaticContentTableViewController" -isystem "${PODS_ROOT}/Headers/JSONModel"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/JMStaticContentTableViewController" "${PODS_ROOT}/Headers/JSONModel"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/JMStaticContentTableViewController" -isystem "${PODS_ROOT}/Headers/JSONModel"
 OTHER_LDFLAGS = -ObjC
 PODS_ROOT = ${SRCROOT}/Pods
