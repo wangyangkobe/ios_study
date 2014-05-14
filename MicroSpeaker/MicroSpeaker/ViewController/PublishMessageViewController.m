@@ -451,9 +451,12 @@
     if ([QiniuAccessKey hasPrefix:@"<Please"])
     {
         message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values.";
+        NSLog(@"%@", message);
     }
-    else {
+    else
+    {
         message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@",  filePath, error];
+        NSLog(@"%@", message);
         //继续重传
         [self uploadFile:filePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
     }

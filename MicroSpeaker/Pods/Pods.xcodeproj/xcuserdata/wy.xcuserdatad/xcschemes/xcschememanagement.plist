@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-DAPagesContainer.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-JMStaticContentTableViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>093993DC12BD4E50882CBE45</key>
+		<key>6869A7770F6345C6A57AFF30</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1644F767874D4FEF85F53D9D</key>
+		<key>7FE0838F05BF486E93B6C409</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6E08707B00344E38A30270BF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F4521AB6DFAD4816B6440B55</key>
+		<key>D6DA2494F58C4C9DA8B02231</key>
 		<dict>
 			<key>primary</key>
 			<true/>

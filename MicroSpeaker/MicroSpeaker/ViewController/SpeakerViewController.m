@@ -23,6 +23,7 @@
     
     int replyCommentID;
     NSString* peerUserName;
+    UIView* footHeaderView;
 }
 
 @end
@@ -115,6 +116,15 @@
     [self getCommentsByMessageID:_message.MessageID];
     
     [self configureToolBar];
+    footHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    UIButton* loadMoreBtn =  [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [loadMoreBtn setTitle:@"点击加载更多" forState:UIControlStateNormal];
+    [loadMoreBtn addTarget:self action:@selector(loadMoreComments) forControlEvents:UIControlEventTouchUpInside];
+    [loadMoreBtn sizeToFit];
+    [loadMoreBtn setFrame:footHeaderView.frame];
+    [footHeaderView addSubview:loadMoreBtn];
+    if ([commentsArray count] >= 5)
+        [self.tableView setTableFooterView:footHeaderView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -157,7 +167,7 @@
     [nameLabel setText:comment.UserBasic.UserName];
     [timeLabel setText:comment.CreateAt];
     [textLabel setText:[comment.Text stringByReplacingEmojiCheatCodesWithUnicode]];
-    [textLabel sizeToFitFixedWidth:280 lines:5];
+    [textLabel sizeToFitFixedWidth:250 lines:5];
     
     [replyButton setTag:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -165,6 +175,15 @@
     
     return cell;
     
+}
+- (void)loadMoreComments
+{
+    CommentModel* lastComment = [commentsArray lastObject];
+    NSArray* result = [[NetWorkConnection sharedInstance] getCommentsByMessageID:_message.MessageID
+                                                                        PageSize:5
+                                                                           MaxID:lastComment.CommentID];
+    [commentsArray addObjectsFromArray:result];
+    [self.tableView reloadData];
 }
 // get comments by message id
 -(void)getCommentsByMessageID:(long)messageID
@@ -246,6 +265,8 @@
 }
 - (void)sendCommentMessage
 {
+    if([textField.text isEqualToString:@""])
+        return;
     NSString* str = [[textField text] stringByReplacingEmojiUnicodeWithCheatCodes];
     NSLog(@"sendTextAction：%@", str);
     
@@ -257,6 +278,8 @@
         [self getCommentsByMessageID:_message.MessageID];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+            if ([commentsArray count] >= 5)
+                [self.tableView setTableFooterView:footHeaderView];
             [self.tableView reloadData];
         });
     });
